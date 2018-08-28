@@ -1,10 +1,11 @@
-$PSVersionTable   get-host
+$PSVersionTable 
+get-host
 
 %USERPROFILE%\Documents\WindowsPowerShell\Modules
 %WINDIR%\System32\WindowsPowerShell\v1.0\Modules
 
 Get-EventLog  -After (Get-Date).AddDays(-31) system -EntryType Error
-Get-ADComputer -Filter * -Properties * | FT Name, LastLogonDate -Autosize
+Get-ADComputer -Filter * -Properties * | Format-Table Name, LastLogonDate -Autosize
 
 
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;  
