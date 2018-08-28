@@ -22,7 +22,7 @@ $Cc = "adam@gratex.comau"
 $Attachment = "C:\users\Username\Documents\SomeTextFile.txt"
 $subject=  "SG2Data indexing is $($SG2data)GB, SGData indexing is $($sgdata)GB"
 $Body = "This is what I want to say"
-$SMTPServer = "mail.sydneyvinnies.org"
+$SMTPServer = "mail.test.org"
 $SMTPPort = "587"
 #Send-MailMessage -From $From -to $To -Cc $Cc -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl -Credential (Get-Credential) -Attachments $Attachment –DeliveryNotificationOption OnSuccess
 Send-MailMessage -From $From -to $To -Cc $Cc -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl –DeliveryNotificationOption OnSuccess
