@@ -1,45 +1,53 @@
-Set-ExecutionPolicy RemoteSigned
-$tempdir = c:\temp
+Set-ExecutionPolicy RemoteSigned -Force 
+# create temp folder
+$tempdir = "c:\temp"
+#New-Item -path $tempdir -ItemType Directory
+
+If (!(test-path $tempdir)) {
+    New-Item -ItemType Directory -Force -Path $tempdir
+}
 
 #copy update package
-Set-Location e:\
-New-Item -path $tempdir -ItemType Directory
-Copy-Item autorun.inf,bootmgr,bootmgr.efi -Destination "C:\temp"
-Robocopy.exe .\boot\ c:\temp\boot /E
-Robocopy.exe .\efi\ c:\temp\efi /E
-Robocopy.exe .\sources c:\temp\sources /E
-Robocopy.exe .\support c:\temp\support /E
-Copy-Item .\setup.exe c:\temp\
+$uroot = $PSScriptRoot.substring(0, 2)
+
+$SubFolders = "boot\", "efi\","sources\","support\"
+ForEach ($folder in $SubFolders) {
+    #Write-Host $uroot\$folder
+    Copy-Item -Path $uroot\$folder -Destination $tempdir -Recurse -Force
+}
+#Invoke-Command -ComputerName $compname -ScriptBlock {param($folders,$paste) Copy-Item -Path $folders -Destination $paste} -ArgumentList $folders, $paste
+
+Copy-Item $uroot\setup.exe,$uroot\autorun.inf, $uroot\bootmgr, $uroot\bootmgr.efi -Destination $tempdir
 Start-Process $tempdir\setup.exe
 Pause
 
 # setup working dir
-$software = e:\!software\
-Set-Location -Path $software
-
+$software = "$($uroot)\!software"
 # copy rdp shortcut
-Copy-Item -Path .\SVDP\GKO.rdp -Destination C:\Users\Public\Desktop
+Copy-Item -Path $software\SVDP\GKO.rdp -Destination C:\Users\Public\Desktop
 Pause
 # remove o365 office #!#################issue##################
 
-#Get-package -provider programs -includewindowsinstaller -name "*office*" | Uninstall-Package
+Get-package -provider programs -includewindowsinstaller -name "*office*" | Uninstall-Package
 control appwiz.cpl
 Pause
 
-#install office 2010  #!#################issue##################
-Start-Process -path ".\SVDP\Office2010\setup.exe" -ArgumentList "/adminfile .\svdp\office2010\office.msp" -wait
+#install office 2010 
+Start-Process -wait -nonewwindow $software\SVDP\Office2010\setup.exe -ArgumentList '/adminfile', "$($software)\svdp\svdp.msp"
 pause
+
 start-process winword
 Pause
 
 #import cert for software download
-Import-Certificate -FilePath ".\gratexca.cer" -CertStoreLocation Cert:\LocalMachine\root
+Import-Certificate -FilePath "$software\gratexca.cer" -CertStoreLocation Cert:\LocalMachine\root
 Pause
 
 # install necessary software
-Copy-Item .\readerdc_en_ra_cra_install.exe $tempdir
-Start-Process -FilePath $tempdir\readerdc_en_ra_cra_install.exe
-start-process -FilePath ".\Ninite 7Zip Chrome Java 8 TeamViewer 13 Installer.exe"
+Copy-Item $software\readerdc_en_ra_cra_install.exe $tempdir
+Start-Process -wait -FilePath $tempdir\readerdc_en_ra_cra_install.exe
+Pause
+start-process -FilePath "$software\Ninite 7Zip Chrome Java 8 TeamViewer 13 Installer.exe"
 Pause
 
 # remove vscode
@@ -58,5 +66,7 @@ wuauclt /detectnow
 Pause
 
 # remove temp files
-Remove-Item C:\temp -Force
+Remove-Item C:\temp -Recurse -Force
 Pause
+
+Stop-Computer -Force
