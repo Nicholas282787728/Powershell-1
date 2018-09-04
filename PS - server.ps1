@@ -1,4 +1,4 @@
-$PSVersionTable 
+$PSVersionTable
 get-host
 
 %USERPROFILE%\Documents\WindowsPowerShell\Modules
@@ -8,7 +8,7 @@ Get-EventLog  -After (Get-Date).AddDays(-31) system -EntryType Error
 Get-ADComputer -Filter * -Properties * | Format-Table Name, LastLogonDate -Autosize
 
 
-Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;  
+Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
 Get-MessageTrackingLog -ResultSize Unlimited -Start "1/03/2018 8:00AM" -End "1/04/2018 5:00PM" -EventId "Fail" -Recipients "dgm@owenhodge.com.au"
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\t
@@ -19,8 +19,8 @@ Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDom
 office2010
 Set-MailboxSentItemsConfiguration "Mailbox Name" -SendAsItemsCopiedTo SenderAndFrom -SendOnBehalfOfItemsCopiedTo SenderAndFrom
 office2013them
-Get-Mailbox -RecipientTypeDetails SharedMailbox | Set-Mailbox -MessageCopyForSentAsEnabled $true -MessageCopyForSendOnBehalfEnabled $true 
- 
+Get-Mailbox -RecipientTypeDetails SharedMailbox | Set-Mailbox -MessageCopyForSentAsEnabled $true -MessageCopyForSendOnBehalfEnabled $true
+
 
 Get-MailboxStatistics [username] | Format-Table DisplayName, TotalItemSize, ItemCount
 
@@ -67,7 +67,7 @@ Start-Process powershell -Verb runAs
 Import-Module ActiveDirectory
 
 
- 
+
  Get-ADComputer -Filter * -Properties * | Select-Object -Property name, OperatingSystem,LastLogonDate |Where-Object {$_.Operatingsystem -like "*8.1*"} |Sort-Object -Property OperatingSystem,LastLogonDate | Format-Table -AutoSize
 
 Get-ChildItem env:*
@@ -76,7 +76,7 @@ $env:username
 
 Get-CimInstance Win32_OperatingSystem | Format-List *
 
- 
+
 
 Set-ADAccountExpiration -DateTime "1/8/2018 6:30 PM" -Identity pxb
 Get-ADuser -Identity pxb -Properties * | more
@@ -95,13 +95,22 @@ sudo resize2fs /dev/mapper/vg--Backup-lv--Backup
 
 Get-Mailbox | Group-Object -Property:Database | Select-Object Name,Count | Sort-Object Name | Format-Table -Auto
 
-Get-Mailbox -resultsize:unlimited | group-object -property:database | sort-object 
- 
-Get-MailBoxDatabase -status | Format-Table Name,DatabaseSize,AvailableNewMailboxSpace -auto 
+Get-Mailbox -resultsize:unlimited | group-object -property:database | sort-object
+
+Get-MailBoxDatabase -status | Format-Table Name,DatabaseSize,AvailableNewMailboxSpace -auto
 
 Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState,ContentIndexErrorMessage | Format-List
 
 Set-MailboxDatabase "Database Name" -IndexEnabled $False
- 
+
 shell:startup
 shell:common startup
+
+
+#remoting powershell via web
+Install-Windowsfeature WindowsPowerShellWebaccess -IncludeManagementTools
+Install-PswaWebApplication -UseTestCertificate
+Add-PswaAuthorizationRule -UserName * -ComputerName * -ConfigurationName *
+
+#batch user creating
+1..10 | Foreach-Object {New-ADUser -Name Student$_ -AccountPassword (ConvertTo-SecureString "Pa$$w000rd" -AsPlainText -Force) -UserPrincipalName Student$_@$env:userdnsdomain -ChangePasswordAtLogon 1 -Enabled 1 -Verbose}
