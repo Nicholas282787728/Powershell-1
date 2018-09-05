@@ -7,7 +7,7 @@ get-host
 Get-EventLog  -After (Get-Date).AddDays(-31) system -EntryType Error
 Get-ADComputer -Filter * -Properties * | Format-Table Name, LastLogonDate -Autosize
 
-
+Get-ADUser -Identity 'honeypot' | Select-Object SID
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
 Get-MessageTrackingLog -ResultSize Unlimited -Start "1/03/2018 8:00AM" -End "1/04/2018 5:00PM" -EventId "Fail" -Recipients "dgm@owenhodge.com.au"
@@ -114,3 +114,10 @@ Add-PswaAuthorizationRule -UserName * -ComputerName * -ConfigurationName *
 
 #batch user creating
 1..10 | Foreach-Object {New-ADUser -Name Student$_ -AccountPassword (ConvertTo-SecureString "Pa$$w000rd" -AsPlainText -Force) -UserPrincipalName Student$_@$env:userdnsdomain -ChangePasswordAtLogon 1 -Enabled 1 -Verbose}
+
+
+
+
+"{0:N2} MB" -f ((Get-ChildItem -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
+
+$host.ui.RawUI.WindowTitle += " - " $env:COMPUTERNAME + " - " + $env:Username
