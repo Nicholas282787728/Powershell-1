@@ -136,3 +136,4 @@ $host.ui.RawUI.WindowTitle += " - " + $env:COMPUTERNAME + " - " + $env:Username 
 $uptime = Get-WmiObject -Class Win32_OperatingSystem
 $uptime
 $uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($uptime.LastBootUpTime)
+

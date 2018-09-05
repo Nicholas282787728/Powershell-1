@@ -1,6 +1,6 @@
 
 
-$PSScriptRoot | gm
+$PSScriptRoot | Get-Member
 
 $PSScriptRoot
 
