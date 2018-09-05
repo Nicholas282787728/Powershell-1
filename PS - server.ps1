@@ -13,7 +13,7 @@ Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
 Get-MessageTrackingLog -ResultSize Unlimited -Start "1/03/2018 8:00AM" -End "1/04/2018 5:00PM" -EventId "Fail" -Recipients "dgm@owenhodge.com.au"
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\t
 emp\list.txt -Width 1000
-Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add="ato.gov.au","INDAdvice@ato.gov.au","noreply@ato.gov.au"}
+Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add = "ato.gov.au", "INDAdvice@ato.gov.au", "noreply@ato.gov.au"}
 
 
 office2010
@@ -31,9 +31,9 @@ Start-ADSyncSyncCycle -PolicyType Delta
 
 
 Enable-PSRemoting -Force
- Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
- Import-Module powershellget
- Install-Module -Name AzureAD -Scope CurrentUser
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+Import-Module powershellget
+Install-Module -Name AzureAD -Scope CurrentUser
 
 
 $UserCredential = Get-Credential
@@ -60,7 +60,7 @@ $ScriptFiles = $ScriptFiles | Select-Object -Property Name, CreationTime, LastWr
 $ScriptFiles | Export-Csv -Append -Path "\\Archive01\Scripts\Scripts.csv"
 
 
-Start-Process -Credential "gratex\leimadmin" powershell
+Start-Process -Credential "company\user" powershell
 Enter-PSSession -ComputerName abc
 
 Start-Process powershell -Verb runAs
@@ -68,7 +68,7 @@ Import-Module ActiveDirectory
 
 
 
- Get-ADComputer -Filter * -Properties * | Select-Object -Property name, OperatingSystem,LastLogonDate |Where-Object {$_.Operatingsystem -like "*8.1*"} |Sort-Object -Property OperatingSystem,LastLogonDate | Format-Table -AutoSize
+Get-ADComputer -Filter * -Properties * | Select-Object -Property name, OperatingSystem, LastLogonDate |Where-Object {$_.Operatingsystem -like "*8.1*"} |Sort-Object -Property OperatingSystem, LastLogonDate | Format-Table -AutoSize
 
 Get-ChildItem env:*
 $env:username
@@ -93,13 +93,13 @@ sudo resize2fs /dev/mapper/vg--Backup-lv--Backup
 #########################################################################################
 
 
-Get-Mailbox | Group-Object -Property:Database | Select-Object Name,Count | Sort-Object Name | Format-Table -Auto
+Get-Mailbox | Group-Object -Property:Database | Select-Object Name, Count | Sort-Object Name | Format-Table -Auto
 
 Get-Mailbox -resultsize:unlimited | group-object -property:database | sort-object
 
-Get-MailBoxDatabase -status | Format-Table Name,DatabaseSize,AvailableNewMailboxSpace -auto
+Get-MailBoxDatabase -status | Format-Table Name, DatabaseSize, AvailableNewMailboxSpace -auto
 
-Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState,ContentIndexErrorMessage | Format-List
+Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState, ContentIndexErrorMessage | Format-List
 
 Set-MailboxDatabase "Database Name" -IndexEnabled $False
 
@@ -116,8 +116,23 @@ Add-PswaAuthorizationRule -UserName * -ComputerName * -ConfigurationName *
 1..10 | Foreach-Object {New-ADUser -Name Student$_ -AccountPassword (ConvertTo-SecureString "Pa$$w000rd" -AsPlainText -Force) -UserPrincipalName Student$_@$env:userdnsdomain -ChangePasswordAtLogon 1 -Enabled 1 -Verbose}
 
 
-
-
+# show folder size
 "{0:N2} MB" -f ((Get-ChildItem -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
 
-$host.ui.RawUI.WindowTitle += " - " $env:COMPUTERNAME + " - " + $env:Username
+# folder size module
+
+Install-Module PSFolderSize
+PS C:\temp> Get-FolderSize c:\users\user
+
+###### Wed Sep 5 11:17:33 AEST 2018  #? powershell startup scipt
+
+$time = Get-Date -Format g
+$host.ui.RawUI.WindowTitle += " - " + $env:COMPUTERNAME + " - " + $env:Username + " - " + $time
+
+
+
+###### Wed Sep 5 11:17:08 AEST 2018  #? system up time
+
+$uptime = Get-WmiObject -Class Win32_OperatingSystem
+$uptime
+$uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($uptime.LastBootUpTime)
