@@ -158,6 +158,6 @@ Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
 ###### Thu Sep 6 15:41:12 AEST 2018 select-string
 systeminfo | Select-String -Pattern time, date
 
-Get-ADUser leim  | out-string -Stream | Select-String -Pattern "obj"
-Get-mailbox payable@sydneyvinnies.org -Filter * | Format-List -Property * | out-string -Stream |Select-S
+Get-ADUser user1  | out-string -Stream | Select-String -Pattern "obj"
+Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream |Select-S
 tring -Pattern "@"
