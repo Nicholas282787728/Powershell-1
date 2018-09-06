@@ -148,16 +148,16 @@ $uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($
 Install-Module -Name Microsoft.Online.SharePoint.PowerShell
 
 
-###### Thu Sep 6 12:24:22 AEST 2018 batch rename
+###### Thu Sep 6 12:24:22 AEST 2018 folder batch rename
 
 Get-ChildItem Y:\velosure | `
     Where-Object {$_.name -like "*(4)*"} |`
     #Rename-Item -NewName { $_.Name -replace ' ','_' }
-Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
+    Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
 
 ###### Thu Sep 6 15:41:12 AEST 2018 select-string
 systeminfo | Select-String -Pattern time, date
 
 Get-ADUser user1  | out-string -Stream | Select-String -Pattern "obj"
-Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream |Select-S
-tring -Pattern "@"
+Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream | Select-String -Pattern "@"
+
