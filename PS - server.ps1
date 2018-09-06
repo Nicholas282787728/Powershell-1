@@ -137,3 +137,27 @@ $uptime = Get-WmiObject -Class Win32_OperatingSystem
 $uptime
 $uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($uptime.LastBootUpTime)
 
+###### Thu Sep 6 08:39:02 AEST 2018  system up time
+
+$uptime = Get-WmiObject -Class Win32_OperatingSystem
+$uptime
+$uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($uptime.LastBootUpTime)
+
+###### Thu Sep 6 10:41:15 AEST 2018 powershell connection
+
+Install-Module -Name Microsoft.Online.SharePoint.PowerShell
+
+
+###### Thu Sep 6 12:24:22 AEST 2018 batch rename
+
+Get-ChildItem Y:\velosure | `
+    Where-Object {$_.name -like "*(4)*"} |`
+    #Rename-Item -NewName { $_.Name -replace ' ','_' }
+Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
+
+###### Thu Sep 6 15:41:12 AEST 2018 select-string
+systeminfo | Select-String -Pattern time, date
+
+Get-ADUser leim  | out-string -Stream | Select-String -Pattern "obj"
+get-mailbox payable@sydneyvinnies.org -Filter * | fl -Property * | out-string -Stream |Select-S
+tring -Pattern "@"
