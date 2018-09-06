@@ -122,7 +122,7 @@ Add-PswaAuthorizationRule -UserName * -ComputerName * -ConfigurationName *
 # folder size module
 
 Install-Module PSFolderSize
-PS C:\temp> Get-FolderSize c:\users\user
+Get-FolderSize c:\users\user
 
 ###### Wed Sep 5 11:17:33 AEST 2018  #? powershell startup scipt
 
@@ -159,5 +159,5 @@ Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
 systeminfo | Select-String -Pattern time, date
 
 Get-ADUser leim  | out-string -Stream | Select-String -Pattern "obj"
-get-mailbox payable@sydneyvinnies.org -Filter * | fl -Property * | out-string -Stream |Select-S
+Get-mailbox payable@sydneyvinnies.org -Filter * | Format-List -Property * | out-string -Stream |Select-S
 tring -Pattern "@"
