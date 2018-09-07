@@ -186,3 +186,17 @@ Get-aduser -filter "department -eq 'marketing' -AND enabled -eq 'True'"
 Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True
 Enable-ADAccount -Identity test
 
+
+###### Fri Sep 7 14:37:57 AEST 2018  get ad group creation date
+
+$GroupList = Get-ADGroup -Filter * -Properties Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, WhenChanged, member, memberOf, sIDHistory, SamAccountName, Description, AdminCount | Select Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, whenChanged, member, memberOf, AdminCount, SamAccountName, Description, `
+@{name = 'MemberCount'; expression = {$_.member.count}}, `
+@{name = 'MemberOfCount'; expression = {$_.memberOf.count}}, `
+@{name = 'SIDHistory'; expression = {$_.sIDHistory -join ','}}, `
+@{name = 'DaysSinceChange'; expression = {[math]::Round((New-TimeSpan $_.whenChanged).TotalDays, 0)}} | Sort-Object Name
+
+$GroupList | Select-Object Name, GroupCategory, GroupScope, whenCreated, whenChanged, DaysSinceChange, MemberCount, MemberOfCount, AdminCount, Description, DistinguishedName | ogv
+
+Get-ADGroup -Filter * -Properties * | select -Property name, whencreated, DistinguishedName | sort whencreated | Out-GridView
+
+New-ADGroup -Name "dwgtrueview" -SamAccountName dwgtrueview -GroupCategory Security -GroupScope Global -Path "OU=Security Groups,OU=MyBusiness,DC=domain,DC=local"
