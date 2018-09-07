@@ -1,6 +1,18 @@
 $PSVersionTable
 get-host
 
+###### Fri Sep 7 11:24:37 AEST 2018 powershell profile
+#Clear-Host
+#Start-Process powershell -Verb runAs
+# Welcome message
+
+$time = Get-Date -Format g
+$host.ui.RawUI.WindowTitle += " - " + $env:COMPUTERNAME + " - " + $env:Username + " - " + $time
+
+Get-ChildItem c:\temp -Filter *.txt | Where-Object {$_.Length -lt 1000} | Remove-Item
+Start-Transcript -OutputDirectory c:\temp
+
+###### Fri Sep 7 11:25:26 AEST 2018
 %USERPROFILE%\Documents\WindowsPowerShell\Modules
 %WINDIR%\System32\WindowsPowerShell\v1.0\Modules
 
@@ -160,4 +172,17 @@ systeminfo | Select-String -Pattern time, date
 
 Get-ADUser user1  | out-string -Stream | Select-String -Pattern "obj"
 Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream | Select-String -Pattern "@"
+
+###### Fri Sep 7 10:47:08 AEST 2018 move computer to OU
+ Get-ADComputer -Filter 'Name -like "ahleap*"'
+
+ $target = Get-ADOrganizationalUnit -LDAPFilter "(name=charlotte)"
+get-adcomputer win7-c1 | Move-ADObject -TargetPath $target.DistinguishedName
+ ###### Fri Sep 7 10:47:15 AEST 2018  remote session
+ $cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
+
+ ###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
+Get-aduser -filter "department -eq 'marketing' -AND enabled -eq 'True'"
+Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True
+Enable-ADAccount -Identity test
 
