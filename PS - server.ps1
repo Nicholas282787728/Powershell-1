@@ -200,3 +200,7 @@ $GroupList | Select-Object Name, GroupCategory, GroupScope, whenCreated, whenCha
 Get-ADGroup -Filter * -Properties * | select -Property name, whencreated, DistinguishedName | sort whencreated | Out-GridView
 
 New-ADGroup -Name "dwgtrueview" -SamAccountName dwgtrueview -GroupCategory Security -GroupScope Global -Path "OU=Security Groups,OU=MyBusiness,DC=domain,DC=local"
+
+###### Mon Sep 10 11:06:13 AEST 2018  quser and logoff
+$userName = 'administrator'
+$sessionId = ((quser /server:DC | Where-Object { $_ -match $userName }) -split ' +')[2]

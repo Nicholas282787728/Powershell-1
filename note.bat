@@ -6,3 +6,8 @@ NetDOM /query FSMO
 repadmin /replsummary
 repadmin /queue
 Repadmin /Showrepl
+
+
+nslookup abc 8.8.8.8
+set debug=yes
+set norecurse
