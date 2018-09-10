@@ -200,3 +200,12 @@ $GroupList | Select-Object Name, GroupCategory, GroupScope, whenCreated, whenCha
 Get-ADGroup -Filter * -Properties * | select -Property name, whencreated, DistinguishedName | sort whencreated | Out-GridView
 
 New-ADGroup -Name "dwgtrueview" -SamAccountName dwgtrueview -GroupCategory Security -GroupScope Global -Path "OU=Security Groups,OU=MyBusiness,DC=domain,DC=local"
+
+
+###### Sat Sep 8 12:56:14 AEST 2018  windows features
+get-windowsfeature updateservices*
+Install-Windowsfeature updateservices -IncludeManagementTools
+Get-Command -Module updateservices
+Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagementTools
+
+Get-Command -Module neteventpackagecapture

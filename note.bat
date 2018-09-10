@@ -6,3 +6,8 @@ NetDOM /query FSMO
 repadmin /replsummary
 repadmin /queue
 Repadmin /Showrepl
+
+wuauclt /detectnow
+wuauclt /reportnow
+
+gpupdate /force /target:computer
