@@ -11,3 +11,7 @@ Repadmin /Showrepl
 nslookup abc 8.8.8.8
 set debug=yes
 set norecurse
+wuauclt /detectnow
+wuauclt /reportnow
+
+gpupdate /force /target:computer
