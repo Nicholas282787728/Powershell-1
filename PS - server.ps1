@@ -124,7 +124,7 @@ Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagemen
 Get-Command -Module neteventpackagecapture
 
 ###### Tue Sep 11 14:25:30 AEST 2018 event logs
-Get-WinEvent -ComputerName . -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000  | Select-Object -First 5 | where {$_.message -like "*LEI_laptop*"}
+Get-WinEvent -ComputerName . -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
 ###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
 ###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
