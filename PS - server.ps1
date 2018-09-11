@@ -213,3 +213,6 @@ Get-Command -Module updateservices
 Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagementTools
 
 Get-Command -Module neteventpackagecapture
+
+###### Tue Sep 11 14:25:30 AEST 2018 event logs
+ Get-WinEvent -ComputerName dc01 -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000

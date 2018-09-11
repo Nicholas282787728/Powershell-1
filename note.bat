@@ -15,3 +15,8 @@ wuauclt /detectnow
 wuauclt /reportnow
 
 gpupdate /force /target:computer
+
+wmic
+/node:TargetComputerNameHere product get name, version, vendor
+
+wbemtest.exe
