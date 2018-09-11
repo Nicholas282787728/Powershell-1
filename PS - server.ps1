@@ -117,11 +117,11 @@ $userName = 'administrator'
 $sessionId = ((quser /server:DC | Where-Object { $_ -match $userName }) -split ' +')[2]
 $sessionid
 ###### Sat Sep 8 12:56:14 AEST 2018  windows features
-get-windowsfeature updateservices*
-Install-Windowsfeature updateservices -IncludeManagementTools
+Get-WindowsFeature updateservices*
+Install-WindowsFeature updateservices -IncludeManagementTools
 Get-Command -Module updateservices
 Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagementTools
 Get-Command -Module neteventpackagecapture
 
 ###### Tue Sep 11 14:25:30 AEST 2018 event logs
- Get-WinEvent -ComputerName dc01 -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000
+  Get-WinEvent -ComputerName . -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000  | select -First 5 | where {$_.message -like "*LEI_laptop*"}
