@@ -88,18 +88,18 @@ Install-Module -Name Microsoft.Online.SharePoint.PowerShell
 Get-ChildItem Y:\velosure | `
     Where-Object {$_.name -like "*(4)*"} |`
     #Rename-Item -NewName { $_.Name -replace ' ','_' }
-    Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
+Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
 ###### Thu Sep 6 15:41:12 AEST 2018 select-string
 systeminfo | Select-String -Pattern time, date
 Get-ADUser user1  | out-string -Stream | Select-String -Pattern "obj"
 Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream | Select-String -Pattern "@"
 ###### Fri Sep 7 10:47:08 AEST 2018 move computer to OU
- Get-ADComputer -Filter 'Name -like "ahleap*"'
- $target = Get-ADOrganizationalUnit -LDAPFilter "(name=charlotte)"
+Get-ADComputer -Filter 'Name -like "ahleap*"'
+$target = Get-ADOrganizationalUnit -LDAPFilter "(name=charlotte)"
 get-adcomputer win7-c1 | Move-ADObject -TargetPath $target.DistinguishedName
- ###### Fri Sep 7 10:47:15 AEST 2018  remote session
- $cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
- ###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
+###### Fri Sep 7 10:47:15 AEST 2018  remote session
+$cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
+###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
 Get-aduser -filter "department -eq 'marketing' -AND enabled -eq 'True'"
 Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True | Unlock-ADAccount
 Enable-ADAccount -Identity test
@@ -127,8 +127,8 @@ Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagemen
 Get-Command -Module neteventpackagecapture
 
 ###### Tue Sep 11 14:25:30 AEST 2018 event logs
-Get-WinEvent -ComputerName . -FilterHashtable @{LogName="Security"; ID=4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
+Get-WinEvent -ComputerName . -FilterHashtable @{LogName = "Security"; ID = 4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
 ###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
 ###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
-Get-Mailbox *store  | Select-Object alias, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
+Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
