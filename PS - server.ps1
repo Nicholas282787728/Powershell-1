@@ -101,8 +101,11 @@ get-adcomputer win7-c1 | Move-ADObject -TargetPath $target.DistinguishedName
  $cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
  ###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
 Get-aduser -filter "department -eq 'marketing' -AND enabled -eq 'True'"
-Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True
+Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True | Unlock-ADAccount
 Enable-ADAccount -Identity test
+
+get-aduser richarda -Properties * | Select-Object *lock*
+Set-ADAccountPassword richarda -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True | Unlock-ADAccount
 ###### Fri Sep 7 14:37:57 AEST 2018  get ad group creation date
 $GroupList = Get-ADGroup -Filter * -Properties Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, WhenChanged, member, memberOf, sIDHistory, SamAccountName, Description, AdminCount | Select-Object Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, whenChanged, member, memberOf, AdminCount, SamAccountName, Description, `
 @{name = 'MemberCount'; expression = {$_.member.count}}, `
