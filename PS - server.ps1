@@ -88,21 +88,24 @@ Install-Module -Name Microsoft.Online.SharePoint.PowerShell
 Get-ChildItem Y:\velosure | `
     Where-Object {$_.name -like "*(4)*"} |`
     #Rename-Item -NewName { $_.Name -replace ' ','_' }
-    Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
+Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
 ###### Thu Sep 6 15:41:12 AEST 2018 select-string
 systeminfo | Select-String -Pattern time, date
 Get-ADUser user1  | out-string -Stream | Select-String -Pattern "obj"
 Get-mailbox payable@company.com -Filter * | Format-List -Property * | out-string -Stream | Select-String -Pattern "@"
 ###### Fri Sep 7 10:47:08 AEST 2018 move computer to OU
- Get-ADComputer -Filter 'Name -like "ahleap*"'
- $target = Get-ADOrganizationalUnit -LDAPFilter "(name=charlotte)"
+Get-ADComputer -Filter 'Name -like "ahleap*"'
+$target = Get-ADOrganizationalUnit -LDAPFilter "(name=charlotte)"
 get-adcomputer win7-c1 | Move-ADObject -TargetPath $target.DistinguishedName
- ###### Fri Sep 7 10:47:15 AEST 2018  remote session
- $cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
- ###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
+###### Fri Sep 7 10:47:15 AEST 2018  remote session
+$cred = Get-Credential -UserName "domain\username" -Message " " ; new-pssession -ComputerName computer -Credential $cred
+###### Fri Sep 7 11:01:55 AEST 2018 AD user operation
 Get-aduser -filter "department -eq 'marketing' -AND enabled -eq 'True'"
-Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True
+Set-ADAccountPassword jfrost -NewPassword $newpwd -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True | Unlock-ADAccount
 Enable-ADAccount -Identity test
+
+get-aduser richarda -Properties * | Select-Object *lock*
+Set-ADAccountPassword richarda -Reset -PassThru | Set-ADuser -ChangePasswordAtLogon $True | Unlock-ADAccount
 ###### Fri Sep 7 14:37:57 AEST 2018  get ad group creation date
 $GroupList = Get-ADGroup -Filter * -Properties Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, WhenChanged, member, memberOf, sIDHistory, SamAccountName, Description, AdminCount | Select-Object Name, DistinguishedName, GroupCategory, GroupScope, whenCreated, whenChanged, member, memberOf, AdminCount, SamAccountName, Description, `
 @{name = 'MemberCount'; expression = {$_.member.count}}, `
@@ -117,8 +120,15 @@ $userName = 'administrator'
 $sessionId = ((quser /server:DC | Where-Object { $_ -match $userName }) -split ' +')[2]
 $sessionid
 ###### Sat Sep 8 12:56:14 AEST 2018  windows features
-get-windowsfeature updateservices*
-Install-Windowsfeature updateservices -IncludeManagementTools
+Get-WindowsFeature updateservices*
+Install-WindowsFeature updateservices -IncludeManagementTools
 Get-Command -Module updateservices
 Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagementTools
 Get-Command -Module neteventpackagecapture
+
+###### Tue Sep 11 14:25:30 AEST 2018 event logs
+Get-WinEvent -ComputerName . -FilterHashtable @{LogName = "Security"; ID = 4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
+###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
+###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
+Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
