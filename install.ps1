@@ -1,4 +1,4 @@
-Set-ExecutionPolicy RemoteSigned -Force 
+Set-ExecutionPolicy RemoteSigned -Force
 # create temp folder
 $tempdir = "c:\temp"
 #New-Item -path $tempdir -ItemType Directory
@@ -10,21 +10,21 @@ If (!(test-path $tempdir)) {
 #copy update package
 $uroot = $PSScriptRoot.substring(0, 2)
 
-$SubFolders = "boot\", "efi\","sources\","support\"
+$SubFolders = "boot\", "efi\", "sources\", "support\"
 ForEach ($folder in $SubFolders) {
     #Write-Host $uroot\$folder
     Copy-Item -Path $uroot\$folder -Destination $tempdir -Recurse -Force
 }
 #Invoke-Command -ComputerName $compname -ScriptBlock {param($folders,$paste) Copy-Item -Path $folders -Destination $paste} -ArgumentList $folders, $paste
 
-Copy-Item $uroot\setup.exe,$uroot\autorun.inf, $uroot\bootmgr, $uroot\bootmgr.efi -Destination $tempdir
+Copy-Item $uroot\setup.exe, $uroot\autorun.inf, $uroot\bootmgr, $uroot\bootmgr.efi -Destination $tempdir
 Start-Process $tempdir\setup.exe
 Pause
 
 # setup working dir
 $software = "$($uroot)\!software"
 # copy rdp shortcut
-Copy-Item -Path $software\SVDP\GKO.rdp -Destination C:\Users\Public\Desktop
+Copy-Item -Path $software\company\GKO.rdp -Destination C:\Users\Public\Desktop
 Pause
 # remove o365 office #!#################issue##################
 
@@ -32,15 +32,15 @@ Get-package -provider programs -includewindowsinstaller -name "*office*" | Unins
 control appwiz.cpl
 Pause
 
-#install office 2010 
-Start-Process -wait -nonewwindow $software\SVDP\Office2010\setup.exe -ArgumentList '/adminfile', "$($software)\svdp\svdp.msp"
+#install office 2010
+Start-Process -wait -nonewwindow $software\company\Office2010\setup.exe -ArgumentList '/adminfile', "$($software)\company\company.msp"
 pause
 
 start-process winword
 Pause
 
 #import cert for software download
-Import-Certificate -FilePath "$software\gratexca.cer" -CertStoreLocation Cert:\LocalMachine\root
+Import-Certificate -FilePath "$software\ca.cer" -CertStoreLocation Cert:\LocalMachine\root
 Pause
 
 # install necessary software
@@ -61,7 +61,7 @@ Set-Service w32time -StartupType Automatic
 Start-Service w32time
 w32tm /resync /force
 
-# windows update 
+# windows update
 wuauclt /detectnow
 Pause
 
