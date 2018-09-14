@@ -132,3 +132,8 @@ Get-WinEvent -ComputerName . -FilterHashtable @{LogName = "Security"; ID = 4634}
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
 ###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
 Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
+
+###### Fri Sep 14 10:13:09 AEST 2018 rename pbk
+powershell -Command "(gc C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk) -replace '[Old name]', '[New name]' | Out-File C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk"
+taskkill /im "explorer.exe" /f
+Start-Process "" "explorer.exe"
