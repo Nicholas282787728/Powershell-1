@@ -137,3 +137,11 @@ Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, Recip
 powershell -Command "(gc C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk) -replace '[Old name]', '[New name]' | Out-File C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk"
 taskkill /im "explorer.exe" /f
 Start-Process "" "explorer.exe"
+###### Fri Sep 14 13:58:31 AEST 2018 ad sync
+Import-Module ADSync
+Start-ADSyncSyncCycle -PolicyType Delta
+Start-ADSyncSyncCycle -PolicyType Initial
+###### Fri Sep 14 14:17:07 AEST 2018 o365 powershell
+Install-Module -Name AzureAD
+Connect-AzureAD
+Connect-MsolService
