@@ -141,7 +141,13 @@ Start-Process "" "explorer.exe"
 Import-Module ADSync
 Start-ADSyncSyncCycle -PolicyType Delta
 Start-ADSyncSyncCycle -PolicyType Initial
-###### Fri Sep 14 14:17:07 AEST 2018 o365 powershell
+###### Fri Sep 14 14:17:07 AEST 2018 o365 powershell###### Mon Sep 17 08:45:16 AEST 2018
 Install-Module -Name AzureAD
 Connect-AzureAD
 Connect-MsolService
+
+###### Sat Sep 15 09:42:13 AEST 2018   dns powershell
+Add-DnsServerForwarder 8.8.8.8
+Add-DnsServerConditionalForwarderZone abc.com 8.8.4.4
+ipconfig /displydns
+Show-DnsServerCache
