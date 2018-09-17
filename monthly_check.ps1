@@ -44,7 +44,7 @@ Get-MailboxDatabase -status | Format-List | out-file $output -Append ; `
     Sort-Object totalitemsize, lastlogontime | `
     Format-Table DisplayName, itemcount, totalitemsize, lastlogontime -AutoSize | out-file $output -Append
 
+Test-ServiceHealth
+
 Get-WsusComputer | Sort-Object last*
-
-
 Get-WsusUpdate -Classification Critical, Security -Approval Unapproved -Status FailedOrNeeded | Approve-WsusUpdate -Action Install -TargetGroupName "All Computers"
