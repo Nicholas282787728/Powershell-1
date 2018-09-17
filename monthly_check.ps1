@@ -15,22 +15,25 @@ VEEAM BACKUP STATUS CHECK
 #>
 
 param(
-   # [string] $servers = (Read-Host "hostname")
-    [array]$servers = @()
-    [array]$exchangeservers = @()
+    #[string] $server = (Read-Host "hostname"),
+    [array]$servers = @("tpdc01", "tpex01", "tporcl01", "tpvbr01", "rds01"),
+    [array]$exchangeservers = @("tpex01"),
+    $output = "C:\temp\abc.txt"
+
     )
-Write-Host $servers[0]
 
 
 ###### Mon Sep 17 11:42:30 AEST 2018  freediskspace
-Invoke-Command -ComputerName tpdc01, tpex01, tporcl01, tpvbr01, rds01 {`
+<# Invoke-Command -ComputerName $servers {`
         get-wmiobject win32_volume | `
         Where-Object { $_.DriveType -eq 3 -and $_.Label -notlike "System Reserved"} | `
         ForEach-Object { get-psdrive $_.DriveLetter[0] }} | `
-    Sort-Object pscomutpername, Root
+    Sort-Object pscomutpername, Root #>
+
+Invoke-Command -ComputerName $servers {`
+get-wmiobject Win32_LogicalDisk -Filter "DriveType=3"  | select systemname, Name,volumename, FileSystem,FreeSpace,BlockSize,Size | % {$_.BlockSize=(($_.FreeSpace)/($_.Size))*100;$_.FreeSpace=($_.FreeSpace/1GB);$_.Size=($_.Size/1GB);$_} | Format-Table systemname, Name,volumename, @{n='FS';e={$_.FileSystem}},@{n='Free(Gb)';e={'{0:N2}'-f $_.FreeSpace}}, @{n='%Free';e={'{0:N2}'-f $_.BlockSize}},@{n='Capacity(Gb)';e={'{0:N2}'-f $_.Size}} -AutoSize
 
 
-$output = "C:\temp\abc.txt"
 Get-Date -Format g | out-file $output -Append; `
     Get-MailboxDatabase -status | Format-List | out-file $output -Append ; `
     get-mailboxstatistics -Server tpex01 | `
