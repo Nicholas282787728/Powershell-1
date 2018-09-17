@@ -34,7 +34,7 @@ Get-Date -Format g | out-file $output -Append
 get-wmiobject Win32_LogicalDisk -ComputerName $servers -Filter "DriveType=3"  | `
     Select-Object systemname, Name, volumename, FileSystem, FreeSpace, BlockSize, Size | `
     ForEach-Object {$_.BlockSize = (($_.FreeSpace) / ($_.Size)) * 100; $_.FreeSpace = ($_.FreeSpace / 1GB); $_.Size = ($_.Size / 1GB); $_} | `
-    Format-Table systemname, Name, volumename, @{n = 'FS'; e = {$_.FileSystem}}, @{n = 'Free(Gb)'; e = {'{0:N2}' -f $_.FreeSpace}}, @{n = '%Free'; e = {'{0:N2}' -f $_.BlockSize}}, @{n = 'Capacity(Gb)'; e = {'{0:N2}' -f $_.Size}} -AutoSize
+    Format-Table systemname, Name, volumename, @{n = 'FS'; e = {$_.FileSystem}}, @{n = 'Free(Gb)'; e = {'{0:N2}' -f $_.FreeSpace}}, @{n = 'Capacity(Gb)'; e = {'{0:N2}' -f $_.Size}}, @{n = '%Free'; e = {'{0:N2}' -f $_.BlockSize}} -AutoSize
 
 
 
