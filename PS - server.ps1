@@ -151,8 +151,11 @@ Add-DnsServerForwarder 8.8.8.8
 Add-DnsServerConditionalForwarderZone abc.com 8.8.4.4
 ipconfig /displydns
 Show-DnsServerCache
-###### Mon Sep 17 11:29:13 AEST 2018  check disk space
-Invoke-Command -ComputerName tpdc01,tpex01,tporcl01,tpvbr01,rds01 {get-wmiobject win32_volume | Where-Object { $_.DriveType -eq 3 -and $_.Label -notlike "System Reserved"} | ForEach-Object { get-psdrive $_.DriveLetter[0] }} | Sort-Object pscomutpername, Root
+###### Mon Sep 17 19:42:13 AEST 2018 check disk space
+get-wmiobject Win32_LogicalDisk -ComputerName $servers -Filter "DriveType=3"  | `
+    Select-Object systemname, Name, volumename, FileSystem, FreeSpace, BlockSize, Size | `
+    ForEach-Object {$_.BlockSize = (($_.FreeSpace) / ($_.Size)) * 100; $_.FreeSpace = ($_.FreeSpace / 1GB); $_.Size = ($_.Size / 1GB); $_} | `
+    Format-Table systemname, Name, volumename, @{n = 'FS'; e = {$_.FileSystem}}, @{n = 'Free(Gb)'; e = {'{0:N2}' -f $_.FreeSpace}}, @{n = '%Free'; e = {'{0:N2}' -f $_.BlockSize}}, @{n = 'Capacity(Gb)'; e = {'{0:N2}' -f $_.Size}} -AutoSize
 
 ###### Mon Sep 17 12:27:02 AEST 2018
 Get-OfflineAddressBook | Update-OfflineAddressBook
