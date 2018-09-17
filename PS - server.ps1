@@ -16,7 +16,7 @@ Get-ADComputer -Filter * -Properties * | Format-Table Name, LastLogonDate -Autos
 Get-ADUser -Identity 'honeypot' | Select-Object SID
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
-Get-MessageTrackingLog -ResultSize Unlimited -Start "1/03/2018 8:00AM" -End "1/04/2018 5:00PM" -EventId "Fail" -Recipients "dgm@owenhodge.com.au"
+Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@owenhodge.com.au" -sender
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\t
 emp\list.txt -Width 1000
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add = "ato.gov.au", "INDAdvice@ato.gov.au", "noreply@ato.gov.au"}
@@ -151,3 +151,8 @@ Add-DnsServerForwarder 8.8.8.8
 Add-DnsServerConditionalForwarderZone abc.com 8.8.4.4
 ipconfig /displydns
 Show-DnsServerCache
+###### Mon Sep 17 11:29:13 AEST 2018  check disk space
+Invoke-Command -ComputerName tpdc01,tpex01,tporcl01,tpvbr01,rds01 {get-wmiobject win32_volume | Where-Object { $_.DriveType -eq 3 -and $_.Label -notlike "System Reserved"} | ForEach-Object { get-psdrive $_.DriveLetter[0] }} | Sort-Object pscomutpername, Root
+
+###### Mon Sep 17 12:27:02 AEST 2018
+Get-OfflineAddressBook | Update-OfflineAddressBook
