@@ -159,3 +159,11 @@ get-wmiobject Win32_LogicalDisk -ComputerName $servers -Filter "DriveType=3"  | 
 
 ###### Mon Sep 17 12:27:02 AEST 2018
 Get-OfflineAddressBook | Update-OfflineAddressBook
+###### Mon Sep 17 21:40:07 AEST 2018 credentialmanager
+Install-Module -Name "CredentialManager"
+
+$Target = "server"
+$UserName = "domain\user"
+$Secure = Read-host -AsSecureString
+New-StoredCredential -Target $Target -UserName $UserName -SecurePassword $Secure -Persist LocalMachine -Type Generic
+
