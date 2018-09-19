@@ -168,6 +168,9 @@ $Secure = Read-host -AsSecureString
 New-StoredCredential -Target $Target -UserName $UserName -SecurePassword $Secure -Persist LocalMachine -Type Generic
 
 ###### Wed Sep 19 11:42:10 AEST 2018 o365
+Install-Module AzureAD
+Install-Module msonline
+
 $UserCredential = Get-Credential
 $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
 Import-PSSession $Session -DisableNameChecking
@@ -181,3 +184,9 @@ Add-MailboxPermission engineering@domainname.com -User "Engineering Group" -Acce
 Connect-MsolService
 $MSOLSKU = (Get-MSOLUser -UserPrincipalName engineering@domainname.com).Licenses[0].AccountSkuId
 Set-MsolUserLicense -UserPrincipalName engineering@domainname.com -RemoveLicenses $MSOLSKU
+
+Get-Mailbox -Identity wii | fl *type*
+###### Wed Sep 19 12:36:23 AEST 2018 exchange
+Get-Mailbox -ResultSize unlimited | Get-MailboxJunkEmailConfiguration | Where-Object {$_.Enabled -eq $False}
+
+
