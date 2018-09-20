@@ -13,3 +13,18 @@ $a | Format-List -Property Name, @{Label = "BIOS Age"; Expression = {(Get-Date) 
 
 Get-Date -Format F | Add-Content Test.txt
 Get-Date -UFormat %Y%m%d-%H%M
+
+
+$Breakout = $false
+
+If ($Breakout -eq $true) {
+    Write-Host "Break Out!"
+    Break
+}
+ElseIf ($Breakout -eq $false) {
+    Write-Host "No Breakout for you!"
+}
+Else {
+    Write-Host "Breakout wasn't defined..."
+}
+Write-Host "abc"
