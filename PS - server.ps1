@@ -194,7 +194,7 @@ Format-Table -Wrap -AutoSize
 Select-Object -ExpandProperty
 get-process | Format-Table -Property id,Name, @{n='VM(MB)' ;e={$_.VM /1mb} ; formatstring= 'N2'}, @{n='PM(MB)' ;e={$_.PM /1mb} ; formatstring= 'N2'}, @{n='WS(MB)' ;e={$_.WS /1mb} ; formatstring= 'N2'}
 
-Get-History | select -Property, Id, CommandLine, @{n='time'; e={$_.endexecutiontime - $_.startexecutiontime}}
+Get-History | Select-Object -Property Id, CommandLine, @{n='time'; e={$_.endexecutiontime - $_.startexecutiontime}}
 ###### Thu Sep 20 09:38:51 AEST 2018 history
 C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 Install-Module PSReadLine  # very useful
