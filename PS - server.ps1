@@ -198,3 +198,13 @@ Get-History | Select-Object -Property Id, CommandLine, @{n='time'; e={$_.endexec
 ###### Thu Sep 20 09:38:51 AEST 2018 history
 C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 Install-Module PSReadLine  # very useful
+
+
+###### Sat Sep 22 08:41:01 AEST 2018 get-install gackage from mulitple servers
+$servers = "dc01", "dc02"
+$servers
+foreach ($server in $servers) {
+    Invoke-Command -ComputerName $server -ScriptBlock {get-package } | Select-Object name, @{n = "server" ; e = {$server}}
+}
+
+
