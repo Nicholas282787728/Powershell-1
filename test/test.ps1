@@ -28,3 +28,9 @@ Else {
     Write-Host "Breakout wasn't defined..."
 }
 Write-Host "abc"
+
+
+$c=0
+1..10 |   ForEach-Object { `
+    $c++ ;`
+  Write-Host $c }
