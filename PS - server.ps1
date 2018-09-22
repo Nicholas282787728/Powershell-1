@@ -206,5 +206,7 @@ $servers
 foreach ($server in $servers) {
     Invoke-Command -ComputerName $server -ScriptBlock {get-package } | Select-Object name, @{n = "server" ; e = {$server}} | Format-Table -GroupBy server -Wrap
 }
-
+#or
+$servers = "dc01", "dc02"
+    Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
 
