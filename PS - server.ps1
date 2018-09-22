@@ -204,7 +204,7 @@ Install-Module PSReadLine  # very useful
 $servers = "dc01", "dc02"
 $servers
 foreach ($server in $servers) {
-    Invoke-Command -ComputerName $server -ScriptBlock {get-package } | Select-Object name, @{n = "server" ; e = {$server}} | Format-Table -GroupBy server
+    Invoke-Command -ComputerName $server -ScriptBlock {get-package } | Select-Object name, @{n = "server" ; e = {$server}} | Format-Table -GroupBy server -Wrap
 }
 
 
