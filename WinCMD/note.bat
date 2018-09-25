@@ -20,3 +20,9 @@ wmic
 /node:TargetComputerNameHere product get name, version, vendor
 
 wbemtest.exe
+rem launch unifi controller
+c:\Program Files (x86)\Java\jre1.8.0_151\bin>javaw.exe -jar "C:\Users\user\Ubiquiti UniFi\lib\ace.jar" ui
+
+rem wmic for software installation
+wmic
+/node:tpw704 product get name,version,vendor

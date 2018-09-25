@@ -204,3 +204,14 @@ Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort Name,Version 
 
 $UninstallCommand = (Get-Package -Name "*Stardock*").Meta.Attributes['UninstallString']
 Start-Process -FilePath cmd.exe -ArgumentList '/c', $UninstallCommand -Wait
+
+###### Sat Sep 22 08:41:01 AEST 2018 get-install gackage from mulitple servers
+$servers = "dc01", "dc02"
+$servers
+foreach ($server in $servers) {
+    Invoke-Command -ComputerName $server -ScriptBlock {get-package } | Select-Object name, @{n = "server" ; e = {$server}} | Format-Table -GroupBy server -Wrap
+}
+#or
+$servers = "dc01", "dc02"
+    Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
+
