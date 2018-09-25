@@ -215,3 +215,7 @@ foreach ($server in $servers) {
 $servers = "dc01", "dc02"
     Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
 
+###### Tue Sep 25 16:25:18 AEST 2018 exchange quota
+Set-Mailbox username@gratex.com.au -Type shared -ProhibitSendReceiveQuota 9.4GB -ProhibitSendQuota 9.2GB -IssueWarningQuota 9GB -UseDatabaseQuotaDefaults $False
+
+
