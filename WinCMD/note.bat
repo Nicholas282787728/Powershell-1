@@ -22,6 +22,8 @@ wmic
 wbemtest.exe
 rem launch unifi controller
 c:\Program Files (x86)\Java\jre1.8.0_151\bin>javaw.exe -jar "C:\Users\user\Ubiquiti UniFi\lib\ace.jar" ui
+rem for unifi discover
+java -jar <unifi_base>/lib/ace.jar discover
 
 rem wmic for software installation
 wmic
