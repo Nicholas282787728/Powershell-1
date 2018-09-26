@@ -200,7 +200,7 @@ C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHos
 Install-Module PSReadLine  # very useful
 
 ###### Fri Sep 21 17:02:05 AEST 2018 uninstall software
-Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort Name,Version | Select Name,@{l="UninstallString";e={$_.Meta.Attributes["UninstallString"]}}
+Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort-Object Name,Version | Select-Object Name,@{l="UninstallString";e={$_.Meta.Attributes["UninstallString"]}}
 
 $UninstallCommand = (Get-Package -Name "*Stardock*").Meta.Attributes['UninstallString']
 Start-Process -FilePath cmd.exe -ArgumentList '/c', $UninstallCommand -Wait
