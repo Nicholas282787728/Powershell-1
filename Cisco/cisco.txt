@@ -1,0 +1,7 @@
+show crypto ipsec sa
+show crypto engine connections active
+
+debug crypto ipsec 7—Displays the IPsec negotiations of phase 2.
+debug crypto isakmp 7—Displays the ISAKMP negotiations of phase 1.
+debug crypto ipsec—Displays the IPsec negotiations of phase 2.
+debug crypto isakmp—Displays the ISAKMP negotiations of phase 1.
