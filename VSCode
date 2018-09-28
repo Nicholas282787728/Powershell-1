@@ -1,0 +1,26 @@
+Go to Symbol in File
+Keyboard Shortcut: Ctrl+Shift+O
+
+Move line up and down
+Keyboard Shortcut: Alt+Up or Alt+Down
+
+Trim trailing whitespace
+Keyboard Shortcut: Ctrl+K Ctrl+X
+
+Code formatting
+Currently selected source code: Ctrl+K Ctrl+F
+
+Code folding
+Keyboard Shortcut: Ctrl+Shift+[ and Ctrl+Shift+]
+
+Select current line
+Keyboard Shortcut: Ctrl+I
+
+IntelliSense
+Ctrl+Space to trigger the Suggestions widget.
+
+Go to Definition
+Select a symbol then type F12. Alternatively, you can use the context menu or Ctrl+click (Cmd+click on macOS).
+
+Find All References
+Select a symbol then type Shift+F12. Alternatively, you can use the context menu.
