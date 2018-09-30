@@ -218,4 +218,22 @@ $servers = "dc01", "dc02"
 ###### Tue Sep 25 16:25:18 AEST 2018 exchange quota
 Set-Mailbox username@gratex.com.au -Type shared -ProhibitSendReceiveQuota 9.4GB -ProhibitSendQuota 9.2GB -IssueWarningQuota 9GB -UseDatabaseQuotaDefaults $False
 
+###### Sun Sep 30 21:49:24 AEST 2018 dns
+Set-DnsServerRecursion -ComputerName . -EnableRecursion $false
+Add-DnsServerRecursionScope -Name "OurPeople" -EnableRecursion $true
+Add-DnsServerQueryResolutionPolicy -Name "OurRecursionPolicy" -Action ALLOW -ApplyOnRecursion -RecursionScope "OurPeople" -ServerInterfaceIP "EQ,192.168.0.12"
+
+Get-DnsServerCache
+Set-DnsServerCache -LockingPercent 90
+dnscmd /info socketpoolsize
+dnscmd /config /socketpoolsize 6783
+Get-DnsServerDnsSecZoneSetting -ZoneName test.com
+Get-DnsServerTrustAnchor -Name test.com
+Get-DnsServerTrustPoint -Name test.com
+Get-DnsClientNrptPolicy
+Resolve-DnsName abc.com -DnssecOk
+Get-DnsServerResponseRateLimiting
+
+
+
 
