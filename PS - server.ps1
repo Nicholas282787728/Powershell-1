@@ -234,6 +234,36 @@ Get-DnsClientNrptPolicy
 Resolve-DnsName abc.com -DnssecOk
 Get-DnsServerResponseRateLimiting
 
+Add-DnsServerPrimaryZone -Name "loadbalance.com" -ReplicationScope Domain
+Add-DnsServerZoneScope -ZoneName "loadbalance.com" -Name "scope-heavy"
+Add-DnsServerZoneScope -ZoneName "loadbalance.com" -Name "scope-light"
+Add-DnsServerResourceRecord -ZoneName "loadbalance.com" -A -Name "lb-www" -IPv4Address "192.168.1.11"
+Add-DnsServerResourceRecord -ZoneName "loadbalance.com" -A -Name "lb-www" -IPv4Address "192.168.1.22" -ZoneScope "scope-light"
+Add-DnsServerResourceRecord -ZoneName "loadbalance.com" -A -Name "lb-www" -IPv4Address "192.168.1.33" -ZoneScope "scope-heavy"
+Add-DnsServerQueryResolutionPolicy -Name "our-lb-policy" -Action ALLOW -Fqdn "EQ,*" -ZoneScope "loadbalance.com,1;scope-light,1;scope-heavy,9" -ZoneName "loadbalance.com"
+Get-DnsServerQueryResolutionPolicy -ZoneName "loadbalance.com"
 
+Get-DnsServer
 
+###### Mon Oct 1 14:03:55 AEST 2018 dns policy client source address
+Get-Command -Module dnsserver -Name *policy*
+Add-DnsServerPrimaryZone -Name hmm.com -ReplicationScope Domain
+Add-DnsServerClientSubnet -Name 64_subnet -IPv4Subnet "192.168.1.64/26"
+Add-DnsServerClientSubnet -Name 128_subnet -IPv4Subnet "192.168.1.128/26"
+Add-DnsServerZoneScope -ZoneName hmm.com -Name "64_scope"
+Add-DnsServerZoneScope -ZoneName hmm.com -Name "128_scope"
+Add-DnsServerResourceRecord -ZoneName hmm.com -A -Name srv-xyz -IPv4Address "22.22.22.22" -ZoneScope "64_scope"
+Add-DnsServerResourceRecord -ZoneName hmm.com -A -Name srv-xyz -IPv4Address "33.33.33.33" -ZoneScope "128_scope"
+Add-DnsServerQueryResolutionPolicy -Name "64_policy" -Action ALLOW -ClientSubnet "eq,64_subnet" -ZoneScope "64_scop,1" -ZoneName hmm.com
+Add-DnsServerQueryResolutionPolicy -Name "128_policy" -Action ALLOW -ClientSubnet "eq,128_subnet" -ZoneScope "128_scop,1" -ZoneName hmm.com
+
+###### Mon Oct 1 14:11:36 AEST 2018 change ip address command
+Get-NetIPAddress -InterfaceIndex 1 -AddressFamily IPv4
+netsh interface ipv4 set address name="Ethernet 1" static 192.168.1.129 255.255.255.0 192.168.1.1
+
+###### Mon Oct 1 14:13:57 AEST 2018 dns policy time of day
+Get-Date -DisplayHint Time
+
+Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com
+Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com -Name "time-policy" -Action deny -timeofday "eq,04:00-23:00" -processingorder 2
 
