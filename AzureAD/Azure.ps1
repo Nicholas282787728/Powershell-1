@@ -16,3 +16,23 @@ Start-ADSyncSyncCycle -PolicyType Initial
 Install-Module -Name AzureAD
 Connect-AzureAD
 Connect-MsolService
+
+###### Wed Sep 19 11:42:10 AEST 2018 o365
+Install-Module AzureAD
+Install-Module msonline
+
+$UserCredential = Get-Credential
+$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
+Import-PSSession $Session -DisableNameChecking
+Connect-MsolService -Credential $UserCredential
+#! convert to shared mailbox and setup quota
+Get-Mailbox -identity engineering@domainname.com | set-mailbox -type “Shared”
+Set-Mailbox engineering@domainname.com -ProhibitSendReceiveQuota 50GB -ProhibitSendQuota 49.75GB -IssueWarningQuota 49.5GB
+#! assign permissions to shared mailbox
+Add-MailboxPermission engineering@domainname.com -User "Engineering Group" -AccessRights FullAccess
+#! remove o365 license
+Connect-MsolService
+$MSOLSKU = (Get-MSOLUser -UserPrincipalName engineering@domainname.com).Licenses[0].AccountSkuId
+Set-MsolUserLicense -UserPrincipalName engineering@domainname.com -RemoveLicenses $MSOLSKU
+
+Get-Mailbox -Identity wii | Format-List *type*

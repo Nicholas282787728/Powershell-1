@@ -46,7 +46,6 @@ Import-Module ActiveDirectory
 Get-ChildItem env:*
 $env:username
 Get-CimInstance Win32_OperatingSystem | Format-List *
-
 Set-ExecutionPolicy remoteSigned
 #########################################################################################
 lsblk
@@ -95,20 +94,16 @@ Install-WindowsFeature updateservices -IncludeManagementTools
 Get-Command -Module updateservices
 Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagementTools
 Get-Command -Module neteventpackagecapture
-
 ###### Tue Sep 11 14:25:30 AEST 2018 event logs
 Get-WinEvent -ComputerName . -FilterHashtable @{LogName = "Security"; ID = 4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
 ###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
 ###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
 Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
-
 ###### Fri Sep 14 10:13:09 AEST 2018 rename pbk
 powershell -Command "(gc C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk) -replace '[Old name]', '[New name]' | Out-File C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk"
 taskkill /im "explorer.exe" /f
 Start-Process "" "explorer.exe"
-
-
 ###### Sat Sep 15 09:42:13 AEST 2018   dns powershell
 Add-DnsServerForwarder 8.8.8.8
 Add-DnsServerConditionalForwarderZone abc.com 8.8.4.4
@@ -119,54 +114,23 @@ get-wmiobject Win32_LogicalDisk -ComputerName $servers -Filter "DriveType=3"  | 
     Select-Object systemname, Name, volumename, FileSystem, FreeSpace, BlockSize, Size | `
     ForEach-Object {$_.BlockSize = (($_.FreeSpace) / ($_.Size)) * 100; $_.FreeSpace = ($_.FreeSpace / 1GB); $_.Size = ($_.Size / 1GB); $_} | `
     Format-Table systemname, Name, volumename, @{n = 'FS'; e = {$_.FileSystem}}, @{n = 'Free(Gb)'; e = {'{0:N2}' -f $_.FreeSpace}}, @{n = '%Free'; e = {'{0:N2}' -f $_.BlockSize}}, @{n = 'Capacity(Gb)'; e = {'{0:N2}' -f $_.Size}} -AutoSize
-
-
 ###### Mon Sep 17 21:40:07 AEST 2018 credentialmanager
 Install-Module -Name "CredentialManager"
-
 $Target = "server"
 $UserName = "domain\user"
 $Secure = Read-host -AsSecureString
 New-StoredCredential -Target $Target -UserName $UserName -SecurePassword $Secure -Persist LocalMachine -Type Generic
-
-###### Wed Sep 19 11:42:10 AEST 2018 o365
-Install-Module AzureAD
-Install-Module msonline
-
-$UserCredential = Get-Credential
-$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
-Import-PSSession $Session -DisableNameChecking
-Connect-MsolService -Credential $UserCredential
-#! convert to shared mailbox and setup quota
-Get-Mailbox -identity engineering@domainname.com | set-mailbox -type “Shared”
-Set-Mailbox engineering@domainname.com -ProhibitSendReceiveQuota 50GB -ProhibitSendQuota 49.75GB -IssueWarningQuota 49.5GB
-#! assign permissions to shared mailbox
-Add-MailboxPermission engineering@domainname.com -User "Engineering Group" -AccessRights FullAccess
-#! remove o365 license
-Connect-MsolService
-$MSOLSKU = (Get-MSOLUser -UserPrincipalName engineering@domainname.com).Licenses[0].AccountSkuId
-Set-MsolUserLicense -UserPrincipalName engineering@domainname.com -RemoveLicenses $MSOLSKU
-
-Get-Mailbox -Identity wii | Format-List *type*
-###### Wed Sep 19 12:36:23 AEST 2018 exchange
-Get-Mailbox -ResultSize unlimited | Get-MailboxJunkEmailConfiguration | Where-Object {$_.Enabled -eq $False}
-
-
 Format-Table -Wrap -AutoSize
 Select-Object -ExpandProperty
 get-process | Format-Table -Property id,Name, @{n='VM(MB)' ;e={$_.VM /1mb} ; formatstring= 'N2'}, @{n='PM(MB)' ;e={$_.PM /1mb} ; formatstring= 'N2'}, @{n='WS(MB)' ;e={$_.WS /1mb} ; formatstring= 'N2'}
-
 Get-History | Select-Object -Property Id, CommandLine, @{n='time'; e={$_.endexecutiontime - $_.startexecutiontime}}
 ###### Thu Sep 20 09:38:51 AEST 2018 history
 C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 Install-Module PSReadLine  # very useful
-
 ###### Fri Sep 21 17:02:05 AEST 2018 uninstall software
 Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort-Object Name,Version | Select-Object Name,@{l="UninstallString";e={$_.Meta.Attributes["UninstallString"]}}
-
 $UninstallCommand = (Get-Package -Name "*Stardock*").Meta.Attributes['UninstallString']
 Start-Process -FilePath cmd.exe -ArgumentList '/c', $UninstallCommand -Wait
-
 ###### Sat Sep 22 08:41:01 AEST 2018 get-install gackage from mulitple servers
 $servers = "dc01", "dc02"
 $servers
@@ -176,15 +140,10 @@ foreach ($server in $servers) {
 #or
 $servers = "dc01", "dc02"
     Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
-
-###### Tue Sep 25 16:25:18 AEST 2018 exchange quota
-Set-Mailbox username@gratex.com.au -Type shared -ProhibitSendReceiveQuota 9.4GB -ProhibitSendQuota 9.2GB -IssueWarningQuota 9GB -UseDatabaseQuotaDefaults $False
-
 ###### Sun Sep 30 21:49:24 AEST 2018 dns
 Set-DnsServerRecursion -ComputerName . -EnableRecursion $false
 Add-DnsServerRecursionScope -Name "OurPeople" -EnableRecursion $true
 Add-DnsServerQueryResolutionPolicy -Name "OurRecursionPolicy" -Action ALLOW -ApplyOnRecursion -RecursionScope "OurPeople" -ServerInterfaceIP "EQ,192.168.0.12"
-
 Get-DnsServerCache
 Set-DnsServerCache -LockingPercent 90
 dnscmd /info socketpoolsize
@@ -195,7 +154,6 @@ Get-DnsServerTrustPoint -Name test.com
 Get-DnsClientNrptPolicy
 Resolve-DnsName abc.com -DnssecOk
 Get-DnsServerResponseRateLimiting
-
 Add-DnsServerPrimaryZone -Name "loadbalance.com" -ReplicationScope Domain
 Add-DnsServerZoneScope -ZoneName "loadbalance.com" -Name "scope-heavy"
 Add-DnsServerZoneScope -ZoneName "loadbalance.com" -Name "scope-light"
@@ -204,9 +162,7 @@ Add-DnsServerResourceRecord -ZoneName "loadbalance.com" -A -Name "lb-www" -IPv4A
 Add-DnsServerResourceRecord -ZoneName "loadbalance.com" -A -Name "lb-www" -IPv4Address "192.168.1.33" -ZoneScope "scope-heavy"
 Add-DnsServerQueryResolutionPolicy -Name "our-lb-policy" -Action ALLOW -Fqdn "EQ,*" -ZoneScope "loadbalance.com,1;scope-light,1;scope-heavy,9" -ZoneName "loadbalance.com"
 Get-DnsServerQueryResolutionPolicy -ZoneName "loadbalance.com"
-
 Get-DnsServer
-
 ###### Mon Oct 1 14:03:55 AEST 2018 dns policy client source address
 Get-Command -Module dnsserver -Name *policy*
 Add-DnsServerPrimaryZone -Name hmm.com -ReplicationScope Domain
@@ -218,15 +174,11 @@ Add-DnsServerResourceRecord -ZoneName hmm.com -A -Name srv-xyz -IPv4Address "22.
 Add-DnsServerResourceRecord -ZoneName hmm.com -A -Name srv-xyz -IPv4Address "33.33.33.33" -ZoneScope "128_scope"
 Add-DnsServerQueryResolutionPolicy -Name "64_policy" -Action ALLOW -ClientSubnet "eq,64_subnet" -ZoneScope "64_scop,1" -ZoneName hmm.com
 Add-DnsServerQueryResolutionPolicy -Name "128_policy" -Action ALLOW -ClientSubnet "eq,128_subnet" -ZoneScope "128_scop,1" -ZoneName hmm.com
-
 ###### Mon Oct 1 14:11:36 AEST 2018 change ip address command
 Get-NetIPAddress -InterfaceIndex 1 -AddressFamily IPv4
 netsh interface ipv4 set address name="Ethernet 1" static 192.168.1.129 255.255.255.0 192.168.1.1
-
 ###### Mon Oct 1 14:13:57 AEST 2018 dns policy time of day
 Get-Date -DisplayHint Time
-
 Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com
 Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com -Name "time-policy" -Action deny -timeofday "eq,04:00-23:00" -processingorder 2
-
 ###### Tue Oct 2 09:14:01 AEST 2018
