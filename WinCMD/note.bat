@@ -28,3 +28,6 @@ java -jar <unifi_base>/lib/ace.jar discover
 rem wmic for software installation
 wmic
 /node:tpw704 product get name,version,vendor
+rem active office
+cscript OSPP.VBS /inpkey:KEY-KEY-KEY COMPUTERNAME
+cscript OSPP.VBS /act COMPUTERNAME
