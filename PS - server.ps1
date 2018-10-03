@@ -182,3 +182,4 @@ Get-Date -DisplayHint Time
 Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com
 Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com -Name "time-policy" -Action deny -timeofday "eq,04:00-23:00" -processingorder 2
 ###### Tue Oct 2 09:14:01 AEST 2018
+(Get-WmiObject win32_bios).serialnumber
