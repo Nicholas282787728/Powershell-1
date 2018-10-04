@@ -227,3 +227,10 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
     Select-Object -expand CounterSamples |
     Where-Object {$_.InstanceName -eq '_total'}
 
+Get-Counter '\Processor(*)\% Processor Time' -Continuous |
+    select -expand CounterSamples |
+    where{$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
+    ForEach{Write-Host $_.CookedValue -fore Red}
+
+    
+
