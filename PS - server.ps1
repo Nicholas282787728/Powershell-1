@@ -202,12 +202,12 @@ $disk.put()
 ###### Thu Oct 4 22:18:50 AEST 2018 cimsession
 $wsman=New-CimSession -ComputerName c,d
 $dcom=New-CimSession -ComputerName a,b -SessionOption (New-CimSessionOption -Protocol Dcom)
-Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $wsman,$dcom | Select-Object pscomputername,Version,BuildNumber,ServicePackMajorVersion,OSArchitecture | ft
+Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $wsman,$dcom | Select-Object pscomputername,Version,BuildNumber,ServicePackMajorVersion,OSArchitecture | Format-Table
 Get-CimSession | Remove-CimSession
 ###### Thu Oct 4 22:42:58 AEST 2018 cim backup logs
 Get-WmiObject -ComputerName localhost -Class win32_nteventlogfile -EnableAllPrivileges -Filter "logfilename='application'" | Invoke-WmiMethod -Name backupeventlog -ArgumentList c:\temp\backup.evt
 ###### Thu Oct 4 22:53:34 AEST 2018 job locally
-Start-Job -ScriptBlock {dir c:\ -Recurse} -Name jobname
+Start-Job -ScriptBlock {Get-ChildItem c:\ -Recurse} -Name jobname
 Get-Job
 Stop-Job -id 1
 Receive-Job -Id 1 -Keep
@@ -232,5 +232,5 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
     where{$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
     ForEach{Write-Host $_.CookedValue -fore Red}
 
-    
+
 
