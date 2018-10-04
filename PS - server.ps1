@@ -184,7 +184,7 @@ Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com -Name "time-policy" -Action
 ###### Tue Oct 2 09:14:01 AEST 2018
 (Get-WmiObject win32_bios).serialnumber
 ###### Thu Oct 4 16:29:39 AEST 2018 last boot time
-Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
-Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+Get-CimInstance -ClassName win32_operatingsystem | Select-Object csname, lastbootuptime
+Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 ###### Thu Oct 4 18:38:23 AEST 2018 enable hyper-v
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
