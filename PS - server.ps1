@@ -188,3 +188,42 @@ Get-CimInstance -ClassName win32_operatingsystem | Select-Object csname, lastboo
 Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 ###### Thu Oct 4 18:38:23 AEST 2018 enable hyper-v
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+###### Thu Oct 4 21:55:09 AEST 2018 winrm version
+(Get-Item C:\Windows\System32\wsmsvc.dll).VersionInfo.FileVersion
+Test-WSMan -Authentication default
+###### Thu Oct 4 22:03:41 AEST 2018 wmi
+Get-WmiObject win32_service -ComputerName a,b -Filter "name='bits'" | Invoke-WmiMethod -Name startservice
+Get-WmiObject -Class win32_service -ComputerName a -Filter "name='bits'" | ForEach-Object {$_.change($null,$null,$null,$null,$null,$null,$null,'Password')}
+Get-CimInstance -ClassName win32_service -Filter "name='bits'" -ComputerName a | Invoke-CimMethod -MethodName Change -Arguments @{startpassword='password'}
+Get-WmiObject -Class Win32_LogicalDisk -Filter "drivetype='3'"
+$disk=Get-WmiObject -Class Win32_LogicalDisk -Filter "deviceid='c:'"
+$disk.volumename = 'system'
+$disk.put()
+###### Thu Oct 4 22:18:50 AEST 2018 cimsession
+$wsman=New-CimSession -ComputerName c,d
+$dcom=New-CimSession -ComputerName a,b -SessionOption (New-CimSessionOption -Protocol Dcom)
+Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $wsman,$dcom | Select-Object pscomputername,Version,BuildNumber,ServicePackMajorVersion,OSArchitecture | ft
+Get-CimSession | Remove-CimSession
+###### Thu Oct 4 22:42:58 AEST 2018 cim backup logs
+Get-WmiObject -ComputerName localhost -Class win32_nteventlogfile -EnableAllPrivileges -Filter "logfilename='application'" | Invoke-WmiMethod -Name backupeventlog -ArgumentList c:\temp\backup.evt
+###### Thu Oct 4 22:53:34 AEST 2018 job locally
+Start-Job -ScriptBlock {dir c:\ -Recurse} -Name jobname
+Get-Job
+Stop-Job -id 1
+Receive-Job -Id 1 -Keep
+Get-Job | Remove-Job
+###### Thu Oct 4 23:02:25 AEST 2018 job remoting
+Invoke-Command -ScriptBlock {Get-EventLog -LogName Security -Newest 100} -ComputerName a,b -AsJob -JobName eventloggetter
+###### Thu Oct 4 23:04:28 AEST 2018 job wmi
+Get-WmiObject -Class Win32_LogicalDisk -ComputerName a,b -AsJob
+Get-Job -Id 1 | Select-Object -ExcludeProperty childjobs
+Get-Job -id 1 -IncludeChildJob
+Get-Job -Id 1 -ChildJobState Completed
+Receive-Job -Id 1 | Export-Csv eventlog.csv
+Import-Csv .\eventlog.csv | Format-Table -GroupBy pscomputername
+###### Thu Oct 4 23:17:51 AEST 2018 cpu usage
+(Get-WmiObject win32_processor).loadpercentage
+Get-Counter '\Processor(*)\% Processor Time' -Continuous |
+    Select-Object -expand CounterSamples |
+    Where-Object {$_.InstanceName -eq '_total'}
+
