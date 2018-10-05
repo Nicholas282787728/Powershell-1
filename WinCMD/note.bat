@@ -31,3 +31,6 @@ wmic
 rem active office
 cscript OSPP.VBS /inpkey:KEY-KEY-KEY COMPUTERNAME
 cscript OSPP.VBS /act COMPUTERNAME
+
+rem remove kb
+wusa /uninstall /kb:2506143 /norestart
