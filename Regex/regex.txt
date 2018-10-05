@@ -1,1 +1,3 @@
 ^\s*$\n   blank line
+/(?!.*/).*  last match / to end
+/.*  first match / to end
