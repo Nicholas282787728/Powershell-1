@@ -234,3 +234,6 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
 
 
 
+###### Fri Oct 5 19:17:26 AEST 2018
+Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*'} | select name, created,lastlogondate,operatingsystem,operatingsystemservicepack,whenchanged | sort -Descending lastlogondate | ft -AutoSize
+
