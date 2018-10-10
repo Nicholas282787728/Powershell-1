@@ -1,0 +1,15 @@
+HP switch default username: admin  Password: <null>
+HP switch default 38400
+
+xtd-cli-mode
+password for xcli: foes-bent-pile-atom-ship
+system-view
+
+device-administrator
+added new gtilocal account as network-admin
+changed password of default admin account
+setup link aggregate: 27 and 28 as static as interface 1
+enable-poe for all ports
+
+updated firmware, changed irf member priority, changed device information, disabled http and telnet, enabled ssh
+
