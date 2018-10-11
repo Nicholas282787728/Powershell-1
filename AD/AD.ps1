@@ -35,3 +35,4 @@ $sessionid
 ###### Fri Oct 5 19:17:26 AEST 2018
 Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | select name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}},  created, lastlogondate, operatingsystem, operatingsystemservicepack, whenchanged | sort -Descending lastlogondate | ft -AutoSize
 Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | select name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}}  | Group-Object ou
+(Get-ADComputer  -Filter {operatingsystem -like '*server*' -and enabled -eq $true}).name | Get-CimInstance -ClassName win32_operatingsystem | select pscomputername, InstallDate,LastBootUpTime,OSArchitecture,@{n='OS';e={$_.name -replace "\|.*",""}},Version | ft -AutoSize

@@ -235,3 +235,8 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
 ###### Fri Oct 5 20:59:55 AEST 2018 last command to clip
 (Get-History -Count 1).CommandLine | Set-Clipboard
 (Get-History -Count 1).CommandLine | clip
+###### Fri Oct 5 22:04:36 AEST 2018 read text file
+foreach($line in [System.IO.File]::ReadLines("C:\temp\file.txt"))
+{
+       new-item -type file -path    c:\temp\test\$line
+}

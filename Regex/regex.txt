@@ -1,3 +1,5 @@
-^\s*$\n   blank line
-/(?!.*/).*  last match / to end
-/.*  first match / to end
+^\s*$\n         blank line
+/(?!.*/).*      last match / to end
+/.*             first match / to end
+^[^|]+          anything before |
+(?<=This is)(.*)(?=sentence)        look between this is and sentence
