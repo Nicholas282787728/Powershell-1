@@ -12,17 +12,6 @@ Start-Transcript -OutputDirectory c:\temp
 %USERPROFILE%\Documents\WindowsPowerShell\Modules
 %WINDIR%\System32\WindowsPowerShell\v1.0\Modules
 Get-EventLog  -After (Get-Date).AddDays(-31) system -EntryType Error
-Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
-Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
-Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@owenhodge.com.au" -sender
-Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\t
-emp\list.txt -Width 1000
-Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add = "ato.gov.au", "INDAdvice@ato.gov.au", "noreply@ato.gov.au"}
-office2010
-Set-MailboxSentItemsConfiguration "Mailbox Name" -SendAsItemsCopiedTo SenderAndFrom -SendOnBehalfOfItemsCopiedTo SenderAndFrom
-office2013them
-Get-Mailbox -RecipientTypeDetails SharedMailbox | Set-Mailbox -MessageCopyForSentAsEnabled $true -MessageCopyForSendOnBehalfEnabled $true
-Get-MailboxStatistics [username] | Format-Table DisplayName, TotalItemSize, ItemCount
 ###### Mon Aug 27 17:38:13 AEST 2018
 Import-Module ADSync
 Start-ADSyncSyncCycle -PolicyType Delta
@@ -51,11 +40,6 @@ Set-ExecutionPolicy remoteSigned
 lsblk
 sudo resize2fs /dev/mapper/vg--Backup-lv--Backup
 #########################################################################################
-Get-Mailbox | Group-Object -Property:Database | Select-Object Name, Count | Sort-Object Name | Format-Table -Auto
-Get-Mailbox -resultsize:unlimited | group-object -property:database | sort-object
-Get-MailBoxDatabase -status | Format-Table Name, DatabaseSize, AvailableNewMailboxSpace -auto
-Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState, ContentIndexErrorMessage | Format-List
-Set-MailboxDatabase "Database Name" -IndexEnabled $False
 shell:startup
 shell:common startup
 #remoting powershell via web
@@ -96,10 +80,6 @@ Install-WindowsFeature -Name UpdateServices, UpdateServices-DB -IncludeManagemen
 Get-Command -Module neteventpackagecapture
 ###### Tue Sep 11 14:25:30 AEST 2018 event logs
 Get-WinEvent -ComputerName . -FilterHashtable @{LogName = "Security"; ID = 4634} -MaxEvents 200000  | Select-Object -First 5 | Where-Object {$_.message -like "*LEI_laptop*"}
-###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
-###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
-Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
 ###### Fri Sep 14 10:13:09 AEST 2018 rename pbk
 powershell -Command "(gc C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk) -replace '[Old name]', '[New name]' | Out-File C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk"
 taskkill /im "explorer.exe" /f
