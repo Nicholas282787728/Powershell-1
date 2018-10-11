@@ -1,3 +1,5 @@
+lsrfqhkcvdgdrnkd azuread gratex
+
 $PSVersionTable
 get-host
 ###### Fri Sep 7 11:24:37 AEST 2018 powershell profile
