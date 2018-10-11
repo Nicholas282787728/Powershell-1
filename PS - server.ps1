@@ -1,4 +1,5 @@
-lsrfqhkcvdgdrnkd azuread gratex
+lsrfqhkcvdgdrnkd azuread app pass GRA
+rsyjwpbpddfhxjxq o
 
 $PSVersionTable
 get-host
@@ -222,3 +223,4 @@ foreach($line in [System.IO.File]::ReadLines("C:\temp\file.txt"))
 {
        new-item -type file -path    c:\temp\test\$line
 }
+
