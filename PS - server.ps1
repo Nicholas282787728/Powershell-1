@@ -208,9 +208,9 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
     Where-Object {$_.InstanceName -eq '_total'}
 
 Get-Counter '\Processor(*)\% Processor Time' -Continuous |
-    select -expand CounterSamples |
-    where{$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
-    ForEach{Write-Host $_.CookedValue -fore Red}
+    Select-Object -expand CounterSamples |
+    Where-Object{$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
+    ForEach-Object{Write-Host $_.CookedValue -fore Red}
 
 ###### Fri Oct 5 20:59:55 AEST 2018 last command to clip
 (Get-History -Count 1).CommandLine | Set-Clipboard
