@@ -30,5 +30,5 @@ Get-MailBoxDatabase -status | Format-Table Name, DatabaseSize, AvailableNewMailb
 Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState, ContentIndexErrorMessage | Format-List
 Set-MailboxDatabase "Database Name" -IndexEnabled $False
 ###### Thu Oct 11 11:54:04 AEDT 2018 mailbox size
-Get-MailboxStatistics -Server ahex01  | Select-Object displayname, itemcount, totalitemsize, messagetabletotalsize, attachmenttabletotalsize, mailboxtypedetail, servername, database | Out-GridView
+Get-MailboxStatistics -Server ahex01 |Sort-Object totalitemsize -Descending |Select-Object displayname, itemcount, totalitemsize, messagetabletotalsize, attachmenttabletotalsize, mailboxtypedetail, servername, database | Out-GridView
 get-mailbox -filter * | Select-Object alias, samaccountname, displayname, userprincipalname, primarysmtpaddress, organizationalunit, recipienttypedetails ,servername, accountdisabled, whencreated, whenchanged | Out-GridView
