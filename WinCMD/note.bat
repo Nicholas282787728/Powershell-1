@@ -34,3 +34,13 @@ cscript OSPP.VBS /act COMPUTERNAME
 
 rem remove kb
 wusa /uninstall /kb:2506143 /norestart
+
+rem diskshadow
+DISKSHADOW> set verbose on
+DISKSHADOW>
+DISKSHADOW> set context volatile
+DISKSHADOW> add volume c:
+DISKSHADOW> add volume d:
+DISKSHADOW> begin backup
+DISKSHADOW> create
+DISKSHADOW> end backup

@@ -21,11 +21,11 @@ param(
     $outputfile = "C:\temp\$(Get-Date -UFormat %Y%m%d-%H%M).txt"
 )
 
-function output1 {
+function output-file {
     Out-File -FilePath $outputfile -Encoding ascii -Append
 }
 
-if (-not (Test-Path c:\temp)) {new-item c:\temp -ItemType Directory}
+if (-not (Test-Path c:\temp)) {new-item c:\temp -ItemType Directory -Force}
 "[$(Get-Date -Format g)]" | Out-File -FilePath $outputfile -Encoding ascii -Append
 
 ###### Mon Sep 17 11:42:30 AEST 2018  freediskspace
@@ -42,9 +42,8 @@ $diskusage = get-wmiobject Win32_LogicalDisk -ComputerName $servers -Filter "Dri
     Format-Table systemname, Name, volumename, @{n = 'FS'; e = {$_.FileSystem}}, @{n = 'Free(Gb)'; e = {'{0:N2}' -f $_.FreeSpace}}, @{n = '%Free'; e = {'{0:N2}' -f $_.BlockSize}}, @{n = 'Capacity(Gb)'; e = {'{0:N2}' -f $_.Size}} -AutoSize
 Out-File -FilePath $outputfile -InputObject $diskusage -Encoding ascii -Append
 #! exchange status
-$exchSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri http://tpex01.tpdlawyers.local/PowerShell/ -Authentication Kerberos -Credential (Get-StoredCredential -Target $exchangeserver)
-Import-PSSession $exchSession -DisableNameChecking
-
+    $exchSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri http://tpex01.tpdlawyers.local/PowerShell/ -Authentication Kerberos -Credential (Get-StoredCredential -Target $exchangeserver)
+    Import-PSSession $exchSession -DisableNameChecking
     Get-MailboxDatabase -Server $exchangeserver -status | Format-List | Add-Content $outputfile -Encoding Ascii;
     get-mailboxstatistics -Server $exchangeserver | `
          Add-Member -MemberType ScriptProperty -Name TotalItemSizeinMB -Value {$this.totalitemsize.value.ToMB()} -PassThru |`
