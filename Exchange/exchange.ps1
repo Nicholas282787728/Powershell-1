@@ -5,7 +5,7 @@ Get-OfflineAddressBook | Update-OfflineAddressBook
 ###### Wed Sep 19 12:36:23 AEST 2018 exchange
 Get-Mailbox -ResultSize unlimited | Get-MailboxJunkEmailConfiguration | Where-Object {$_.Enabled -eq $False}
 ###### Tue Sep 25 16:25:18 AEST 2018 exchange quota
-Set-Mailbox username@gratex.com.au -Type shared -ProhibitSendReceiveQuota 9.4GB -ProhibitSendQuota 9.2GB -IssueWarningQuota 9GB -UseDatabaseQuotaDefaults $False
+Set-Mailbox username@abc.com.au -Type shared -ProhibitSendReceiveQuota 9.4GB -ProhibitSendQuota 9.2GB -IssueWarningQuota 9GB -UseDatabaseQuotaDefaults $False
 ###### Tue Oct 2 14:06:05 AEST 2018 verify whether protocol logging form ms
 Write-Host "Send Connectors:" -ForegroundColor yellow; Get-SendConnector | Format-List Name, ProtocolLoggingLevel; Write-Host "Receive Connectors:" -ForegroundColor yellow; Get-ReceiveConnector | Format-List Name, TransportRole, ProtocolLoggingLevel; Write-Host "Mailbox Transport Delivery service:" -ForegroundColor yellow; Get-MailboxTransportService | Format-List *ProtocolLoggingLevel; Write-Host "Front End Transport service:" -ForegroundColor yellow; Get-FrontEndTransportService | Format-List *ProtocolLoggingLevel; Write-Host "Transport service and Mailbox Transport Submission service:" -ForegroundColor yellow; Get-TransportService | Format-List *ProtocolLoggingLevel
 ###### Tue Oct 2 14:07:10 AEST 2018 verify logging files
@@ -17,7 +17,7 @@ Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, Recip
 ###### Thu Oct 11 11:10:48 AEDT 2018 General snapin
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
-Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@owenhodge.com.au" -sender
+Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@company.com.au" -sender
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\temp\list.txt -Width 1000
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add = "ato.gov.au", "INDAdvice@ato.gov.au", "noreply@ato.gov.au"}
 Set-MailboxSentItemsConfiguration "Mailbox Name" -SendAsItemsCopiedTo SenderAndFrom -SendOnBehalfOfItemsCopiedTo SenderAndFrom
