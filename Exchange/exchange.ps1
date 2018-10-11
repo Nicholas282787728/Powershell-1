@@ -13,7 +13,7 @@ Write-Host "Front End Transport service:" -ForegroundColor yellow; Get-FrontEndT
 ###### Tue Sep 11 15:25:03 AEST 2018 powershell exchange defaul shortcut command
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ". 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'; Connect-ExchangeServer -auto -ClientApplication:ManagementShell "
 ###### Tue Sep 11 15:32:38 AEST 2018 exchange count mailbox created by year
-Get-Mailbox *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
+Get-Mailbox -server ex01 -Identity *store  | Select-Object alias, UserPrincipalName, whencreated, RecipientType, RecipientTypedetails |  Sort-Object whencreated -Descending | Group-Object {$_.whencreated.date.year} -NoElement
 ###### Thu Oct 11 11:10:48 AEDT 2018 General snapin
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
@@ -25,7 +25,10 @@ Get-Mailbox -RecipientTypeDetails SharedMailbox | Set-Mailbox -MessageCopyForSen
 Get-MailboxStatistics [username] | Format-Table DisplayName, TotalItemSize, ItemCount
 ###### Thu Oct 11 11:09:02 AEDT 2018 check database white space
 Get-Mailbox | Group-Object -Property:Database | Select-Object Name, Count | Sort-Object Name | Format-Table -Auto
-Get-Mailbox -resultsize:unlimited | group-object -property:database | sort-object
+Get-Mailbox -resultsize:unlimited | group-object -property:database
 Get-MailBoxDatabase -status | Format-Table Name, DatabaseSize, AvailableNewMailboxSpace -auto
 Get-MailboxDatabaseCopyStatus | Select-Object ContentIndexState, ContentIndexErrorMessage | Format-List
 Set-MailboxDatabase "Database Name" -IndexEnabled $False
+###### Thu Oct 11 11:54:04 AEDT 2018 mailbox size
+Get-MailboxStatistics -Server ahex01  | Select-Object displayname, itemcount, totalitemsize, messagetabletotalsize, attachmenttabletotalsize, mailboxtypedetail, servername, database | Out-GridView
+get-mailbox -filter * | Select-Object alias, samaccountname, displayname, userprincipalname, primarysmtpaddress, organizationalunit, recipienttypedetails ,servername, accountdisabled, whencreated, whenchanged | Out-GridView
