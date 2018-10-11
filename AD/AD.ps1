@@ -37,4 +37,9 @@ Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and ena
 Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | select name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}}  | Group-Object ou
 (Get-ADComputer  -Filter {operatingsystem -like '*server*' -and enabled -eq $true}).name | Get-CimInstance -ClassName win32_operatingsystem | select pscomputername, InstallDate,LastBootUpTime,OSArchitecture,@{n='OS';e={$_.name -replace "\|.*",""}},Version | ft -AutoSize
 ###### Thu Oct 11 16:25:20 AEDT 2018  Get all the computers with a name starting by a particular string and showing the name, dns hostname and IPv4 address
-###### Thu Oct 11 16:25:20 AEDT 2018  Get all the computers with a name starting by a particular string and showing the name, dns hostname and IPv4 address
+Get-ADComputer -Filter 'Name -like "Fabrikam*"' -Properties IPv4Address | FT Name,DNSHostName,IPv4Address -A
+###### Thu Oct 11 16:26:11 AEDT 2018
+$d = [DateTime]::Today.AddDays(-90); Get-ADComputer -Filter 'PasswordLastSet -ge $d' -Properties PasswordLastSet | FT Name,PasswordLastSet
+###### Thu Oct 11 16:39:47 AEDT 2018 join pc to domain
+Remove-Computer -ComputerName "Computer01" -UnjoinDomaincredential "Domain01\Admin01" -PassThru -Verbose -Restart
+Add-Computer -ComputerName "Computer01" -LocalCredential "Computer01\Administrator" -DomainName "Domain01" -Credential "Domain01\Admin01" -Force -Verbose -Restart
