@@ -46,7 +46,8 @@ DISKSHADOW> create
 DISKSHADOW> end backup
 
 rem add new user
-net user username <password> /add
+net user username <password> /add /expires:never
+net accounts /MaxPWAge:unlimited
 rem reset password
 net user username <password>
 rem add into admin
