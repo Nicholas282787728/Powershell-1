@@ -46,8 +46,11 @@ DISKSHADOW> create
 DISKSHADOW> end backup
 
 rem add new user
-net user username <password> /add /expires:never
-net accounts /MaxPWAge:unlimited
+net user username <password> /add /expires:never /active:yes
+wmic useraccount WHERE Name='ACCOUNTNAME' set PasswordExpires=false
+wmic useraccount WHERE Name='ACCOUNTNAME' set PasswordChangeable=false
+wmic useraccount WHERE "Name='%username%'" set PasswordExpires=false
+rem net accounts /MaxPWAge:unlimited
 rem reset password
 net user username <password>
 rem add into admin
