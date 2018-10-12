@@ -34,3 +34,5 @@ get-mailbox -filter * | Select-Object alias, samaccountname, displayname, userpr
 Get-AddressList | Update-AddressList
 Get-GlobalAddressList | Update-GlobalAddressList
 Get-OfflineAddressBook | Update-OfflineAddressBook
+###### Fri Oct 12 12:20:29 AEDT 2018 send as DistributionGroup
+Get-DistributionGroup "Group" | Add-ADPermission -User "User" -ExtendedRights "Send As"

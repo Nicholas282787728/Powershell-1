@@ -1,5 +1,6 @@
 lsrfqhkcvdgdrnkd azuread app pass GRA
 rsyjwpbpddfhxjxq o
+zmnqcpwdtfygglfg opopup
 
 $PSVersionTable
 get-host
