@@ -44,3 +44,13 @@ DISKSHADOW> add volume d:
 DISKSHADOW> begin backup
 DISKSHADOW> create
 DISKSHADOW> end backup
+
+rem add new user
+net user username <password> /add
+rem reset password
+net user username <password>
+rem add into admin
+net user localgroup administrators username /add
+rem test
+runas /user:domain\username cmd
+
