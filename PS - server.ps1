@@ -1,4 +1,4 @@
-lsrfqhkcvdgdrnkd azuread app pass GRA
+lsrfqhkcvdgdrnkd azuread app pass GRA skype
 rsyjwpbpddfhxjxq o
 zmnqcpwdtfygglfg opopup
 
