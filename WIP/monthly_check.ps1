@@ -21,7 +21,7 @@ param(
     $outputfile = "C:\temp\$(Get-Date -UFormat %Y%m%d-%H%M).txt"
 )
 
-function output-file {
+function out-file {
     Out-File -FilePath $outputfile -Encoding ascii -Append
 }
 

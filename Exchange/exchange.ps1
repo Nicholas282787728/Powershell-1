@@ -1,7 +1,5 @@
 ###### Fri Sep 28 10:17:27 AEST 2018 check disconnected mailbox
 Get-MailboxDatabase | Get-MailboxStatistics | Where-Object { $_.DisplayName -like "*brani*" } | Format-List DisplayName,Database,DisconnectReason
-###### Mon Sep 17 12:27:02 AEST 2018 update oab
-Get-OfflineAddressBook | Update-OfflineAddressBook
 ###### Wed Sep 19 12:36:23 AEST 2018 exchange
 Get-Mailbox -ResultSize unlimited | Get-MailboxJunkEmailConfiguration | Where-Object {$_.Enabled -eq $False}
 ###### Tue Sep 25 16:25:18 AEST 2018 exchange quota
@@ -32,3 +30,9 @@ Set-MailboxDatabase "Database Name" -IndexEnabled $False
 ###### Thu Oct 11 11:54:04 AEDT 2018 mailbox size
 Get-MailboxStatistics -Server ahex01 |Sort-Object totalitemsize -Descending |Select-Object displayname, itemcount, totalitemsize, messagetabletotalsize, attachmenttabletotalsize, mailboxtypedetail, servername, database | Out-GridView
 get-mailbox -filter * | Select-Object alias, samaccountname, displayname, userprincipalname, primarysmtpaddress, organizationalunit, recipienttypedetails ,servername, accountdisabled, whencreated, whenchanged | Out-GridView
+###### Fri Oct 12 12:11:22 AEDT 2018 update oab
+Get-AddressList | Update-AddressList
+Get-GlobalAddressList | Update-GlobalAddressList
+Get-OfflineAddressBook | Update-OfflineAddressBook
+###### Fri Oct 12 12:20:29 AEDT 2018 send as DistributionGroup
+Get-DistributionGroup "Group" | Add-ADPermission -User "User" -ExtendedRights "Send As"

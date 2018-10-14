@@ -1,4 +1,6 @@
-lsrfqhkcvdgdrnkd azuread gratex
+lsrfqhkcvdgdrnkd azuread app pass GRA skype
+rsyjwpbpddfhxjxq o
+zmnqcpwdtfygglfg opopup
 
 $PSVersionTable
 get-host
@@ -222,3 +224,17 @@ foreach($line in [System.IO.File]::ReadLines("C:\temp\file.txt"))
 {
        new-item -type file -path    c:\temp\test\$line
 }
+
+###### Fri Oct 12 10:45:38 AEDT 2018 new user
+$username = read-host "Username"
+$Password = Read-Host "Password"-AsSecureString
+
+New-LocalUser $UserName -Password $Password -FullName "Third User" -Description "" -AccountNeverExpires -PasswordNeverExpires
+Add-LocalGroupMember -Group "administrators" -Member $UserName
+###### Fri Oct 12 11:01:04 AEDT 2018 disable logon
+Disable-LocalUser
+Enable-LocalUser
+###### Fri Oct 12 10:58:12 AEDT 2018 reset password
+$Password = Read-Host -AsSecureString
+$UserAccount = Get-LocalUser -Name "User02"
+$UserAccount | Set-LocalUser -Password $Password

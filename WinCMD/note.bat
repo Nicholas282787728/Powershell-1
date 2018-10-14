@@ -48,3 +48,17 @@ DISKSHADOW> end backup
 rem djoin
 djoin /provision /domain abc.local /machine ws01 /savefile c:\temp\ws01.txt
 djoin /requestodj /loadfile c:\temp\ws01.txt /windowspath %windir% /localos
+
+rem add new user
+net user username <password> /add /expires:never /active:yes
+wmic useraccount WHERE Name='ACCOUNTNAME' set PasswordExpires=false
+wmic useraccount WHERE Name='ACCOUNTNAME' set PasswordChangeable=false
+wmic useraccount WHERE "Name='%username%'" set PasswordExpires=false
+rem net accounts /MaxPWAge:unlimited
+rem reset password
+net user username <password>
+rem add into admin
+net user localgroup administrators username /add
+rem test
+runas /user:domain\username cmd
+
