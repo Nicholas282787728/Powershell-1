@@ -44,3 +44,7 @@ DISKSHADOW> add volume d:
 DISKSHADOW> begin backup
 DISKSHADOW> create
 DISKSHADOW> end backup
+
+rem djoin
+djoin /provision /domain abc.local /machine ws01 /savefile c:\temp\ws01.txt
+djoin /requestodj /loadfile c:\temp\ws01.txt /windowspath %windir% /localos
