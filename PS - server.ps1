@@ -239,5 +239,6 @@ $Password = Read-Host -AsSecureString
 $UserAccount = Get-LocalUser -Name "User02"
 $UserAccount | Set-LocalUser -Password $Password
 ###### Tue Oct 16 12:40:36 AEDT 2018 dnsclient check server  address
- Get-DnsClientServerAddress -InterfaceAlias eth* -AddressFamily ipv4 | where {$_.ServerAddresses}
- 
+ Get-DnsClientServerAddress -InterfaceAlias eth* -AddressFamily ipv4 | Where-Object {$_.ServerAddresses}
+###### Wed Oct 17 09:07:08 AEDT 2018 get server os architecture
+  Get-WmiObject -Class win32_operatingsystem -ComputerName (Get-ADComputer -Filter {OperatingSystem -like '*server*'}).name -ErrorAction SilentlyContinue | Select-Object pscomputername, OSArchitecture
