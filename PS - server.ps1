@@ -106,13 +106,13 @@ $Secure = Read-host -AsSecureString
 New-StoredCredential -Target $Target -UserName $UserName -SecurePassword $Secure -Persist LocalMachine -Type Generic
 Format-Table -Wrap -AutoSize
 Select-Object -ExpandProperty
-get-process | Format-Table -Property id,Name, @{n='VM(MB)' ;e={$_.VM /1mb} ; formatstring= 'N2'}, @{n='PM(MB)' ;e={$_.PM /1mb} ; formatstring= 'N2'}, @{n='WS(MB)' ;e={$_.WS /1mb} ; formatstring= 'N2'}
-Get-History | Select-Object -Property Id, CommandLine, @{n='time'; e={$_.endexecutiontime - $_.startexecutiontime}}
+get-process | Format-Table -Property id, Name, @{n = 'VM(MB)' ; e = {$_.VM / 1mb} ; formatstring = 'N2'}, @{n = 'PM(MB)' ; e = {$_.PM / 1mb} ; formatstring = 'N2'}, @{n = 'WS(MB)' ; e = {$_.WS / 1mb} ; formatstring = 'N2'}
+Get-History | Select-Object -Property Id, CommandLine, @{n = 'time'; e = {$_.endexecutiontime - $_.startexecutiontime}}
 ###### Thu Sep 20 09:38:51 AEST 2018 history
 C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 Install-Module PSReadLine  # very useful
 ###### Fri Sep 21 17:02:05 AEST 2018 uninstall software
-Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort-Object Name,Version | Select-Object Name,@{l="UninstallString";e={$_.Meta.Attributes["UninstallString"]}}
+Get-Package -ProviderName Programs -ov pkgs -name *stardock*| Sort-Object Name, Version | Select-Object Name, @{l = "UninstallString"; e = {$_.Meta.Attributes["UninstallString"]}}
 $UninstallCommand = (Get-Package -Name "*Stardock*").Meta.Attributes['UninstallString']
 Start-Process -FilePath cmd.exe -ArgumentList '/c', $UninstallCommand -Wait
 ###### Sat Sep 22 08:41:01 AEST 2018 get-install gackage from mulitple servers
@@ -123,7 +123,7 @@ foreach ($server in $servers) {
 }
 #or
 $servers = "dc01", "dc02"
-    Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
+Invoke-Command -ComputerName $servers -ScriptBlock {get-package } | Select-Object name, pscomputername | Format-Table -GroupBy pscomputername -Wrap
 ###### Sun Sep 30 21:49:24 AEST 2018 dns
 Set-DnsServerRecursion -ComputerName . -EnableRecursion $false
 Add-DnsServerRecursionScope -Name "OurPeople" -EnableRecursion $true
@@ -169,24 +169,24 @@ Get-DnsServerQueryResolutionPolicy -ZoneName hmm.com -Name "time-policy" -Action
 (Get-WmiObject win32_bios).serialnumber
 ###### Thu Oct 4 16:29:39 AEST 2018 last boot time
 Get-CimInstance -ClassName win32_operatingsystem | Select-Object csname, lastbootuptime
-Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL = 'LastBootUpTime'; EXPRESSION = {$_.ConverttoDateTime($_.lastbootuptime)}}
 ###### Thu Oct 4 18:38:23 AEST 2018 enable hyper-v
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ###### Thu Oct 4 21:55:09 AEST 2018 winrm version
 (Get-Item C:\Windows\System32\wsmsvc.dll).VersionInfo.FileVersion
 Test-WSMan -Authentication default
 ###### Thu Oct 4 22:03:41 AEST 2018 wmi
-Get-WmiObject win32_service -ComputerName a,b -Filter "name='bits'" | Invoke-WmiMethod -Name startservice
-Get-WmiObject -Class win32_service -ComputerName a -Filter "name='bits'" | ForEach-Object {$_.change($null,$null,$null,$null,$null,$null,$null,'Password')}
-Get-CimInstance -ClassName win32_service -Filter "name='bits'" -ComputerName a | Invoke-CimMethod -MethodName Change -Arguments @{startpassword='password'}
+Get-WmiObject win32_service -ComputerName a, b -Filter "name='bits'" | Invoke-WmiMethod -Name startservice
+Get-WmiObject -Class win32_service -ComputerName a -Filter "name='bits'" | ForEach-Object {$_.change($null, $null, $null, $null, $null, $null, $null, 'Password')}
+Get-CimInstance -ClassName win32_service -Filter "name='bits'" -ComputerName a | Invoke-CimMethod -MethodName Change -Arguments @{startpassword = 'password'}
 Get-WmiObject -Class Win32_LogicalDisk -Filter "drivetype='3'"
-$disk=Get-WmiObject -Class Win32_LogicalDisk -Filter "deviceid='c:'"
+$disk = Get-WmiObject -Class Win32_LogicalDisk -Filter "deviceid='c:'"
 $disk.volumename = 'system'
 $disk.put()
 ###### Thu Oct 4 22:18:50 AEST 2018 cimsession
-$wsman=New-CimSession -ComputerName c,d
-$dcom=New-CimSession -ComputerName a,b -SessionOption (New-CimSessionOption -Protocol Dcom)
-Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $wsman,$dcom | Select-Object pscomputername,Version,BuildNumber,ServicePackMajorVersion,OSArchitecture | Format-Table
+$wsman = New-CimSession -ComputerName c, d
+$dcom = New-CimSession -ComputerName a, b -SessionOption (New-CimSessionOption -Protocol Dcom)
+Get-CimInstance -ClassName Win32_OperatingSystem -CimSession $wsman, $dcom | Select-Object pscomputername, Version, BuildNumber, ServicePackMajorVersion, OSArchitecture | Format-Table
 Get-CimSession | Remove-CimSession
 ###### Thu Oct 4 22:42:58 AEST 2018 cim backup logs
 Get-WmiObject -ComputerName localhost -Class win32_nteventlogfile -EnableAllPrivileges -Filter "logfilename='application'" | Invoke-WmiMethod -Name backupeventlog -ArgumentList c:\temp\backup.evt
@@ -197,9 +197,9 @@ Stop-Job -id 1
 Receive-Job -Id 1 -Keep
 Get-Job | Remove-Job
 ###### Thu Oct 4 23:02:25 AEST 2018 job remoting
-Invoke-Command -ScriptBlock {Get-EventLog -LogName Security -Newest 100} -ComputerName a,b -AsJob -JobName eventloggetter
+Invoke-Command -ScriptBlock {Get-EventLog -LogName Security -Newest 100} -ComputerName a, b -AsJob -JobName eventloggetter
 ###### Thu Oct 4 23:04:28 AEST 2018 job wmi
-Get-WmiObject -Class Win32_LogicalDisk -ComputerName a,b -AsJob
+Get-WmiObject -Class Win32_LogicalDisk -ComputerName a, b -AsJob
 Get-Job -Id 1 | Select-Object -ExcludeProperty childjobs
 Get-Job -id 1 -IncludeChildJob
 Get-Job -Id 1 -ChildJobState Completed
@@ -213,16 +213,15 @@ Get-Counter '\Processor(*)\% Processor Time' -Continuous |
 
 Get-Counter '\Processor(*)\% Processor Time' -Continuous |
     Select-Object -expand CounterSamples |
-    Where-Object{$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
-    ForEach-Object{Write-Host $_.CookedValue -fore Red}
+    Where-Object {$_.InstanceName -eq '_total' -and $_.CookedValue -gt 40} |
+    ForEach-Object {Write-Host $_.CookedValue -fore Red}
 
 ###### Fri Oct 5 20:59:55 AEST 2018 last command to clip
 (Get-History -Count 1).CommandLine | Set-Clipboard
 (Get-History -Count 1).CommandLine | clip
 ###### Fri Oct 5 22:04:36 AEST 2018 read text file
-foreach($line in [System.IO.File]::ReadLines("C:\temp\file.txt"))
-{
-       new-item -type file -path    c:\temp\test\$line
+foreach ($line in [System.IO.File]::ReadLines("C:\temp\file.txt")) {
+    new-item -type file -path    c:\temp\test\$line
 }
 
 ###### Fri Oct 12 10:45:38 AEDT 2018 new user
@@ -239,6 +238,8 @@ $Password = Read-Host -AsSecureString
 $UserAccount = Get-LocalUser -Name "User02"
 $UserAccount | Set-LocalUser -Password $Password
 ###### Tue Oct 16 12:40:36 AEDT 2018 dnsclient check server  address
- Get-DnsClientServerAddress -InterfaceAlias eth* -AddressFamily ipv4 | Where-Object {$_.ServerAddresses}
+Get-DnsClientServerAddress -InterfaceAlias eth* -AddressFamily ipv4 | Where-Object {$_.ServerAddresses}
 ###### Wed Oct 17 09:07:08 AEDT 2018 get server os architecture
-  Get-WmiObject -Class win32_operatingsystem -ComputerName (Get-ADComputer -Filter {OperatingSystem -like '*server*'}).name -ErrorAction SilentlyContinue | Select-Object pscomputername, OSArchitecture
+Get-WmiObject -Class win32_operatingsystem -ComputerName (Get-ADComputer -Filter {OperatingSystem -like '*server*'}).name -ErrorAction SilentlyContinue | Select-Object pscomputername, OSArchitecture
+###### Wed Oct 17 11:26:17 AEDT 2018 find svc account ou
+get-aduser -Filter {name -like "svc.*"} -Properties * | Select-Object CanonicalName -First 1
