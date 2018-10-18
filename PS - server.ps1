@@ -27,7 +27,6 @@ $UserCredential = Get-Credential
 Connect-AzureAD -Credential $UserCredential
 disconnect-AzureAD
 Enter-PSSession -ComputerName COMPUTER -Credential USER
-Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
 Get-ChildItem -r * | Where-Object {$_.FullName.Length -gt 220} | Select-Object fullname |Export-Csv  c:\temp\filepathgt220.csv
 $ScriptFiles = Get-ChildItem D:\* -Include *.ps1 -Recurse | Where-Object {$_.creationtime -gt "01/01/2011"}
 $ScriptFiles = $ScriptFiles | Select-Object -Property Name, CreationTime, LastWriteTime, IsReadOnly
