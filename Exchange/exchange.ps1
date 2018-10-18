@@ -38,7 +38,7 @@ Get-OfflineAddressBook | Update-OfflineAddressBook
 Get-DistributionGroup "Group" | Add-ADPermission -User "User" -ExtendedRights "Send As"
 ###### Thu Oct 18 15:13:18 AEDT 2018 resource mailbox
 get-mailbox -filter {Resourcetype -eq "Room"}
-###### Thu Oct 18 16:02:35 AEDT 2018
+###### Thu Oct 18 16:02:35 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {Resourcetype -eq "Room"}
 #$mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "RoomMailbox"}
 foreach ($mailbox in $mailboxes) {
