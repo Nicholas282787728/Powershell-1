@@ -49,5 +49,5 @@ Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
-    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user, accessrights, Identity
+    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user, accessrights, Identity | ft -AutoSize -Wrap
 }
