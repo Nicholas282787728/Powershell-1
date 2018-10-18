@@ -15,6 +15,7 @@ TCP	8443	Port used for controller GUI/API as seen in a web browser
 TCP	8880	Port used for HTTP portal redirection.
 TCP	8843	Port used for HTTPS portal redirection.
 TCP	6789	Port used for UniFi mobile speed test.
+# above ports used for local and L3 over internet
 TCP	27117	Port used for local-bound database communication.
 UDP	5656-5699	Ports used by AP-EDU broadcasting.
 UDP	10001	Port used for AP discovery
