@@ -243,3 +243,15 @@ Get-DnsClientServerAddress -InterfaceAlias eth* -AddressFamily ipv4 | Where-Obje
 Get-WmiObject -Class win32_operatingsystem -ComputerName (Get-ADComputer -Filter {OperatingSystem -like '*server*'}).name -ErrorAction SilentlyContinue | Select-Object pscomputername, OSArchitecture
 ###### Wed Oct 17 11:26:17 AEDT 2018 find svc account ou
 get-aduser -Filter {name -like "svc.*"} -Properties * | Select-Object CanonicalName -First 1
+###### Thu Oct 18 11:09:10 AEDT 2018 password in xml
+$Hash = @{
+    'Admin'      = Get-Credential -Message 'Please enter administrative credentials'
+    'RemoteUser' = Get-Credential -Message 'Please enter remote user credentials'
+    'User'       = Get-Credential -Message 'Please enter user credentials'
+}
+# $env:userprofile  $env:userprofile + "\abc.txt"
+$Hash | Export-Clixml -Path "${env:\userprofile}\Hash.Cred"
+$Hash = Import-CliXml -Path "${env:\userprofile}\Hash.Cred"
+Invoke-Command -ComputerName Server01 -Credential $Hash.Admin -ScriptBlock {whoami}
+Invoke-Command -ComputerName Server01 -Credential $Hash.RemoteUser -ScriptBlock {whoami}
+Invoke-Command -ComputerName Server01 -Credential $Hash.User -ScriptBlock {whoami}
