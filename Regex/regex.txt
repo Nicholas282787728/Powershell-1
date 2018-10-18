@@ -3,3 +3,4 @@
 /.*             first match / to end
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
+Get-SmbOpenFile | where {$_.path -match "D:\\Pdf_Server\\00001PLANS\\[^\\]*\.[Pp][Dd][Ff]" } | fl *     math only root folder of D:\Pdf_Server\00001PLANS\*.pdf
