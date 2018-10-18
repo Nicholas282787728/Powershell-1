@@ -47,9 +47,7 @@ foreach ($mailbox in $mailboxes) {
 ###### Thu Oct 18 16:10:50 AEDT 2018 calendar
 Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
- $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
- foreach($mailbox in $mailboxes)
-    {
-#  (Get-MailboxPermission $mailbox+) | where {($_.user).rawidentity -like "*kar*"} | select user,accessrights,identity | ft -AutoSize
- Get-MailboxFolderPermission ($mailbox.Alias +":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user,accessrights,Identity
-     }
+$mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
+foreach ($mailbox in $mailboxes) {
+    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user, accessrights, Identity
+}
