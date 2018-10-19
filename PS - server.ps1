@@ -272,7 +272,7 @@ foreach ($object in $workobjects) {
 
 [string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
 [regex]$regex = '^[0-9*-]+$'
-$workobjects = Get-ChildItem  $rootfolder | where {$_.name -match $regex}
+$workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
 foreach ($object in $workobjects) {
 
     if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
