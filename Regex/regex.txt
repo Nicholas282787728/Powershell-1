@@ -4,3 +4,4 @@
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
 '^[0-9*-]+$'    only number and "-"
+Get-SmbOpenFile | where {$_.path -match '^D:\\Pdf_Server\\00001PLANS\\[^\\]*\.pdf$^ }     math only root folder of D:\Pdf_Server\00001PLANS\*.pdf
