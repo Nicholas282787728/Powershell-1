@@ -267,9 +267,7 @@ foreach ($object in $workobjects) {
         Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")
     }
 }
-
 ###### Fri Oct 19 16:15:35 AEDT 2018
-
 [string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
 [regex]$regex = '^[0-9*-]+$'
 $workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
@@ -283,9 +281,6 @@ foreach ($object in $workobjects) {
 
         {write-host $object}
         #  Get-Item ($rootfolder + $object + "\output\" + $object +".pdf")
-
-
-
     }
 
 }
@@ -313,7 +308,4 @@ foreach ($object in $workobjects) {
     }
 
 }
-
 Write-Host $count -BackgroundColor Cyan -ForegroundColor Yellow
-
-
