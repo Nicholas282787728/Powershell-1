@@ -267,3 +267,51 @@ foreach ($object in $workobjects) {
         Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")
     }
 }
+
+###### Fri Oct 19 16:15:35 AEDT 2018
+
+[string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
+[regex]$regex = '^[0-9*-]+$'
+$workobjects = Get-ChildItem  $rootfolder | where {$_.name -match $regex}
+foreach ($object in $workobjects) {
+
+    if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
+        if (`
+            (get-item ("D:\Pdf_Server\00001Plans\" + $object + ".pdf")).lastwritetime`
+                - `
+            (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime)
+
+        {write-host $object}
+        #  Get-Item ($rootfolder + $object + "\output\" + $object +".pdf")
+
+
+
+    }
+
+}
+
+###### Fri Oct 19 16:28:22 AEDT 2018 final version without operation
+[string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
+[string]$destfolder = "D:\Pdf_Server\00001Plans\"
+[regex]$regex = '^[0-9*-]+$'
+$count = 0
+$workobjects = Get-ChildItem  $rootfolder | where {$_.name -match $regex}
+foreach ($object in $workobjects) {
+
+    if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
+        if (  Test-Path ( $destfolder + $object + ".pdf")) {
+
+            if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime) {
+                write-host $object
+                $count += 1
+            }
+        }
+        else {
+            write-host $object "doesn't exist"
+        }
+
+    }
+
+}
+
+Write-Host $count
