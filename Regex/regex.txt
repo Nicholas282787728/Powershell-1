@@ -3,3 +3,4 @@
 /.*             first match / to end
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
+'^[0-9*-]+$'    only number and "-"

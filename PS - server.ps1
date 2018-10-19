@@ -254,3 +254,16 @@ $Hash = Import-CliXml -Path "${env:\userprofile}\Hash.Cred"
 Invoke-Command -ComputerName Server01 -Credential $Hash.Admin -ScriptBlock {whoami}
 Invoke-Command -ComputerName Server01 -Credential $Hash.RemoteUser -ScriptBlock {whoami}
 Invoke-Command -ComputerName Server01 -Credential $Hash.User -ScriptBlock {whoami}
+###### Fri Oct 19 11:14:18 AEDT 2018 install telnet client
+install-windowsfeature"telnet-client"
+###### Fri Oct 19 11:48:28 AEDT 2018 wsman add trust
+Set-Item wsman:\localhost\Client\TrustedHosts -value ((Get-Item wsman:\localhost\Client\TrustedHosts ).value + ",10.255.255.152")
+###### Fri Oct 19 15:38:35 AEDT 2018
+[string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
+[regex]$regex = '^[0-9*-]+$'
+$workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
+foreach ($object in $workobjects) {
+    if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
+        Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")
+    }
+}
