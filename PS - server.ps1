@@ -289,8 +289,7 @@ foreach ($object in $workobjects) {
     }
 
 }
-
-###### Fri Oct 19 16:28:22 AEDT 2018 final version without operation
+###### Fri Oct 19 16:28:22 AEDT 2018 final version without operation - file compare by last write time
 [string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
 [string]$destfolder = "D:\Pdf_Server\00001Plans\"
 [regex]$regex = '^[0-9*-]+$'
@@ -307,11 +306,14 @@ foreach ($object in $workobjects) {
             }
         }
         else {
-            write-host $object "doesn't exist"
+            write-host $object "doesn't exist" -BackgroundColor Red
+            $count += 1
         }
 
     }
 
 }
 
-Write-Host $count
+Write-Host $count -BackgroundColor Cyan -ForegroundColor Yellow
+
+
