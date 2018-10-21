@@ -61,4 +61,5 @@ rem add into admin
 net user localgroup administrators username /add
 rem test
 runas /user:domain\username cmd
-
+rem route
+route add 10.255.255.0 mask 255.255.255.0 192.168.12.252 metric 100 -p
