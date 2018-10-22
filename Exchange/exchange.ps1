@@ -42,7 +42,7 @@ get-mailbox -filter {Resourcetype -eq "Room"}
 $mailboxes = get-mailbox -filter {Resourcetype -eq "Room"}
 #$mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "RoomMailbox"}
 foreach ($mailbox in $mailboxes) {
-    (Get-MailboxPermission $mailbox) | where {($_.user).rawidentity -like "*kar*"} | select user, accessrights, identity | ft -Wrap
+    (Get-MailboxPermission $mailbox) | Where-Object {($_.user).rawidentity -like "*kar*"} | Select-Object user, accessrights, identity | ft -Wrap
 }
 ###### Thu Oct 18 16:10:50 AEDT 2018 calendar
 Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
