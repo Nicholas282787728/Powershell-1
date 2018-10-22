@@ -49,7 +49,7 @@ Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
-    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user, accessrights, Identity | ft -AutoSize -Wrap
+    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | ft -AutoSize -Wrap
 }
 ###### Mon Oct 22 14:22:51 AEDT 2018 convert to share
 Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB
