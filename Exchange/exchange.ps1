@@ -51,3 +51,5 @@ $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
     Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | where {($_.user).displayname -like "*karley*"}  | select user, accessrights, Identity | ft -AutoSize -Wrap
 }
+###### Mon Oct 22 14:22:51 AEDT 2018 convert to share
+Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB
