@@ -297,12 +297,13 @@ foreach ($object in $workobjects) {
 
             if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime) {
                 write-host $object
-                $count += 1
+                if ((Get-SmbOpenFile).path -contains ($destfolder + $object + ".pdf")){write-host $object}
+                $count ++
             }
         }
         else {
             write-host $object "doesn't exist" -BackgroundColor Red
-            $count += 1
+            $count ++
         }
 
     }
