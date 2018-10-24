@@ -48,3 +48,4 @@ Connect-VIServer -Server <server name> -User <user name> -Password <password>
 Get-VM |  Select Name | Sort-Object -Property Name >  <outputfile.txt>
 # profiling
 C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.exe -Operation StartProfiling -Virtualization VMware -Directory "d:\vc_ProfiledData" -Server 10.1.1.1 -VMListFile "c:\users\Administrator\Desktop\vmlist.txt"  -NoOfMinutesToProfile 60  -user dc\svcazure
+#-NoOfHoursToProfile -NoOfDaysToProfile
