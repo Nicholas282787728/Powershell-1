@@ -17,11 +17,13 @@ Install-Module -Name AzureAD
 Connect-AzureAD     # azuread
 Connect-MsolService     #azure sharepoint
 Connect-AzureRmAccount      #azure cloud
+Get-AzureRmTenant
+Get-AzureRmContext
 
 ###### Wed Sep 19 11:42:10 AEST 2018 o365
-Install-Module AzureAD
-Install-Module msonline
-Install-Module Azurerm
+Install-Module AzureAD      # azureAD objects
+Install-Module msonline   # azureAD,sso,domain management etc,
+Install-Module Azurerm      #azure cloud
 
 
 $UserCredential = Get-Credential
