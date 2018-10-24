@@ -49,3 +49,5 @@ Get-VM |  Select-Object Name | Sort-Object -Property Name  outputfile.txt
 # profiling
 C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.exe -Operation StartProfiling -Virtualization VMware -Directory "d:\vc_ProfiledData" -Server 10.1.1.1 -VMListFile "c:\users\Administrator\Desktop\vmlist.txt"  -NoOfMinutesToProfile 60  -user dc\svcazure
 #-NoOfHoursToProfile -NoOfDaysToProfile
+###### Thu Oct 25 09:15:40 AEDT 2018 gen report
+ASRDeploymentPlanner.exe -Operation GenerateReport -Virtualization VMware -Server 10.255.255.21 -Directory "d:\vc_ProfiledData" -VMListFile “c:\users\Administrator\Desktop\vmlist.txt”
