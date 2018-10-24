@@ -310,3 +310,5 @@ foreach ($object in $workobjects) {
 
 }
 Write-Host $count -BackgroundColor Cyan -ForegroundColor Yellow
+###### Wed Oct 24 15:02:35 AEDT 2018 reg update
+new-ItemProperty HKLM:\software\microsoft\Windows\CurrentVersion\Policies\System\ -Name LocalAccountTokenFilterPolicy -Value "1" -PropertyType dword
