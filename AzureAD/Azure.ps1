@@ -1,4 +1,5 @@
-$cred=Get-Credential
+###### Wed Oct 24 15:29:22 AEDT 2018  azure ad msol
+$cred = Get-Credential
 Connect-MsolService -Credential $cred
 
 # check status of dir sync
@@ -6,20 +7,22 @@ Connect-MsolService -Credential $cred
 
 Set-MsolDirSyncEnabled -EnableDirSync $true
 
-###### Fri Sep 14 13:58:31 AEST 2018 ad sync
+###### Fri Sep 14 13:58:31 AEST 2018 azure      ad sync
 Import-Module ADSync
 Start-ADSyncSyncCycle -PolicyType Delta
 Start-ADSyncSyncCycle -PolicyType Initial
 
-
 ###### Fri Sep 14 14:17:07 AEST 2018 o365 powershell###### Mon Sep 17 08:45:16 AEST 2018
 Install-Module -Name AzureAD
-Connect-AzureAD
-Connect-MsolService
+Connect-AzureAD     # azuread
+Connect-MsolService     #azure sharepoint
+Connect-AzureRmAccount      #azure cloud
 
 ###### Wed Sep 19 11:42:10 AEST 2018 o365
 Install-Module AzureAD
 Install-Module msonline
+Install-Module Azurerm
+
 
 $UserCredential = Get-Credential
 $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
