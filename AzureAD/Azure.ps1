@@ -41,3 +41,10 @@ $MSOLSKU = (Get-MSOLUser -UserPrincipalName engineering@domainname.com).Licenses
 Set-MsolUserLicense -UserPrincipalName engineering@domainname.com -RemoveLicenses $MSOLSKU
 
 Get-Mailbox -Identity wii | Format-List *type*
+
+###### Wed Oct 24 16:46:13 AEDT 2018 site recovery - deployment planner tool
+# vmware vcentre connection
+Connect-VIServer -Server <server name> -User <user name> -Password <password>
+Get-VM |  Select Name | Sort-Object -Property Name >  <outputfile.txt>
+# profiling
+C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.exe -Operation StartProfiling -Virtualization VMware -Directory "d:\vc_ProfiledData" -Server 10.1.1.1 -VMListFile "c:\users\Administrator\Desktop\vmlist.txt"  -NoOfMinutesToProfile 60  -user dc\svcazure
