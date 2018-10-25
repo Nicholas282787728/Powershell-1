@@ -292,7 +292,7 @@ $count = 0
 $workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
 foreach ($object in $workobjects) {
     [string]$sourcefile = ($rootfolder + $object + "\output\" + $object + ".pdf")
-    [string]$destfile = $destfile
+    [string]$destfile = ($destfolder + $object + "pdf")
     if (Test-Path $sourcefile) {
         if (Test-Path ( $destfolder + $object + ".pdf")) {
             if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item $sourcefile).LastWriteTime) {
