@@ -1,7 +1,7 @@
 function write-log {
     param (
         [string]$content,
-        $logfile
+        [string]$logfile
     )
     Add-Content -Path $logfile -Value "$("[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)) $content"
 }
