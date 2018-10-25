@@ -36,6 +36,7 @@ foreach ($object in $workobjects) {
         else {
             write-host $object "doesn't exist" -BackgroundColor Red
             $count ++
+            Copy-Item $sourcefile -Destination $destfile
         }
     }
 }
