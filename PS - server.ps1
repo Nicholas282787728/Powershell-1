@@ -291,11 +291,10 @@ foreach ($object in $workobjects) {
 $count = 0
 $workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
 foreach ($object in $workobjects) {
-
     if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
-        if (  Test-Path ( $destfolder + $object + ".pdf")) {
+        if (Test-Path ( $destfolder + $object + ".pdf")) {
             if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime) {
-                write-host $object
+                write-host $object "needs to be updated"
                 if ((Get-SmbOpenFile).path -contains ($destfolder + $object + ".pdf")) {
                     Get-SmbOpenFile | Where-Object {$_.path -eq ($destfolder + $object + ".pdf")} | Close-SmbOpenFile -Force
                 }
@@ -310,6 +309,6 @@ foreach ($object in $workobjects) {
     }
 
 }
-Write-Host $count -BackgroundColor Cyan -ForegroundColor Yellow
+Write-Host $count "files need to be updated" -ForegroundColor Yellow
 ###### Wed Oct 24 15:02:35 AEDT 2018 reg update
 new-ItemProperty HKLM:\software\microsoft\Windows\CurrentVersion\Policies\System\ -Name LocalAccountTokenFilterPolicy -Value "1" -PropertyType dword
