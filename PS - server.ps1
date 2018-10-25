@@ -291,12 +291,15 @@ foreach ($object in $workobjects) {
 $count = 0
 $workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
 foreach ($object in $workobjects) {
-    if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
+    [string]$sourcefile = ($rootfolder + $object + "\output\" + $object + ".pdf")
+    [string]$destfile = $destfile
+    if (Test-Path $sourcefile) {
         if (Test-Path ( $destfolder + $object + ".pdf")) {
-            if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime) {
+            if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item $sourcefile).LastWriteTime) {
                 write-host $object "needs to be updated"
-                if ((Get-SmbOpenFile).path -contains ($destfolder + $object + ".pdf")) {
-                    Get-SmbOpenFile | Where-Object {$_.path -eq ($destfolder + $object + ".pdf")} | Close-SmbOpenFile -Force
+                if ((Get-SmbOpenFile).path -contains $destfile) {
+                    Get-SmbOpenFile | Where-Object {$_.path -eq $destfile} | Close-SmbOpenFile -Force
+                    Copy-Item $sourcefile -Destination $destfile
                 }
                 $count ++
             }
