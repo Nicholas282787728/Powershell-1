@@ -15,7 +15,7 @@ $count = 0
 $size = 0
 $workobjects = Get-ChildItem  $sourcefolder | Where-Object {$_.name -match $regex}
 
-write-log -logfile $logfile -content "###START###"
+#write-log -logfile $logfile -content "###START###"
 
 foreach ($object in $workobjects) {
     [string]$sourcefile = ($sourcefolder + $object + "\output\" + $object + ".pdf")
@@ -26,7 +26,7 @@ foreach ($object in $workobjects) {
                 write-host $object "needs to be updated"
                 if ((Get-SmbOpenFile).path -contains $destfile) {
                     Get-SmbOpenFile | Where-Object {$_.path -eq $destfile} | Close-SmbOpenFile -Force
-                    write-log -logfile $logfile -content "$destfile has been updated"
+                    #write-log -logfile $logfile -content "$destfile has been updated"
                 }
                 Copy-Item $sourcefile -Destination $destfile
                 $count ++
