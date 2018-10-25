@@ -1,20 +1,23 @@
 function write-log {
     param (
-        $content,
+        [string]$content,
         $logfile
     )
-    Write-Output "$("[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)) $content" >> $logfile
+    Add-Content -Path $logfile -Value "$("[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)) $content"
 }
 
 
-[string]$rootfolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
+[string]$sourcefolder = "\\ahcad01\300_PRODUCTION\00_JOBS_ACTIVE\"
 [string]$destfolder = "D:\Pdf_Server\00001Plans\"
 [regex]$regex = '^[0-9*-]+$'
 $logfile = "C:\Scripts\Logs\filecompare.log"
 $count = 0
-$workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
+$workobjects = Get-ChildItem  $sourcefolder | Where-Object {$_.name -match $regex}
+
+write-log -logfile $logfile -content "###START###"
+
 foreach ($object in $workobjects) {
-    [string]$sourcefile = ($rootfolder + $object + "\output\" + $object + ".pdf")
+    [string]$sourcefile = ($sourcefolder + $object + "\output\" + $object + ".pdf")
     [string]$destfile = ($destfolder + $object + "pdf")
     if (Test-Path $sourcefile) {
         if (Test-Path ( $destfolder + $object + ".pdf")) {
@@ -26,6 +29,7 @@ foreach ($object in $workobjects) {
                     write-log -logfile $logfile -content "$destfile has been updated"
                 }
                 $count ++
+                #file total size
             }
         }
         else {
