@@ -40,4 +40,5 @@ foreach ($object in $workobjects) {
         }
     }
 }
-Write-Host "$count files need to be updated, $($size/1mb)MB" -ForegroundColor Yellow
+
+Write-Host "$count files need to be updated, $('{0:N2}' -f ($size/1mb))MB" -ForegroundColor Yellow
