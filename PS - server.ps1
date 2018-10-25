@@ -294,10 +294,11 @@ foreach ($object in $workobjects) {
 
     if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
         if (  Test-Path ( $destfolder + $object + ".pdf")) {
-
             if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item ($rootfolder + $object + "\output\" + $object + ".pdf")).LastWriteTime) {
                 write-host $object
-                if ((Get-SmbOpenFile).path -contains ($destfolder + $object + ".pdf")){write-host $object}
+                if ((Get-SmbOpenFile).path -contains ($destfolder + $object + ".pdf")) {
+                    Get-SmbOpenFile | Where-Object {$_.path -eq ($destfolder + $object + ".pdf")} | Close-SmbOpenFile -Force
+                }
                 $count ++
             }
         }
