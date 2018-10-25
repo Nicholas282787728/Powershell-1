@@ -289,7 +289,7 @@ foreach ($object in $workobjects) {
 [string]$destfolder = "D:\Pdf_Server\00001Plans\"
 [regex]$regex = '^[0-9*-]+$'
 $count = 0
-$workobjects = Get-ChildItem  $rootfolder | where {$_.name -match $regex}
+$workobjects = Get-ChildItem  $rootfolder | Where-Object {$_.name -match $regex}
 foreach ($object in $workobjects) {
 
     if (Test-Path ($rootfolder + $object + "\output\" + $object + ".pdf")) {
