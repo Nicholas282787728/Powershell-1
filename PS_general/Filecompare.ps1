@@ -26,12 +26,11 @@ foreach ($object in $workobjects) {
                 write-host $object "needs to be updated"
                 if ((Get-SmbOpenFile).path -contains $destfile) {
                     Get-SmbOpenFile | Where-Object {$_.path -eq $destfile} | Close-SmbOpenFile -Force
-                    Copy-Item $sourcefile -Destination $destfile
                     write-log -logfile $logfile -content "$destfile has been updated"
                 }
+                Copy-Item $sourcefile -Destination $destfile
                 $count ++
-                #file total size
-                $size += (get-item $sourfile).Length
+                $size += (get-item $sourcefile).Length
             }
         }
         else {
