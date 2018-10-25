@@ -12,16 +12,17 @@ function write-log {
 [regex]$regex = '^[0-9*-]+$'
 $logfile = "C:\Scripts\Logs\filecompare.log"
 $count = 0
+$size = 0
 $workobjects = Get-ChildItem  $sourcefolder | Where-Object {$_.name -match $regex}
 
 write-log -logfile $logfile -content "###START###"
 
 foreach ($object in $workobjects) {
     [string]$sourcefile = ($sourcefolder + $object + "\output\" + $object + ".pdf")
-    [string]$destfile = ($destfolder + $object + "pdf")
+    [string]$destfile = ($destfolder + $object + ".pdf")
     if (Test-Path $sourcefile) {
-        if (Test-Path ( $destfolder + $object + ".pdf")) {
-            if (((get-item ( $destfolder + $object + ".pdf")).lastwritetime) -ne (Get-Item $sourcefile).LastWriteTime) {
+        if (Test-Path $destfile) {
+            if (((get-item $destfile).lastwritetime) -ne (Get-Item $sourcefile).LastWriteTime) {
                 write-host $object "needs to be updated"
                 if ((Get-SmbOpenFile).path -contains $destfile) {
                     Get-SmbOpenFile | Where-Object {$_.path -eq $destfile} | Close-SmbOpenFile -Force
@@ -30,6 +31,7 @@ foreach ($object in $workobjects) {
                 }
                 $count ++
                 #file total size
+                $size += (get-item $sourfile).Length
             }
         }
         else {
@@ -38,4 +40,4 @@ foreach ($object in $workobjects) {
         }
     }
 }
-Write-Host $count "files need to be updated" -ForegroundColor Yellow
+Write-Host "$count files need to be updated, $($size/1mb)MB" -ForegroundColor Yellow
