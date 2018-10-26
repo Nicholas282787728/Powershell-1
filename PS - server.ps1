@@ -315,3 +315,5 @@ foreach ($object in $workobjects) {
 Write-Host $count "files need to be updated" -ForegroundColor Yellow
 ###### Wed Oct 24 15:02:35 AEDT 2018 reg update
 new-ItemProperty HKLM:\software\microsoft\Windows\CurrentVersion\Policies\System\ -Name LocalAccountTokenFilterPolicy -Value "1" -PropertyType dword
+###### Fri Oct 26 12:35:59 AEDT 2018 get ad user groups membership
+Get-ADPrincipalGroupMembership username | Select-Object name

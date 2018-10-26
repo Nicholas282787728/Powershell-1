@@ -24,3 +24,6 @@ Select a symbol then type F12. Alternatively, you can use the context menu or Ct
 
 Find All References
 Select a symbol then type Shift+F12. Alternatively, you can use the context menu.
+
+Delete line
+Ctrl+Shift+K
