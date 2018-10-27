@@ -45,3 +45,5 @@ Remove-Computer -ComputerName "Computer01" -UnjoinDomaincredential "Domain01\Adm
 Add-Computer -ComputerName "Computer01" -LocalCredential "Computer01\Administrator" -DomainName "Domain01" -Credential "Domain01\Admin01" -Force -Verbose -Restart
 ###### Wed Oct 17 09:11:45 AEDT 2018 serach account in ou
 get-aduser -Filter * -SearchBase "OU=DisabledAccounts, OU=Network Infrastructure Department,OU=Australia,DC=gratex,DC=au"  -properties * |   sort -Descending LastLogonDate | ft name, lastlogondate
+###### Sat Oct 27 14:46:36 AEDT 2018 user lastlogon date
+Get-ADUser aloel -Properties * | select last*
