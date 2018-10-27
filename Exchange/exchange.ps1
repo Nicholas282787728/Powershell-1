@@ -52,4 +52,13 @@ foreach ($mailbox in $mailboxes) {
     Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | ft -AutoSize -Wrap
 }
 ###### Mon Oct 22 14:22:51 AEDT 2018 convert to share
-Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB 
+Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB
+###### Fri Oct 26 21:28:23 AEDT 2018 vitrual directorys
+Get-OwaVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-EcpVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-ActiveSyncVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-WebServicesVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-OabVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-MapiVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
+Get-OutlookAnywhere -Server $server | Select-Object ExternalHostname,InternalHostname,ExternalClientsRequireSsl,InternalClientsRequireSsl
+Get-ClientAccessService -Identity $server | Select-Object AutoDiscoverServiceInternalUri
