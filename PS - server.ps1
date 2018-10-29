@@ -317,3 +317,5 @@ Write-Host $count "files need to be updated" -ForegroundColor Yellow
 new-ItemProperty HKLM:\software\microsoft\Windows\CurrentVersion\Policies\System\ -Name LocalAccountTokenFilterPolicy -Value "1" -PropertyType dword
 ###### Fri Oct 26 12:35:59 AEDT 2018 get ad user groups membership
 Get-ADPrincipalGroupMembership username | Select-Object name
+###### Mon Oct 29 14:30:05 AEDT 2018 FC network card nodeaddress and portaddress
+Get-InitiatorPort
