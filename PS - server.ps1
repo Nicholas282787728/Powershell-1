@@ -319,3 +319,5 @@ new-ItemProperty HKLM:\software\microsoft\Windows\CurrentVersion\Policies\System
 Get-ADPrincipalGroupMembership username | Select-Object name
 ###### Mon Oct 29 14:30:05 AEDT 2018 FC network card nodeaddress and portaddress
 Get-InitiatorPort
+###### Tue Oct 30 09:46:27 AEDT 2018 get computer model and system
+Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Property *
