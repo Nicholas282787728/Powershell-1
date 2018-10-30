@@ -65,3 +65,8 @@ rem route
 route add 10.255.255.0 mask 255.255.255.0 192.168.12.252 metric 100 -p
 rem map drive
 net use \\192.168.175.129\c$ /user:win7-2\admin *
+rem switch o365 to monthly channel
+cd C:\Program Files\Common Files\Microsoft Shared\ClickToRun\
+OfficeC2RClient.exe /changesetting Channel=Monthly
+OfficeC2RClient.exe /update user
+
