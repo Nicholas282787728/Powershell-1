@@ -84,7 +84,8 @@ function get-lastestsecuritylog {
 $cred = Get-Credential( Import-Clixml -Path "C:\temp\leimadmin.xml")
 function get-sysinfo {
     param (
-        [string[]]$computername
+        [string[]]$computername,
+        $report=@()
     )
     PROCESS {
         foreach ($comp in $computername){
@@ -123,9 +124,9 @@ function get-sysinfo {
                         }
         $obj = New-Object -TypeName psobject -Property $prop
         Write-Output $obj
-
+        $report += $obj
         }
-        Write-Host $result
+        Write-Host $report
     }
 }
 
