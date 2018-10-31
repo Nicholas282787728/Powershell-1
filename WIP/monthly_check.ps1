@@ -81,15 +81,36 @@ function get-lastestsecuritylog {
 }
 
 
+$cred = Get-Credential( Import-Clixml -Path "C:\temp\leimadmin.xml")
 function get-sysinfo {
     param (
         [string[]]$computername
     )
     PROCESS {
         foreach ($comp in $computername){
-        $os = Get-WmiObject -Class win32_operatingsystem -ComputerName $comp
-        $cs = Get-WmiObject -Class win32_computersystem -ComputerName $comp
-        $bios = Get-WmiObject -Class win32_bios -ComputerName $comp
+
+        $ospara = @{
+                            'class' = 'win32_operatingsystem';
+                            'computername' =$comp;
+                    }
+        $cspara  = @{
+                            'class' = 'win32_computersystem';
+                            'computername' =$comp;
+                    }
+        $biospara = @{
+                            'class' = 'win32_bios';
+                            'computername' =$comp;
+                    }
+
+        if ($comp -ne $Env:COMPUTERNAME){
+                $ospara += @{'Credential' = $cred}
+                $cspara += @{'Credential' = $cred}
+                $biospara += @{'Credential' = $cred}
+            }
+
+        $os = Get-WmiObject @ospara
+        $cs = Get-WmiObject @cspara
+        $bios = Get-WmiObject @biospara
 
         $prop = [ordered]@{'computername'=$comp;
                             'osverion'=$os.version;
@@ -98,16 +119,17 @@ function get-sysinfo {
                             'model'=$cs.model;
                             'ram'=$cs.totalphysicalmemory;
                             'biosserial'=$bios.serialnumber;
-                            'lastreboot'=$os.ConverttoDateTime($os.lastbootuptime);
-                            'LastBootUpTime'= $os.lastbootuptime
+                            'LastBootUp'=$os.ConverttoDateTime($os.lastbootuptime);
                         }
         $obj = New-Object -TypeName psobject -Property $prop
         Write-Output $obj
+
         }
+        Write-Host $result
     }
 }
 
-get-sysinfo lei_laptop
+get-sysinfo lei_laptop,adam-pc
 
 
 get-lastestsecuritylog lei_laptop
