@@ -91,8 +91,6 @@ function get-sysinfo {
         $cs = Get-WmiObject -Class win32_computersystem -ComputerName $comp
         $bios = Get-WmiObject -Class win32_bios -ComputerName $comp
 
-        $lastbootup = $os | select @{LABEL = 'LastBootUpTime'; EXPRESSION = {$_.ConverttoDateTime($_.lastbootuptime)}}
-
         $prop = [ordered]@{'computername'=$comp;
                             'osverion'=$os.version;
                             'spversion'=$os.servicepackmajorversion;
@@ -100,11 +98,9 @@ function get-sysinfo {
                             'model'=$cs.model;
                             'ram'=$cs.totalphysicalmemory;
                             'biosserial'=$bios.serialnumber;
-                            'lastreboot'=$lastbootup;
+                            'lastreboot'=$os.ConverttoDateTime($os.lastbootuptime);
                             'LastBootUpTime'= $os.lastbootuptime
                         }
-        
-
         $obj = New-Object -TypeName psobject -Property $prop
         Write-Output $obj
         }
