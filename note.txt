@@ -1,0 +1,17 @@
+san s1 wwn  10:00:00:27:f8:38:dc:53(Principal)
+
+wwpn 50:01:43:80:24:24:1e:64 esx02 p1
+wwnn 50:01:43:80:24:24:1e:65 esx02 hba
+
+wwpn 50:01:43:80:24:24:25:34 esx03 p1
+wwnn 50:01:43:80:24:24:25:35 esx03 hba
+
+wwpn 50:01:43:80:24:24:25:b0 esx05 p1
+wwnn 50:01:43:80:24:24:25:b1 esx05 hba
+
+wwpn [28] "HP      P2000 G3 FC     T252" 20:70:00:c0:ff:19:88:5c p2000 g3 fc A1 controllor A port 1
+wwpn [28] "HP      P2000 G3 FC     T252" 24:70:00:c0:ff:19:88:5c p2000 g3 fa B1 controllor B port 1
+wwnn 20:80:00:c0:ff:19:88:5c
+
+
+san s2 wwn 

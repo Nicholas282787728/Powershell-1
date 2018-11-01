@@ -130,7 +130,7 @@ function get-sysinfo {
     }
 }
 
-get-sysinfo lei_laptop,adam-pc
+get-sysinfo localhost,192.168.1.102,192.168.1.104,192.168.1.106,192.168.1.107,192.168.1.110,192.168.1.112
 
 
 get-lastestsecuritylog lei_laptop
