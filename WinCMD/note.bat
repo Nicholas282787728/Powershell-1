@@ -74,3 +74,5 @@ rem wmic serial number
 wmic bios get serialnumber
 wmic csproduct get vendor, version
 wmic computersystem get model,name,manufacturer,systemtype
+rem find CA in AD
+certutil -config - -ping
