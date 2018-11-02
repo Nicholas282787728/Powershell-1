@@ -321,3 +321,6 @@ Get-ADPrincipalGroupMembership username | Select-Object name
 Get-InitiatorPort
 ###### Tue Oct 30 09:46:27 AEDT 2018 get computer model and system
 Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Property *
+###### Fri Nov 2 17:07:58 AEDT 2018 self_signed certificate
+New-SelfSignedCertificate –DnsName lei_laptop.gratex.au -CertStoreLocation “cert:\LocalMachine\My” -NotAfter (get-date).AddYears(10)
+#need to copy to root certificate
