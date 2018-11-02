@@ -70,3 +70,7 @@ cd C:\Program Files\Common Files\Microsoft Shared\ClickToRun\
 OfficeC2RClient.exe /changesetting Channel=Monthly
 OfficeC2RClient.exe /update user
 
+rem wmic serial number
+wmic bios get serialnumber
+wmic csproduct get vendor, version
+wmic computersystem get model,name,manufacturer,systemtype
