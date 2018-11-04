@@ -64,3 +64,5 @@ Get-OutlookAnywhere -Server $server | Select-Object ExternalHostname,InternalHos
 Get-ClientAccessService -Identity $server | Select-Object AutoDiscoverServiceInternalUri
 ###### Mon Nov 5 10:40:17 AEDT 2018 get deailted mailbox folders usage
 Get-MailboxFolderstatistics -identity leim  | Select-Object identity, foldersize | Sort-Object foldersize -Descending | Out-GridView
+###### Mon Nov 5 10:46:16 AEDT 2018 get general mailbox usage
+Get-MailboxStatistics -Identity justins | Format-List *name*, *size*, *count*
