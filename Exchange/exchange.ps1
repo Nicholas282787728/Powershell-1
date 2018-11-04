@@ -42,14 +42,14 @@ get-mailbox -filter {Resourcetype -eq "Room"}
 $mailboxes = get-mailbox -filter {Resourcetype -eq "Room"}
 #$mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "RoomMailbox"}
 foreach ($mailbox in $mailboxes) {
-    (Get-MailboxPermission $mailbox) | Where-Object {($_.user).rawidentity -like "*kar*"} | Select-Object user, accessrights, identity | ft -Wrap
+    (Get-MailboxPermission $mailbox) | Where-Object {($_.user).rawidentity -like "*kar*"} | Select-Object user, accessrights, identity | Format-Table -Wrap
 }
 ###### Thu Oct 18 16:10:50 AEDT 2018 calendar
 Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
-    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | ft -AutoSize -Wrap
+    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | Format-Table -AutoSize -Wrap
 }
 ###### Mon Oct 22 14:22:51 AEDT 2018 convert to share
 Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB
