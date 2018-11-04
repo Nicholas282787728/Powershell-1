@@ -62,3 +62,5 @@ Get-OabVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
 Get-MapiVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
 Get-OutlookAnywhere -Server $server | Select-Object ExternalHostname,InternalHostname,ExternalClientsRequireSsl,InternalClientsRequireSsl
 Get-ClientAccessService -Identity $server | Select-Object AutoDiscoverServiceInternalUri
+###### Mon Nov 5 10:40:17 AEDT 2018 get deailted mailbox folders usage
+Get-MailboxFolderstatistics -identity leim  | Select-Object identity, foldersize | Sort-Object foldersize -Descending | Out-GridView
