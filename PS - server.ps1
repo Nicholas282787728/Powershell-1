@@ -324,3 +324,9 @@ Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Prope
 ###### Fri Nov 2 17:07:58 AEDT 2018 self_signed certificate
 New-SelfSignedCertificate –DnsName lei_laptop.gratex.au -CertStoreLocation “cert:\LocalMachine\My” -NotAfter (get-date).AddYears(10)
 #need to copy to root certificate
+###### Mon Nov 5 15:25:09 AEDT 2018 get physical memory
+Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  {[Math]::Round(($_.sum / 1GB),2)}
+((get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum ).sum / 1gb)
+###### Mon Nov 5 15:25:43 AEDT 2018 installed memory
+$InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
+[Math]::Round(($InstalledRAM.TotalPhysicalMemory/ 1GB),2)
