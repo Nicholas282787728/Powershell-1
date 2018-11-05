@@ -66,3 +66,16 @@ Get-ClientAccessService -Identity $server | Select-Object AutoDiscoverServiceInt
 Get-MailboxFolderstatistics -identity leim  | Select-Object identity, foldersize | Sort-Object foldersize -Descending | Out-GridView
 ###### Mon Nov 5 10:46:16 AEDT 2018 get general mailbox usage
 Get-MailboxStatistics -Identity justins | Format-List *name*, *size*, *count*
+###### Mon Nov 5 16:25:48 AEDT 2018 get mailbox status combine with mailbox
+Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
+Get-Mailbox -ResultSize Unlimited | Foreach-Object{
+    $mbx = $_ | Select DisplayName, UserPrincipalName, whencreated
+    $stats = Get-MailboxStatistics $_ | Select LastLogonTime, totalitemsize
+    New-Object -TypeName PSObject -Property @{
+        name = $mbx.DisplayName
+        UserPrincipalName = $mbx.UserPrincipalName
+        Created = $mbx.whencreated
+        lastlogon = $stats.LastLogonTime
+        Size = $stats.TotalItemSize
+    }
+} | Export-Csv c:\temp\mailbox.csv -NoTypeInformation
