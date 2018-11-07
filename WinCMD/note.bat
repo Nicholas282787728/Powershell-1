@@ -76,3 +76,5 @@ wmic csproduct get vendor, version
 wmic computersystem get model,name,manufacturer,systemtype
 rem find CA in AD
 certutil -config - -ping
+rem ad sync
+repadmin /syncall /AdeP
