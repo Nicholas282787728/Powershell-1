@@ -330,3 +330,5 @@ Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  %
 ###### Mon Nov 5 15:25:43 AEDT 2018 installed memory
 $InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
 [Math]::Round(($InstalledRAM.TotalPhysicalMemory/ 1GB),2)
+###### Thu Nov 8 10:43:12 AEDT 2018 eventlog
+Get-EventLog Security -EntryType FailureAudit
