@@ -342,3 +342,6 @@ Get-Command -Noun *drive*   | Where-Object {$_.CommandType -eq "Cmdlet" -and $_.
 ###### Fri Nov 9 15:41:05 AEDT 2018 file search
 Get-ChildItem C:\temp\ -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-10))) -and ($_.length -gt 100000)}
 Get-ChildItem d: -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-100))) -and ($_.length -gt 1gb)} | Select-Object name,Directory,LastWriteTime, @{n="size(GB)";e= {"{0:N0}" -f ($_.Length / 1gB)}} | Sort-Object lastwritetime -Descending
+###### Fri Nov 9 16:21:14 AEDT 2018 ExecutionPolicy
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+Get-ExecutionPolicy -List
