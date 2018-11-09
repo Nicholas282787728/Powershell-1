@@ -3,6 +3,7 @@
 /.*             first match / to end
 \\.*            first match \ to end
 \\(?!.*\\).*    last match \ to end
+^.*\\.*\\       start to last \
 
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
