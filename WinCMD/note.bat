@@ -83,3 +83,6 @@ wmic useraccount get name,sid
 
 rem join domain command
 netdom /domain:ah.local /user:leim /password:nottelling member <computer name> /joindomain
+rem o365 Reset Office 365 ProPlus activation state
+C:\program files <x86>\Microsoft office\office16>cscript ospp.vbs /dstatus
+C:\program files <x86>\Microsoft office\office16>cscript ospp.vbs /unpkey:“Last 5 of installed product key”
