@@ -332,3 +332,6 @@ $InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
 [Math]::Round(($InstalledRAM.TotalPhysicalMemory/ 1GB),2)
 ###### Thu Nov 8 10:43:12 AEDT 2018 eventlog
 Get-EventLog Security -EntryType FailureAudit
+###### Fri Nov 9 10:13:35 AEDT 2018 domain join
+add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com –credential AD\adminuser -restart –force
+add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential domain\user -Server ahdc02

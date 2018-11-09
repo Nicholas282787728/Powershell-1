@@ -78,3 +78,8 @@ rem find CA in AD
 certutil -config - -ping
 rem ad sync
 repadmin /syncall /AdeP
+rem get system sid
+wmic useraccount get name,sid
+
+rem join domain command
+netdom /domain:ah.local /user:leim /password:nottelling member <computer name> /joindomain
