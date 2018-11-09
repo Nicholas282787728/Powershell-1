@@ -347,4 +347,4 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 Get-ExecutionPolicy -List
 ###### Fri Nov 9 16:30:56 AEDT 2018 boot time
 Get-CimInstance Win32_operatingsystem -Property *  | Select-Objectt *time*
-(get-date) - (Get-CimInstance Win32_operatingsystem ).LastBootUpTime
+(Get-Date) - (Get-CimInstance Win32_operatingsystem ).LastBootUpTime
