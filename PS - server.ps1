@@ -338,4 +338,7 @@ add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential doma
 ###### Fri Nov 9 12:16:20 AEDT 2018 get system sid
 Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object @{n = 'name' ; e = {$_.name -replace "^.*\\.*\\", ""}}
 ###### Fri Nov 9 13:09:54 AEDT 2018
-Get-Command -Noun *drive*   | where {$_.CommandType -eq "Cmdlet" -and $_.Source -notlike "*hyper*"}
+Get-Command -Noun *drive*   | Where-Object {$_.CommandType -eq "Cmdlet" -and $_.Source -notlike "*hyper*"}
+###### Fri Nov 9 15:41:05 AEDT 2018 file search
+Get-ChildItem C:\temp\ -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-10))) -and ($_.length -gt 100000)}
+Get-ChildItem d: -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-100))) -and ($_.length -gt 1gb)} | Select-Object name,Directory,LastWriteTime, @{n="size(GB)";e= {"{0:N0}" -f ($_.Length / 1gB)}} | Sort-Object lastwritetime -Descending
