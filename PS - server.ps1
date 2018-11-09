@@ -345,3 +345,6 @@ Get-ChildItem d: -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).addd
 ###### Fri Nov 9 16:21:14 AEDT 2018 ExecutionPolicy
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 Get-ExecutionPolicy -List
+###### Fri Nov 9 16:30:56 AEDT 2018 boot time
+Get-CimInstance Win32_operatingsystem -Property *  | Select-Objectt *time*
+(get-date) - (Get-CimInstance Win32_operatingsystem ).LastBootUpTime
