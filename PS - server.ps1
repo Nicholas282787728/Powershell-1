@@ -333,7 +333,7 @@ $InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
 ###### Thu Nov 8 10:43:12 AEDT 2018 eventlog
 Get-EventLog Security -EntryType FailureAudit
 ###### Fri Nov 9 10:13:35 AEDT 2018 domain join
-add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com –credential AD\adminuser -restart –force
+add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com -OUPath "OU=LEAP Servers,OU=SBSServers,OU=Computers,OU=MyBusiness,DC=ah,DC=local" –credential AD\adminuser -restart –force
 add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential domain\user -Server ahdc02
 ###### Fri Nov 9 12:16:20 AEDT 2018 get system sid
 Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object @{n = 'name' ; e = {$_.name -replace "^.*\\.*\\", ""}}
