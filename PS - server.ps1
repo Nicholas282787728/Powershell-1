@@ -325,7 +325,7 @@ Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Prope
 New-SelfSignedCertificate –DnsName lei_laptop.gratex.au -CertStoreLocation “cert:\LocalMachine\My” -NotAfter (get-date).AddYears(10)
 #need to copy to root certificate
 ###### Mon Nov 5 15:25:09 AEDT 2018 get physical memory
-Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  %{[Math]::Round(($_.sum / 1GB),2)}
+Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  ForEach-Object{[Math]::Round(($_.sum / 1GB),2)}
 ((get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum ).sum / 1gb)
 ###### Mon Nov 5 15:25:43 AEDT 2018 installed memory
 $InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
@@ -336,4 +336,4 @@ Get-EventLog Security -EntryType FailureAudit
 add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com –credential AD\adminuser -restart –force
 add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential domain\user -Server ahdc02
 ###### Fri Nov 9 12:16:20 AEDT 2018 get system sid
-Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object name
+Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object @{n = 'name' ; e = {$_.name -replace "^.*\\.*\\", ""}}
