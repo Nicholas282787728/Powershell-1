@@ -337,3 +337,5 @@ add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com –cr
 add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential domain\user -Server ahdc02
 ###### Fri Nov 9 12:16:20 AEDT 2018 get system sid
 Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object @{n = 'name' ; e = {$_.name -replace "^.*\\.*\\", ""}}
+###### Fri Nov 9 13:09:54 AEDT 2018
+Get-Command -Noun *drive*   | where {$_.CommandType -eq "Cmdlet" -and $_.Source -notlike "*hyper*"}
