@@ -350,3 +350,5 @@ Get-CimInstance Win32_operatingsystem -Property *  | Select-Objectt *time*
 (Get-Date) - (Get-CimInstance Win32_operatingsystem ).LastBootUpTime
 ###### Fri Nov 9 20:41:18 AEDT 2018 troubleshooting sid objectid
 foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -server ahdc02 | Select-Object *id*,disting* | fl}
+###### Mon Nov 12 10:07:02 AEDT 2018 check system 64 32 bits
+[Environment]::Is64BitProcess
