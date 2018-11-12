@@ -33,17 +33,17 @@ $userName = 'administrator'
 $sessionId = ((quser /server:DC | Where-Object { $_ -match $userName }) -split ' +')[2]
 $sessionid
 ###### Fri Oct 5 19:17:26 AEST 2018
-Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | select name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}},  created, lastlogondate, operatingsystem, operatingsystemservicepack, whenchanged | sort -Descending lastlogondate | ft -AutoSize
-Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | select name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}}  | Group-Object ou
-(Get-ADComputer  -Filter {operatingsystem -like '*server*' -and enabled -eq $true}).name | Get-CimInstance -ClassName win32_operatingsystem | select pscomputername, InstallDate,LastBootUpTime,OSArchitecture,@{n='OS';e={$_.name -replace "\|.*",""}},Version | ft -AutoSize
+Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | Select-Object name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}},  created, lastlogondate, operatingsystem, operatingsystemservicepack, whenchanged | Sort-Object -Descending lastlogondate | Format-Table -AutoSize
+Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and enabled -eq $true} | Select-Object name, @{n="OU"; e= {$_.canonicalname -replace "/(?!.*/).*",""}}  | Group-Object ou
+(Get-ADComputer  -Filter {operatingsystem -like '*server*' -and enabled -eq $true}).name | Get-CimInstance -ClassName win32_operatingsystem | Select-Object pscomputername, InstallDate,LastBootUpTime,OSArchitecture,@{n='OS';e={$_.name -replace "\|.*",""}},Version | Format-Table -AutoSize
 ###### Thu Oct 11 16:25:20 AEDT 2018  Get all the computers with a name starting by a particular string and showing the name, dns hostname and IPv4 address
-Get-ADComputer -Filter 'Name -like "Fabrikam*"' -Properties IPv4Address | FT Name,DNSHostName,IPv4Address -A
+Get-ADComputer -Filter 'Name -like "Fabrikam*"' -Properties IPv4Address | Format-Table Name,DNSHostName,IPv4Address -A
 ###### Thu Oct 11 16:26:11 AEDT 2018
-$d = [DateTime]::Today.AddDays(-90); Get-ADComputer -Filter 'PasswordLastSet -ge $d' -Properties PasswordLastSet | FT Name,PasswordLastSet
+$d = [DateTime]::Today.AddDays(-90); Get-ADComputer -Filter 'PasswordLastSet -ge $d' -Properties PasswordLastSet | Format-Table Name,PasswordLastSet
 ###### Thu Oct 11 16:39:47 AEDT 2018 join pc to domain
 Remove-Computer -ComputerName "Computer01" -UnjoinDomaincredential "Domain01\Admin01" -PassThru -Verbose -Restart
 Add-Computer -ComputerName "Computer01" -LocalCredential "Computer01\Administrator" -DomainName "Domain01" -Credential "Domain01\Admin01" -Force -Verbose -Restart
 ###### Wed Oct 17 09:11:45 AEDT 2018 serach account in ou
-get-aduser -Filter * -SearchBase "OU=DisabledAccounts, OU=Network Infrastructure Department,OU=Australia,DC=gratex,DC=au"  -properties * |   sort -Descending LastLogonDate | ft name, lastlogondate
+get-aduser -Filter * -SearchBase "OU=DisabledAccounts, OU=Network Infrastructure Department,OU=Australia,DC=gratex,DC=au"  -properties * |   Sort-Object -Descending LastLogonDate | Format-Table name, lastlogondate
 ###### Sat Oct 27 14:46:36 AEDT 2018 user lastlogon date
-Get-ADUser aloel -Properties * | select last*
+Get-ADUser aloel -Properties * | Select-Object last*
