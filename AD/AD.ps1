@@ -40,6 +40,7 @@ Get-ADComputer -Properties * -Filter  {operatingsystem -like '*server*' -and ena
 Get-ADComputer -Filter 'Name -like "Fabrikam*"' -Properties IPv4Address | Format-Table Name,DNSHostName,IPv4Address -A
 ###### Thu Oct 11 16:26:11 AEDT 2018
 $d = [DateTime]::Today.AddDays(-90); Get-ADComputer -Filter 'PasswordLastSet -ge $d' -Properties PasswordLastSet | Format-Table Name,PasswordLastSet
+Write-Host $d
 ###### Thu Oct 11 16:39:47 AEDT 2018 join pc to domain
 Remove-Computer -ComputerName "Computer01" -UnjoinDomaincredential "Domain01\Admin01" -PassThru -Verbose -Restart
 Add-Computer -ComputerName "Computer01" -LocalCredential "Computer01\Administrator" -DomainName "Domain01" -Credential "Domain01\Admin01" -Force -Verbose -Restart
