@@ -25,7 +25,7 @@ Install-Module AzureAD      # azureAD objects
 Install-Module msonline   # azureAD,sso,domain management etc,
 Install-Module Azurerm      #azure cloud
 
-
+###### Mon Nov 12 12:52:51 AEDT 2018 exchange online
 $UserCredential = Get-Credential
 $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
 Import-PSSession $Session -DisableNameChecking
@@ -51,3 +51,5 @@ C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.
 #-NoOfHoursToProfile -NoOfDaysToProfile
 ###### Thu Oct 25 09:15:40 AEDT 2018 gen report
 ASRDeploymentPlanner.exe -Operation GenerateReport -Virtualization VMware -Server 10.255.255.21 -Directory "d:\vc_ProfiledData" -VMListFile “c:\users\Administrator\Desktop\vmlist.txt”
+
+
