@@ -42,14 +42,14 @@ get-mailbox -filter {Resourcetype -eq "Room"}
 $mailboxes = get-mailbox -filter {Resourcetype -eq "Room"}
 #$mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "RoomMailbox"}
 foreach ($mailbox in $mailboxes) {
-    (Get-MailboxPermission $mailbox) | Where-Object {($_.user).rawidentity -like "*kar*"} | Select-Object user, accessrights, identity | ft -Wrap
+    (Get-MailboxPermission $mailbox) | Where-Object {($_.user).rawidentity -like "*kar*"} | Select-Object user, accessrights, identity | Format-Table -Wrap
 }
 ###### Thu Oct 18 16:10:50 AEDT 2018 calendar
 Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
-    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | ft -AutoSize -Wrap
+    Get-MailboxFolderPermission ($mailbox.Alias + ":\Calendar") -ErrorAction SilentlyContinue | Where-Object {($_.user).displayname -like "*karley*"}  | Select-Object user, accessrights, Identity | Format-Table -AutoSize -Wrap
 }
 ###### Mon Oct 22 14:22:51 AEDT 2018 convert to share
 Set-Mailbox info@domain.com -Type shared -ProhibitSendReceiveQuota 10GB -ProhibitSendQuota 9.5GB -IssueWarningQuota 9GB
@@ -62,3 +62,20 @@ Get-OabVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
 Get-MapiVirtualDirectory -Server $server | Select-Object InternalUrl,ExternalUrl
 Get-OutlookAnywhere -Server $server | Select-Object ExternalHostname,InternalHostname,ExternalClientsRequireSsl,InternalClientsRequireSsl
 Get-ClientAccessService -Identity $server | Select-Object AutoDiscoverServiceInternalUri
+###### Mon Nov 5 10:40:17 AEDT 2018 get deailted mailbox folders usage
+Get-MailboxFolderstatistics -identity leim  | Select-Object identity, foldersize | Sort-Object foldersize -Descending | Out-GridView
+###### Mon Nov 5 10:46:16 AEDT 2018 get general mailbox usage
+Get-MailboxStatistics -Identity justins | Format-List *name*, *size*, *count*
+###### Mon Nov 5 16:25:48 AEDT 2018 get mailbox status combine with mailbox
+Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
+Get-Mailbox -ResultSize Unlimited | Foreach-Object{
+    $mbx = $_ | Select DisplayName, UserPrincipalName, whencreated
+    $stats = Get-MailboxStatistics $_ | Select LastLogonTime, totalitemsize
+    New-Object -TypeName PSObject -Property @{
+        name = $mbx.DisplayName
+        UserPrincipalName = $mbx.UserPrincipalName
+        Created = $mbx.whencreated
+        lastlogon = $stats.LastLogonTime
+        Size = $stats.TotalItemSize
+    }
+} | Export-Csv c:\temp\mailbox.csv -NoTypeInformation

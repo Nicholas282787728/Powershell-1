@@ -1,6 +1,12 @@
+https://regex101.com/
+
 ^\s*$\n         blank line
 /(?!.*/).*      last match / to end
 /.*             first match / to end
+\\.*            first match \ to end
+\\(?!.*\\).*    last match \ to end
+^.*\\.*\\       start to last \
+
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
 '^[0-9*-]+$'    only number and "-"

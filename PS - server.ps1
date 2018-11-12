@@ -66,7 +66,7 @@ $uptime.ConvertToDateTime($uptime.LocalDateTime) – $uptime.ConvertToDateTime($
 ###### Thu Sep 6 10:41:15 AEST 2018 powershell connection
 Install-Module -Name Microsoft.Online.SharePoint.PowerShell
 ###### Thu Sep 6 12:24:22 AEST 2018 folder batch rename
-Get-ChildItem Y:\velosure | `
+Get-ChildItem Y:\velosure |
     Where-Object {$_.name -like "*(4)*"} |`
     #Rename-Item -NewName { $_.Name -replace ' ','_' }
 Rename-Item -NewName { $_.Name -replace "\ -\ Copy \(4\)", ""}
@@ -321,3 +321,36 @@ Get-ADPrincipalGroupMembership username | Select-Object name
 Get-InitiatorPort
 ###### Tue Oct 30 09:46:27 AEDT 2018 get computer model and system
 Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Property *
+###### Fri Nov 2 17:07:58 AEDT 2018 self_signed certificate
+New-SelfSignedCertificate –DnsName lei_laptop.gratex.au -CertStoreLocation “cert:\LocalMachine\My” -NotAfter (get-date).AddYears(10)
+#need to copy to root certificate
+###### Mon Nov 5 15:25:09 AEDT 2018 get physical memory
+Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  ForEach-Object{[Math]::Round(($_.sum / 1GB),2)}
+((get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum ).sum / 1gb)
+###### Mon Nov 5 15:25:43 AEDT 2018 installed memory
+$InstalledRAM = Get-WmiObject -Class Win32_ComputerSystem
+[Math]::Round(($InstalledRAM.TotalPhysicalMemory/ 1GB),2)
+###### Thu Nov 8 10:43:12 AEDT 2018 eventlog
+Get-EventLog Security -EntryType FailureAudit
+###### Fri Nov 9 10:13:35 AEDT 2018 domain join
+add-computer -computername srvcore01, srvcore02 -domainname ad.contoso.com -OUPath "OU=LEAP Servers,OU=SBSServers,OU=Computers,OU=MyBusiness,DC=ah,DC=local" –credential AD\adminuser -restart –force
+add-computer -ComputerName ahleap03 -DomainName abc.local -DomainCredential domain\user -Server ahdc02
+###### Fri Nov 9 12:16:20 AEDT 2018 get system sid
+Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' | Select-Object @{n = 'name' ; e = {$_.name -replace "^.*\\.*\\", ""}}
+###### Fri Nov 9 13:09:54 AEDT 2018
+Get-Command -Noun *drive*   | Where-Object {$_.CommandType -eq "Cmdlet" -and $_.Source -notlike "*hyper*"}
+###### Fri Nov 9 15:41:05 AEDT 2018 file search
+Get-ChildItem C:\temp\ -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-10))) -and ($_.length -gt 100000)}
+Get-ChildItem d: -Recurse | Where-Object {($_.LastWriteTime -lt ((get-date).adddays(-100))) -and ($_.length -gt 1gb)} | Select-Object name,Directory,LastWriteTime, @{n="size(GB)";e= {"{0:N0}" -f ($_.Length / 1gB)}} | Sort-Object lastwritetime -Descending
+###### Fri Nov 9 16:21:14 AEDT 2018 ExecutionPolicy
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+Get-ExecutionPolicy -List
+###### Fri Nov 9 16:30:56 AEDT 2018 boot time
+Get-CimInstance Win32_operatingsystem -Property *  | Select-Objectt *time*
+(Get-Date) - (Get-CimInstance Win32_operatingsystem ).LastBootUpTime
+###### Fri Nov 9 20:41:18 AEDT 2018 troubleshooting sid objectid
+foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -server ahdc02 | Select-Object *id*,disting* | Format-List}
+###### Mon Nov 12 10:07:02 AEDT 2018 check system 64 32 bits
+[Environment]::Is64BitProcess
+###### Mon Nov 12 11:47:03 AEDT 2018 convert time to UTC for exhcange online
+(get-date("1/10/2018 9:00:00")).ToUniversalTime()
