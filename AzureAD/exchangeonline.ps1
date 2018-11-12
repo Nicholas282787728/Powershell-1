@@ -4,4 +4,5 @@ $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri ht
 Import-PSSession $Session -DisableNameChecking
 Remove-PSSession $Session
 ###### Mon Nov 12 13:24:45 AEDT 2018 setup autoreply endtime
-set-ccMailboxAutoReplyConfiguration -Identity johnt  -EndTime (get-date("26/11/2018 8:01:00 pm")).ToUniversalTime()
+set-ccMailboxAutoReplyConfiguration -Identity johnt  -EndTime
+Import-PSSession $exchangeSession -Prefix cc  #important, change time to your local
