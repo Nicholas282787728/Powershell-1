@@ -352,3 +352,5 @@ Get-CimInstance Win32_operatingsystem -Property *  | Select-Objectt *time*
 foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -server ahdc02 | Select-Object *id*,disting* | fl}
 ###### Mon Nov 12 10:07:02 AEDT 2018 check system 64 32 bits
 [Environment]::Is64BitProcess
+###### Mon Nov 12 11:47:03 AEDT 2018 convert time to UTC for exhcange online
+(get-date("1/10/2018 9:00:00")).ToUniversalTime()
