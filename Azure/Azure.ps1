@@ -24,7 +24,12 @@ Get-AzureRmContext
 Install-Module AzureAD      # azureAD objects
 Install-Module msonline   # azureAD,sso,domain management etc,
 Install-Module Azurerm      #azure cloud
-
+Install-Module azure
+###### Tue Nov 13 23:53:14 AEDT 2018 other modules
+Install-Module CredentialManager
+Install-Module MSOnline
+Install-Module PackageManagement #installed by default
+Install-Module PowerShellGet #installed by default
 ###### Mon Nov 12 12:52:51 AEDT 2018 exchange online
 $UserCredential = Get-Credential
 $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
