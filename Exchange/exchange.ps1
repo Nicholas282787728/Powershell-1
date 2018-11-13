@@ -46,6 +46,8 @@ foreach ($mailbox in $mailboxes) {
 }
 ###### Thu Oct 18 16:10:50 AEDT 2018 calendar
 Add-MailboxFolderPermission -identity “Managingdirector:\Calendar” -user “personalassistant” -AccessRights editor
+###### Tue Nov 13 13:06:48 AEDT 2018 mailbox permissions
+Add-MailboxPermission -Identity Dolores-Toyota -User lauram -AccessRights fullaccess
 ###### Thu Oct 18 16:20:39 AEDT 2018 search mailbox permission
 $mailboxes = get-mailbox -filter {RecipientTypeDetails -eq "UserMailbox"}
 foreach ($mailbox in $mailboxes) {
