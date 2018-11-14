@@ -354,3 +354,6 @@ foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -
 [Environment]::Is64BitProcess
 ###### Mon Nov 12 11:47:03 AEDT 2018 convert time to UTC for exhcange online
 (get-date("1/10/2018 9:00:00")).ToUniversalTime()
+###### Thu Nov 15 09:42:11 AEDT 2018  Could not create SSL/TLS secure channel
+#invoke-webrequest
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
