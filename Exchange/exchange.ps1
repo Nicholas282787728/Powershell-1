@@ -15,7 +15,7 @@ Get-Mailbox -server ex01 -Identity *store  | Select-Object alias, UserPrincipalN
 ###### Thu Oct 11 11:10:48 AEDT 2018 General snapin
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010;
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
-Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@company.com.au" -sender
+Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-10)) -EventId "Fail" -Recipients "dgm@company.com.au" -sender | select Timestamp,sender,recipients,messagesubject | sort timestamp
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -ResultSize unlimited | out-file c:\temp\list.txt -Width 1000
 Get-MailboxJunkEmailConfiguration -Identity dgm@abc.com.au -TrustedSendersAndDomains @{Add = "ato.gov.au", "INDAdvice@ato.gov.au", "noreply@ato.gov.au"}
 Set-MailboxSentItemsConfiguration "Mailbox Name" -SendAsItemsCopiedTo SenderAndFrom -SendOnBehalfOfItemsCopiedTo SenderAndFrom
