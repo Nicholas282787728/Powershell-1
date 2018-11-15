@@ -71,8 +71,8 @@ Get-MailboxStatistics -Identity justins | Format-List *name*, *size*, *count*
 ###### Mon Nov 5 16:25:48 AEDT 2018 get mailbox status combine with mailbox
 Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn;
 Get-Mailbox -ResultSize Unlimited | Foreach-Object{
-    $mbx = $_ | Select DisplayName, UserPrincipalName, whencreated
-    $stats = Get-MailboxStatistics $_ | Select LastLogonTime, totalitemsize
+    $mbx = $_ | Select-Object DisplayName, UserPrincipalName, whencreated
+    $stats = Get-MailboxStatistics $_ | Select-Object LastLogonTime, totalitemsize
     New-Object -TypeName PSObject -Property @{
         name = $mbx.DisplayName
         UserPrincipalName = $mbx.UserPrincipalName
