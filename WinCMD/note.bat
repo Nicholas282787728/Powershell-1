@@ -58,7 +58,7 @@ rem net accounts /MaxPWAge:unlimited
 rem reset password
 net user username <password>
 rem add into admin
-net user localgroup administrators username /add
+net localgroup administrators username /add
 rem test
 runas /user:domain\username cmd
 rem route
@@ -74,7 +74,7 @@ rem wmic serial number
 wmic bios get serialnumber
 wmic csproduct get vendor, version
 wmic computersystem get model,name,manufacturer,systemtype
-rem find CA in AD 
+rem find CA in AD
 certutil -config - -ping
 rem ad sync
 repadmin /syncall /AdeP
