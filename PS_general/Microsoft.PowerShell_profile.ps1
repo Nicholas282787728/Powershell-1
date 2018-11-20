@@ -5,7 +5,7 @@
 $time = Get-Date -Format g
 
 $a = $host.ui.RawUI.WindowTitle -replace " -.*", ""
-$host.ui.RawUI.WindowTitle = $a + " - " + $env:COMPUTERNAME + " - " + $env:userdomain + "\" + $env:Username + " - " + $time
+$host.ui.RawUI.WindowTitle = $a +  " - " + $env:COMPUTERNAME + " - " +  $env:userdomain + "\" +$env:Username + " - " + $time
 
 # $host.ui.RawUI.WindowTitle += " - " + $env:COMPUTERNAME + " - " + $env:Username + " - " + $time
 
