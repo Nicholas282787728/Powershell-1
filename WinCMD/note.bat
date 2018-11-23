@@ -86,3 +86,9 @@ netdom /domain:ah.local /user:leim /password:nottelling member <computer name> /
 rem o365 Reset Office 365 ProPlus activation state
 C:\program files <x86>\Microsoft office\office16>cscript ospp.vbs /dstatus
 C:\program files <x86>\Microsoft office\office16>cscript ospp.vbs /unpkey:7H3XC
+rem route
+route delete 0.0.0.0
+route add 0.0.0.0 mask 0.0.0.0 192.168.43.1 Metric 25 if 26
+rem route change
+rem request certificate with templet
+certreq.exe -submit -attrib "CertificateTemplate:WebServer" certifcatesigningrequest.csr
