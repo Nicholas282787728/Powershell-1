@@ -9,7 +9,7 @@ function reset-password {
     PROCESS {
         $Password = [system.web.security.membership]::GeneratePassword(128, 30)
         $Password
-        Set-ADAccountPassword $username -NewPassword $Password -Reset -PassThru | lock-ADAccount
+        Set-ADAccountPassword $username -NewPassword $Password -Reset -PassThru | Disable-ADAccount
     }
     END {}
 }
