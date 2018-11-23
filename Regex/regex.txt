@@ -6,6 +6,7 @@ https://regex101.com/
 \\.*            first match \ to end
 \\(?!.*\\).*    last match \ to end
 ^.*\\.*\\       start to last \
+^(.*?,)         start to first ,
 
 ^[^|]+          anything before |
 (?<=This is)(.*)(?=sentence)        look between this is and sentence

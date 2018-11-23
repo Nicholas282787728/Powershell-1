@@ -48,3 +48,7 @@ Add-Computer -ComputerName "Computer01" -LocalCredential "Computer01\Administrat
 get-aduser -Filter * -SearchBase "OU=DisabledAccounts, OU=Network Infrastructure Department,OU=Australia,DC=gratex,DC=au"  -properties * |   Sort-Object -Descending LastLogonDate | Format-Table name, lastlogondate
 ###### Sat Oct 27 14:46:36 AEDT 2018 user lastlogon date
 Get-ADUser aloel -Properties * | Select-Object last*
+###### Fri Nov 23 21:41:04 AEDT 2018
+New-ADGroup -Name "RODC Admins" -SamAccountName RODCAdmins -GroupCategory Security -GroupScope Global -DisplayName "RODC Administrators" -Path "CN=Users,DC=Fabrikam,DC=Com" -Description "des"
+###### Fri Nov 23 22:33:19 AEDT 2018 get AD group ou
+ (Get-ADGroup group).distinguishedname -replace "^(.*?,)"

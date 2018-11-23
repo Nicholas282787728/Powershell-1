@@ -359,3 +359,5 @@ Get-ADUser -filter  {Name -like "u*" -and enabled -eq 'true'} | %{Set-ADAccountP
 ###### Thu Nov 15 09:42:11 AEDT 2018  Could not create SSL/TLS secure channel
 #invoke-webrequest
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+###### Fri Nov 23 21:54:02 AEDT 2018 batch generate complex password
+1..10 | %{$p = [system.web.security.membership]::GeneratePassword(128,30) ;$p}
