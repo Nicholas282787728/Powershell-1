@@ -354,6 +354,8 @@ foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -
 [Environment]::Is64BitProcess
 ###### Mon Nov 12 11:47:03 AEDT 2018 convert time to UTC for exhcange online
 (get-date("1/10/2018 9:00:00")).ToUniversalTime()
+###### Sat Nov 17 22:04:40 AEDT 2018 batch reset user password
+Get-ADUser -filter  {Name -like "u*" -and enabled -eq 'true'} | %{Set-ADAccountPassword  -Identity $_ -NewPassword (ConvertTo-SecureString -AsPlainText "Password" -Force)}
 ###### Thu Nov 15 09:42:11 AEDT 2018  Could not create SSL/TLS secure channel
 #invoke-webrequest
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
