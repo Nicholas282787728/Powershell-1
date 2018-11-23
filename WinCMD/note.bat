@@ -77,7 +77,7 @@ wmic computersystem get model,name,manufacturer,systemtype
 rem find CA in AD
 certutil -config - -ping
 rem ad sync
-repadmin /syncall /AdeP+%)-.;7>r/hf%6.9;(1tT8T|K
+repadmin /syncall /AdeP
 rem get system sid
 wmic useraccount get name,sid
 
