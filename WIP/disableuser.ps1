@@ -4,24 +4,20 @@ function search-user {
         [Parameter(Mandatory = $true)]
         [string[]]$username
     )
-
     BEGIN {}
     PROCESS {
         $users = get-aduser -filter "samaccountname -like '*$($username)*'"
         #$users
         switch ($users.count) {
             0 {Write-Host "user not found!" -ForegroundColor Red; return $false; break }
-            1 {$users | ft samaccountname, name, userprincipalname, enabled -AutoSize;return $true ;break}
+            1 {$users | Format-Table samaccountname, name, userprincipalname, enabled -AutoSize;return $true ;break}
             default {
-              Write-Host "$($users.count) users detected:" -ForegroundColor Red
-              $users | ft samaccountname, name, userprincipalname, enabled -AutoSize
-              return $false
-              break
+                Write-Host "$($users.count) users detected:" -ForegroundColor Red
+                $users | Format-Table samaccountname, name, userprincipalname, enabled -AutoSize
+                return $false
+                break
             }
-
-
         }
-
     }
     END {}
 }
@@ -32,10 +28,9 @@ function reset-password {
         [Parameter(Mandatory = $true)]
         [string]$username
     )
-
     BEGIN {
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
-            }
+    }
     PROCESS {
         $Password = [system.web.security.membership]::GeneratePassword(128,30)
         Set-ADAccountPassword $username -NewPassword (ConvertTo-SecureString -AsPlainText $Password -Force) -Reset -PassThru | Disable-ADAccount
@@ -49,11 +44,10 @@ function remove-groupmember {
         [Parameter(Mandatory = $true)]
         [string]$username
     )
-
     BEGIN {}
     PROCESS {
         (Get-ADUser -identity $username -Properties memberof).memberof
-        (Get-ADUser -identity $username -Properties memberof).memberof | % {Remove-ADGroupMember -Identity $_ -Members $username -Confirm:$false}
+        (Get-ADUser -identity $username -Properties memberof).memberof | ForEach-Object {Remove-ADGroupMember -Identity $_ -Members $username -Confirm:$false}
         Disable-ADAccount $username
         Write-Host "user has been removed from all groups, and account has been disabled" -ForegroundColor Green
     }
