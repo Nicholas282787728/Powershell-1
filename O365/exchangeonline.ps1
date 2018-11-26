@@ -6,7 +6,10 @@ Remove-PSSession $Session
 ###### Mon Nov 12 13:24:45 AEDT 2018 setup autoreply endtime
 set-ccMailboxAutoReplyConfiguration -Identity johnt  -EndTime
 Import-PSSession $exchangeSession -Prefix cc  #important, change time to your local
-###### Mon Nov 26 22:39:45 AEDT 2018 covert to shared
+#! convert to shared mailbox and setup quota
 Get-Mailbox -identity engineering@domainname.com | set-mailbox -type “Shared”
 Set-Mailbox engineering@domainname.com -ProhibitSendReceiveQuota 50GB -ProhibitSendQuota 49.75GB -IssueWarningQuota 49.5GB
+#! assign permissions to shared mailbox
 Add-MailboxPermission engineering@domainname.com -User "Engineering Group" -AccessRights FullAccess
+###### Mon Nov 26 23:29:51 AEDT 2018
+Get-Mailbox -Identity wii | Format-List *type*
