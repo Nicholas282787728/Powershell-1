@@ -22,7 +22,7 @@ Get-AzureRmContext
 
 ###### Wed Sep 19 11:42:10 AEST 2018 o365
 Install-Module AzureAD      # azureAD objects
-Install-Module msonline   # azureAD,sso,domain management etc,
+Install-Module msonline   # azureAD users,sso,domain management etc,
 Install-Module Azurerm      #azure cloud
 Install-Module azure
 ###### Tue Nov 13 23:53:14 AEDT 2018 other modules
