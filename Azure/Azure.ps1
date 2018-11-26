@@ -21,10 +21,10 @@ Get-AzureRmTenant
 Get-AzureRmContext
 
 ###### Wed Sep 19 11:42:10 AEST 2018 o365
-Install-Module AzureAD      # azureAD objects
+Install-Module AzureAD      # azureAD objects and user and etc
 Install-Module msonline   # azureAD users,sso,domain management etc,
-Install-Module Azurerm      #azure cloud
-Install-Module azure
+Install-Module Azurerm      #azure cloud resource manager
+Install-Module azure        #classic azure cloud
 ###### Tue Nov 13 23:53:14 AEDT 2018 other modules
 Install-Module CredentialManager
 Install-Module MSOnline
