@@ -126,6 +126,7 @@ function remove-groupmember {
 Clear-Host
 $user = Read-Host -Prompt "User Account"
 $check = search-user $user
+$check
 if ($check -eq 1) {
     Write-Host "user account check passed" -ForegroundColor Green
     $users | Format-Table samaccountname, name, userprincipalname, enabled -AutoSize
