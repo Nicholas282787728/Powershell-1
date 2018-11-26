@@ -1,6 +1,7 @@
 repadmin /syncall /APed dc=domain,dc=com  - Directory partition
 repadmin /syncall /APed cn=configuration,dc=domain,dc=com  - Configuration Partition
 repadmin /syncall /APed cn=schema, cn=configuration,dc=domain,dc=com  - Schema Partition
+###### Mon Nov 26 17:21:39 AEDT 2018 query FSMO, PDC
 NetDOM /query FSMO
 
 repadmin /replsummary
