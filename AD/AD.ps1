@@ -63,3 +63,13 @@ Get-ADGroup -Filter * | select name -last 13 | % { Add-ADGroupMember -Identity $
 (Get-ADUser aa -Properties memberof).memberof
 (Get-ADUser aa -Properties memberof).memberof | % {Remove-ADGroupMember -Identity $_ -Members aa -Confirm:$false}
 (Get-ADUser aa -Properties memberof).memberof
+###### Tue Nov 27 15:25:46 AEDT 2018 copy and create new user
+$oldusersam = karleyb
+$newusername = "Kalira Afford"
+$newusersam = karliraa
+$userinstance = get-aduser $oldusersam
+$password = X9cq8fixiP9r
+$upn = ($userinstance.UserPrincipalName).Split("@")[1]
+new-aduser -SamAccountName  $newusersam -DisplayName $newusername -Instance $userinstance -name $newusername -UserPrincipalName $newusersam+"@"+$upn -AccountPassword (ConvertTo-SecureString -AsPlainText $Password -Force)
+###### Tue Nov 27 15:30:45 AEDT 2018 get-alias
+Get-Alias | Where-Object DisplayName -like *help*

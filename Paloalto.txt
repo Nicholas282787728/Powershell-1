@@ -1,0 +1,13 @@
+show system files
+show system disk-space
+###### Tue Nov 27 16:11:21 AEDT 2018 scp backup
+scp export core-file management-plane from mgmtsrvr_7.0.3_0.tgz to user@10.0.0.10:/home/
+###### Tue Nov 27 16:11:44 AEDT 2018 delete core file
+delete core management-plane file crashinfo\mgmtsrvr_7.0.3_0.info
+###### Tue Nov 27 16:11:29 AEDT 2018 remove old logs
+delete debug-log mp-log file *.1
+delete debug-log mp-log file *.2
+delete debug-log mp-log file *.3
+delete debug-log mp-log file *.old
+###### Tue Nov 27 16:24:34 AEDT 2018 check license
+request license info
