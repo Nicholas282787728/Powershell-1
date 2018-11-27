@@ -54,14 +54,14 @@ New-ADGroup -Name "RODC Admins" -SamAccountName RODCAdmins -GroupCategory Securi
  (Get-ADGroup group).distinguishedname -replace "^(.*?,)"
 ###### Fri Nov 23 22:41:07 AEDT 2018 batch create group for lab
  $ou = (Get-ADGroup a).distinguishedname -replace "^(.*?,)"
- 1..10 | % { New-ADGroup -Name ([char](67+$_)) -GroupCategory Security -GroupScope Global -SamAccountName ([char](67+$_)) -Path $ou}
+ 1..10 | ForEach-Object { New-ADGroup -Name ([char](67+$_)) -GroupCategory Security -GroupScope Global -SamAccountName ([char](67+$_)) -Path $ou}
  ###### Fri Nov 23 22:53:39 AEDT 2018 create ad user
 $ou = (Get-ADUser administrator).distinguishedname -replace "^(.*?,)"
 New-ADUser -Name "aa" -SamAccountName "aa" -Path $ou -AccountPassword (ConvertTo-SecureString "Password@11" -AsPlainText -Force) -Enabled $true
 ###### Fri Nov 23 23:07:30 AEDT 2018 remove from or add in groups for user
-Get-ADGroup -Filter * | select name -last 13 | % { Add-ADGroupMember -Identity $_.name -Members aa}
+Get-ADGroup -Filter * | Select-Object name -last 13 | ForEach-Object { Add-ADGroupMember -Identity $_.name -Members aa}
 (Get-ADUser aa -Properties memberof).memberof
-(Get-ADUser aa -Properties memberof).memberof | % {Remove-ADGroupMember -Identity $_ -Members aa -Confirm:$false}
+(Get-ADUser aa -Properties memberof).memberof | ForEach-Object {Remove-ADGroupMember -Identity $_ -Members aa -Confirm:$false}
 (Get-ADUser aa -Properties memberof).memberof
 ###### Tue Nov 27 15:30:45 AEDT 2018 get-alias
 Get-Alias | Where-Object DisplayName -like *help*
