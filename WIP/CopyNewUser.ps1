@@ -16,6 +16,7 @@ $Surname = $TextInfo.ToTitleCase($newusername.Split(" ")[1])
 $newusername = $TextInfo.ToTitleCase($newusername)
 $oldusersam = read-host "Old user samaccount - [leim]"
 $userinstance = get-aduser $oldusersam -ErrorAction Stop
+$ou = ($userinstance.DistinguishedName).Split(",",2)[1]
 $upn = ($userinstance.UserPrincipalName).Split("@")[1]
 $domain = ((get-addomain).netbiosname)
 $Password = [system.web.security.membership]::GeneratePassword(10, 0)
@@ -30,7 +31,7 @@ $Password = [system.web.security.membership]::GeneratePassword(10, 0)
             Write-Host $message
 
             if ((Read-Host "confirm to create new account [y]") -eq "y"){
-                new-aduser -SamAccountName  $newusersam -DisplayName $newusername -Instance $userinstance -name $newusername -UserPrincipalName "$newusersam@$upn" -AccountPassword (ConvertTo-SecureString -AsPlainText $Password -Force) -GivenName $GivenName -Surname $Surname -Enabled $true
+                new-aduser -SamAccountName  $newusersam -DisplayName $newusername -Instance $userinstance -name $newusername -UserPrincipalName "$newusersam@$upn" -AccountPassword (ConvertTo-SecureString -AsPlainText $Password -Force) -GivenName $GivenName -Surname $Surname -Enabled $true -Path $ou
                 get-aduser -Identity $newusersam
                 $message | Set-Clipboard -Confirm
             }
