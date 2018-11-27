@@ -42,7 +42,6 @@ $Password = [system.web.security.membership]::GeneratePassword(10, 0)
         }
         else {
             "An error occurred: $_"
-            "User '$($newusersam)' already exists."
         }
         continue
     }
