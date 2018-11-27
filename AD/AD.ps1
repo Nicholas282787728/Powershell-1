@@ -64,12 +64,18 @@ Get-ADGroup -Filter * | select name -last 13 | % { Add-ADGroupMember -Identity $
 (Get-ADUser aa -Properties memberof).memberof | % {Remove-ADGroupMember -Identity $_ -Members aa -Confirm:$false}
 (Get-ADUser aa -Properties memberof).memberof
 ###### Tue Nov 27 15:25:46 AEDT 2018 copy and create new user
-$oldusersam = karleyb
-$newusername = "Kalira Afford"
-$newusersam = karliraa
+[Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+$newusername = read-host  "new user display name - Kalira Afford"
+$newusersamtemp = $newusername.Split(" ")[0] + ($newusername.Split(" ")[1])[0]
+$newusersamtemp
+if (($newusersam = Read-Host "New user samaccount [$($newusersamtemp)]") -ne $newusersamtemp) {write-host $newusersamtemp" "$newusersam; write-host $ }
+$oldusersam = read-host "old user samaccount - karleyb"
 $userinstance = get-aduser $oldusersam
-$password = X9cq8fixiP9r
 $upn = ($userinstance.UserPrincipalName).Split("@")[1]
-new-aduser -SamAccountName  $newusersam -DisplayName $newusername -Instance $userinstance -name $newusername -UserPrincipalName $newusersam+"@"+$upn -AccountPassword (ConvertTo-SecureString -AsPlainText $Password -Force)
+$Password = [system.web.security.membership]::GeneratePassword(10, 0)
+write-host "Password for new user: `n $($password)"
+
+new-aduser -SamAccountName  $newusersam -DisplayName $newusername -Instance $userinstance -name $newusername -UserPrincipalName "$newusersam@$upn" -AccountPassword (ConvertTo-SecureString -AsPlainText $Password -Force)
+
 ###### Tue Nov 27 15:30:45 AEDT 2018 get-alias
 Get-Alias | Where-Object DisplayName -like *help*

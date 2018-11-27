@@ -7,8 +7,8 @@ https://regex101.com/
 \\(?!.*\\).*    last match \ to end
 ^.*\\.*\\       start to last \
 ^(.*?,)         start to first ,
-
 ^[^|]+          anything before |
+^.* [a-z,A-Z]   first name and inital of lastname
 (?<=This is)(.*)(?=sentence)        look between this is and sentence
 '^[0-9*-]+$'    only number and "-"
 Get-SmbOpenFile | where {$_.path -match '^D:\\Pdf_Server\\00001PLANS\\[^\\]*\.pdf$^ }     math only root folder of D:\Pdf_Server\00001PLANS\*.pdf
