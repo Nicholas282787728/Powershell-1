@@ -93,3 +93,6 @@ route add 0.0.0.0 mask 0.0.0.0 192.168.43.1 Metric 25 if 26
 rem route change
 rem request certificate with templet
 certreq.exe -submit -attrib "CertificateTemplate:WebServer" certifcatesigningrequest.csr
+rem ad redirect and computer ou redirect
+redirusr ou=myusers,DC=contoso,dc=com
+redircmp ou=mycomputers,DC=contoso,dc=com
