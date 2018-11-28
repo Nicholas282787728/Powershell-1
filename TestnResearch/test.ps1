@@ -1,36 +1,17 @@
-param(
-    #[string] $server = (Read-Host "hostname"),
-    [array]$servers = @("tpdc01", "tpex01", "tporcl01", "tpvbr01", "rds01"),
-    [array]$exchangeservers = @()
-)
-Write-Host $servers[0]
-Write-Host $servers[1]
-
-
-$a = Get-WmiObject Win32_Bios -Computer localhost
-$a | Format-List -Property Name, @{Label = "BIOS Age"; Expression = {(Get-Date) - $_.ConvertToDateTime($_.ReleaseDate)}}
-
-
-Get-Date -Format F | Add-Content Test.txt
-Get-Date -UFormat %Y%m%d-%H%M
-
-
-$Breakout = $false
-
-If ($Breakout -eq $true) {
-    Write-Host "Break Out!"
-    Break
+$folder = 'C:\Temp\folder'
+$result = dir $folder -Recurse | Measure-Object length -Sum | % {
+    New-Object psobject -prop @{
+        Name = $folder
+        Size = $(
+            switch ($_.sum) {
+                {$_ -gt 1tb} { '{0:N2}TB' -f ($_ / 1tb); break }
+                {$_ -gt 1gb} { '{0:N2}GB' -f ($_ / 1gb); break }
+                {$_ -gt 1mb} { '{0:N2}MB' -f ($_ / 1mb); break }
+                {$_ -gt 1kb} { '{0:N2}KB' -f ($_ / 1Kb); break }
+                default { '{0}B ' -f $_ }
+            }
+        )
+    }
 }
-ElseIf ($Breakout -eq $false) {
-    Write-Host "No Breakout for you!"
-}
-Else {
-    Write-Host "Breakout wasn't defined..."
-}
-Write-Host "abc"
 
-
-$c=0
-1..10 |   ForEach-Object { `
-    $c++ ;`
-  Write-Host $c }
+$result | ft -AutoSize
