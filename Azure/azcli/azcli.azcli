@@ -1,3 +1,26 @@
 az login
 
 az account list
+
+###### Wed Nov 28 22:30:23 AEDT 2018 create group and vm
+az group create --name myResourceGroup --location southcentralus
+az vm create \
+    --resource-group myResourceGroup \
+    --name myVM \
+    --image UbuntuLTS \
+    --admin-username azureuser \
+    --generate-ssh-keys
+###### Wed Nov 28 22:31:00 AEDT 2018 install extension for Azure AD logon
+az vm extension set \
+    --publisher Microsoft.Azure.ActiveDirectory.LinuxSSH \
+    --name AADLoginForLinux \
+    --resource-group myResourceGroup \
+    --vm-name myVM
+###### Wed Nov 28 22:31:27 AEDT 2018 assign account as vm admin
+username=$(az account show --query user.name --output tsv)
+vm=$(az vm show --resource-group myResourceGroup --name myVM --query id -o tsv)
+
+az role assignment create \
+    --role "Virtual Machine Administrator Login" \
+    --assignee $username \
+    --scope $vm
