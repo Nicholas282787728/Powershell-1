@@ -17,5 +17,6 @@ C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.
 #-NoOfHoursToProfile -NoOfDaysToProfile
 ###### Thu Oct 25 09:15:40 AEDT 2018 gen report
 ASRDeploymentPlanner.exe -Operation GenerateReport -Virtualization VMware -Server 10.255.255.21 -Directory "d:\vc_ProfiledData" -VMListFile “c:\users\Administrator\Desktop\vmlist.txt”
-
+###### Wed Nov 28 15:08:56 AEDT 2018 move resource to resource groups
+Get-AzureRmResource -ResourceGroupName default | Move-AzureRmResource -DestinationResourceGroupName lan
 
