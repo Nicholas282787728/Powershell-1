@@ -84,7 +84,7 @@ Get-Mailbox -ResultSize Unlimited | Foreach-Object{
 ###### Thu Nov 29 14:32:50 AEDT 2018 export user mailbox folder
 #NOT TESTED
 #colins\Inbox\01 Sales Leads
-New-ManagementRoleAssignment -Role “Mailbox Import Export” -SecurityGroup <ExchangeAdGroup>
+New-ManagementRoleAssignment -Role “Mailbox Import Export” -SecurityGroup AdGroup
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
 #01 Sales Leads becomes root folder
