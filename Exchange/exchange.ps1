@@ -85,6 +85,7 @@ Get-Mailbox -ResultSize Unlimited | Foreach-Object{
 #NOT TESTED
 #colins\Inbox\01 Sales Leads
 New-ManagementRoleAssignment -Role “Mailbox Import Export” -SecurityGroup AdGroup
+New-MailboxExportRequest -mailbox colins -includefolders "#inbox#/01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
 #01 Sales Leads becomes root folder
@@ -101,3 +102,11 @@ Get-MailboxImportRequest | Get-MailboxImportRequestStatistics
 Get-MailboxExportRequest -Status Completed | Remove-MailboxExportRequest
 ###### Thu Nov 29 16:12:27 AEDT 2018 export permission, group array expend
 Get-mailbox | Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
+###### Thu Nov 29 16:16:06 AEDT 2018 hidden mailbox
+Get-Mailbox -ResultSize unlimited | Where{$_.HiddenFromAddressLissEnabled -eq $true}
+###### Thu Nov 29 16:16:12 AEDT 2018 hidden DL
+Get-DistributionGroup -resultsize unlimited| ?{$_.HiddenFromAddressLissEnabled -eq $true}
+###### Thu Nov 29 16:17:05 AEDT 2018 maxed quota limits
+Get-MailboxStatistics -Server <Servername>| where{($_.StorageLimitStatus -contains “IssueWarning”) -or ($_.StorageLimitStatus -contains “ProhibitSend”)}
+###### Thu Nov 29 16:17:17 AEDT 2018 not default quota limits
+Get-Mailbox -ResultSize unlimited |Where{($_.UseDatabaseQuotaDefaults -eq $false)}
