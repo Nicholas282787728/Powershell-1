@@ -81,3 +81,11 @@ Get-Mailbox -ResultSize Unlimited | Foreach-Object{
         Size = $stats.TotalItemSize
     }
 } | Export-Csv c:\temp\mailbox.csv -NoTypeInformation
+###### Thu Nov 29 14:32:50 AEDT 2018 export user mailbox folder
+#NOT TESTED
+colins\Inbox\01 Sales Leads
+New-MailboxExportRequest -mailbox colins -status inprogress -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
+New-MailboxExportRequest -mailbox colins -status inprogress -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
+#"#inbox#/*"
+
+
