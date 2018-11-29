@@ -100,4 +100,4 @@ New-MailboxImportRequest -Mailbox usetest -FilePath \\HQ-FS01\PST\usetest.pst -T
 Get-MailboxImportRequest | Get-MailboxImportRequestStatistics
 Get-MailboxExportRequest -Status Completed | Remove-MailboxExportRequest
 ###### Thu Nov 29 16:12:27 AEDT 2018 export permission, group array expend
-Get-mailbox | Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
+Get-mailbox | Get-MailboxPermission | Where-Object{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select-Object User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
