@@ -101,12 +101,12 @@ New-MailboxImportRequest -Mailbox usetest -FilePath \\HQ-FS01\PST\usetest.pst -T
 Get-MailboxImportRequest | Get-MailboxImportRequestStatistics
 Get-MailboxExportRequest -Status Completed | Remove-MailboxExportRequest
 ###### Thu Nov 29 16:12:27 AEDT 2018 export permission, group array expend
-Get-mailbox | Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
+Get-mailbox | Get-MailboxPermission | Where-Object{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select-Object User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
 ###### Thu Nov 29 16:16:06 AEDT 2018 hidden mailbox
-Get-Mailbox -ResultSize unlimited | Where{$_.HiddenFromAddressLissEnabled -eq $true}
+Get-Mailbox -ResultSize unlimited | Where-Object{$_.HiddenFromAddressLissEnabled -eq $true}
 ###### Thu Nov 29 16:16:12 AEDT 2018 hidden DL
-Get-DistributionGroup -resultsize unlimited| ?{$_.HiddenFromAddressLissEnabled -eq $true}
+Get-DistributionGroup -resultsize unlimited| Where-Object{$_.HiddenFromAddressLissEnabled -eq $true}
 ###### Thu Nov 29 16:17:05 AEDT 2018 maxed quota limits
-Get-MailboxStatistics -Server <Servername>| where{($_.StorageLimitStatus -contains “IssueWarning”) -or ($_.StorageLimitStatus -contains “ProhibitSend”)}
+Get-MailboxStatistics -Server Servername| Where-Object{($_.StorageLimitStatus -contains “IssueWarning”) -or ($_.StorageLimitStatus -contains “ProhibitSend”)}
 ###### Thu Nov 29 16:17:17 AEDT 2018 not default quota limits
-Get-Mailbox -ResultSize unlimited |Where{($_.UseDatabaseQuotaDefaults -eq $false)}
+Get-Mailbox -ResultSize unlimited |Where-Object{($_.UseDatabaseQuotaDefaults -eq $false)}
