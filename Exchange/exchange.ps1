@@ -83,9 +83,21 @@ Get-Mailbox -ResultSize Unlimited | Foreach-Object{
 } | Export-Csv c:\temp\mailbox.csv -NoTypeInformation
 ###### Thu Nov 29 14:32:50 AEDT 2018 export user mailbox folder
 #NOT TESTED
-colins\Inbox\01 Sales Leads
-New-MailboxExportRequest -mailbox colins -status inprogress -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
-New-MailboxExportRequest -mailbox colins -status inprogress -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
+#colins\Inbox\01 Sales Leads
+New-ManagementRoleAssignment -Role “Mailbox Import Export” -SecurityGroup <ExchangeAdGroup>
+New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
+New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
+#01 Sales Leads becomes root folder
 #"#inbox#/*"
-
-
+###### Thu Nov 29 15:31:35 AEDT 2018 export
+New-MailboxExportRequest -Mailbox mailtst -FilePath \\HQ-FS01\ExportPST\mailtst.pst
+New-MailboxExportRequest -Mailbox mailtst -FilePath \\HQ-FS01\ExportPST\mailtst.pst -IncludeFolders "#Inbox#"
+New-MailboxExportRequest -Mailbox mailtst -FilePath \\HQ-FS01\ExportPST\mailtst.pst -ExcludeFolders "#DeletedItems#"
+New-MailboxExportRequest -Mailbox mailtst -FilePath \\HQFS01\ExportPST\mailtst.pst -ContentFilter {(body –like “*MSProject*”) –and (body –like “*London*”) –and (Received –lt “01/01/2015”)}
+###### Thu Nov 29 15:31:42 AEDT 2018 import
+New-MailboxImportRequest -Mailbox usetest -FilePath \\HQ-FS01\PST\usetest.pst
+New-MailboxImportRequest -Mailbox usetest -FilePath \\HQ-FS01\PST\usetest.pst -TargetRootFolder “Old_mail” -IncludeFolders "#Inbox#"
+Get-MailboxImportRequest | Get-MailboxImportRequestStatistics
+Get-MailboxExportRequest -Status Completed | Remove-MailboxExportRequest
+###### Thu Nov 29 16:12:27 AEDT 2018 export permission, group array expend
+Get-mailbox | Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
