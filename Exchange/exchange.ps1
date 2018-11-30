@@ -110,3 +110,7 @@ Get-DistributionGroup -resultsize unlimited| Where-Object{$_.HiddenFromAddressLi
 Get-MailboxStatistics -Server Servername| Where-Object{($_.StorageLimitStatus -contains “IssueWarning”) -or ($_.StorageLimitStatus -contains “ProhibitSend”)}
 ###### Thu Nov 29 16:17:17 AEDT 2018 not default quota limits
 Get-Mailbox -ResultSize unlimited |Where-Object{($_.UseDatabaseQuotaDefaults -eq $false)}
+###### Fri Nov 30 14:33:10 AEDT 2018 get all distribution list memebers
+$dist = foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) {Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName}
+$dist | Sort Group,User | Export-Csv c:\temp\a.csv
+
