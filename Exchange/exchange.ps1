@@ -112,6 +112,6 @@ Get-MailboxStatistics -Server Servername| Where-Object{($_.StorageLimitStatus -c
 Get-Mailbox -ResultSize unlimited |Where-Object{($_.UseDatabaseQuotaDefaults -eq $false)}
 ###### Fri Nov 30 14:33:10 AEDT 2018 get all distribution list memebers
 $dist = foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) {Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName}
-$dist | Sort Group,User | Export-Csv c:\temp\a.csv
+$dist | Sort-Object Group,User | Export-Csv c:\temp\a.csv
 # my version without varible
 Invoke-Command {foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) { Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName } } | Sort-Object Group,User
