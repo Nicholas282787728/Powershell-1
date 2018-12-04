@@ -96,3 +96,5 @@ certreq.exe -submit -attrib "CertificateTemplate:WebServer" certifcatesigningreq
 rem ad redirect and computer ou redirect
 redirusr ou=myusers,DC=contoso,dc=com
 redircmp ou=mycomputers,DC=contoso,dc=com
+rem sysprep
+%WINDIR%\system32\sysprep\sysprep.exe /generalize /shutdown /oobe
