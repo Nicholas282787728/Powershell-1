@@ -1,3 +1,5 @@
+###### Wed Dec 5 21:52:36 AEDT 2018 insatll azure AD module
+Install-Module AzureAD
 ###### Mon Nov 26 22:53:49 AEDT 2018 AzureCloud AzureAD Powershell V2.0
 connect-azuread -Credential (Import-Clixml -Path C:\temp\azure.cred)
 ###### Mon Nov 26 22:59:02 AEDT 2018 updated azuread user

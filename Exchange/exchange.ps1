@@ -85,6 +85,7 @@ Get-Mailbox -ResultSize Unlimited | Foreach-Object{
 #NOT TESTED
 #colins\Inbox\01 Sales Leads
 New-ManagementRoleAssignment -Role “Mailbox Import Export” -SecurityGroup AdGroup
+New-MailboxExportRequest -mailbox colins -includefolders "#inbox#/01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox" -includefolders "01 Sales Leads/*" -FilePath \\ahdc02\scanned\01_Sales_Lead.pst
 New-MailboxExportRequest -mailbox colins -SourceRootFolder  "Inbox/01 Sales Leads"  -FilePath \\ahdc02\scanned\01_Sales_Leads.pst
 #01 Sales Leads becomes root folder
@@ -101,3 +102,25 @@ Get-MailboxImportRequest | Get-MailboxImportRequestStatistics
 Get-MailboxExportRequest -Status Completed | Remove-MailboxExportRequest
 ###### Thu Nov 29 16:12:27 AEDT 2018 export permission, group array expend
 Get-mailbox | Get-MailboxPermission | Where-Object{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select-Object User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv
+###### Thu Nov 29 16:16:06 AEDT 2018 hidden mailbox
+Get-Mailbox -ResultSize unlimited | Where-Object{$_.HiddenFromAddressLissEnabled -eq $true}
+###### Thu Nov 29 16:16:12 AEDT 2018 hidden DL
+Get-DistributionGroup -resultsize unlimited| Where-Object{$_.HiddenFromAddressLissEnabled -eq $true}
+###### Thu Nov 29 16:17:05 AEDT 2018 maxed quota limits
+Get-MailboxStatistics -Server Servername| Where-Object{($_.StorageLimitStatus -contains “IssueWarning”) -or ($_.StorageLimitStatus -contains “ProhibitSend”)}
+###### Thu Nov 29 16:17:17 AEDT 2018 not default quota limits
+Get-Mailbox -ResultSize unlimited |Where-Object{($_.UseDatabaseQuotaDefaults -eq $false)}
+###### Fri Nov 30 14:33:10 AEDT 2018 get all distribution list memebers
+$dist = foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) {Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName}
+$dist | Sort-Object Group,User | Export-Csv c:\temp\a.csv
+#version without varible
+Invoke-Command {foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) { Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName } } | Sort-Object Group,User
+###### Mon Dec 3 20:39:40 AEDT 2018 auto reply
+#Enable automatic reply
+Set-RemoteDomain -AutoReplyEnabled $true
+#Enable automatic forwards
+Set-RemoteDomain -AutoForwardEnabled $true
+#Enable OOF for Outlook 2003 and previous (for Exchange 2007 and 2010 support)
+Set-RemoteDomain -AllowedOOFType $ExternalLegacy
+#To change all these properties at once, you can use:
+Set-RemoteDomain Default -AutoReplyEnabled $true –AutoForwardEnabled $true –AllowedOOFType ExternalLegacy
