@@ -115,3 +115,12 @@ $dist = foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) {Ge
 $dist | Sort-Object Group,User | Export-Csv c:\temp\a.csv
 #version without varible
 Invoke-Command {foreach ($group in (Get-DistributionGroup -Filter {name -like "*"})) { Get-DistributionGroupMember $group | Select-Object @{Label="Group";Expression={$Group.Name}},@{Label="User";Expression={$_.Name}},SamAccountName } } | Sort-Object Group,User
+###### Mon Dec 3 20:39:40 AEDT 2018 auto reply
+#Enable automatic reply
+Set-RemoteDomain -AutoReplyEnabled $true
+#Enable automatic forwards
+Set-RemoteDomain -AutoForwardEnabled $true
+#Enable OOF for Outlook 2003 and previous (for Exchange 2007 and 2010 support)
+Set-RemoteDomain -AllowedOOFType $ExternalLegacy
+#To change all these properties at once, you can use:
+Set-RemoteDomain Default -AutoReplyEnabled $true –AutoForwardEnabled $true –AllowedOOFType ExternalLegacy

@@ -27,3 +27,7 @@ Select a symbol then type Shift+F12. Alternatively, you can use the context menu
 
 Delete line
 Ctrl+Shift+K
+
+Smart select
+Shift+Alt+Right
+Shift+Alt+Left

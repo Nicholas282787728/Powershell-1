@@ -19,4 +19,17 @@ C:\Users\Administrator\Desktop\ASR Deployment Planner-v2.2>ASRDeploymentPlanner.
 ASRDeploymentPlanner.exe -Operation GenerateReport -Virtualization VMware -Server 10.255.255.21 -Directory "d:\vc_ProfiledData" -VMListFile “c:\users\Administrator\Desktop\vmlist.txt”
 ###### Wed Nov 28 15:08:56 AEDT 2018 move resource to resource groups
 Get-AzureRmResource -ResourceGroupName default | Move-AzureRmResource -DestinationResourceGroupName lan
+###### Thu Nov 29 22:35:58 AEDT 2018 remove vm
+Get-AzureRmResource -ResourceGroupName ilb | Where-Object name -like vm2* | Remove-AzureRmResource -force -AsJob
+###### Thu Nov 29 22:40:02 AEDT 2018 deploy from templet
+Select-AzureRmSubscription -SubscriptionName yourSubscriptionName
+New-AzureRmResourceGroup -Name ExampleResourceGroup -Location "AustraliaEast"
+# deploy from local templet
+New-AzureRmResourceGroupDeployment -Name ExampleDeployment -ResourceGroupName ExampleResourceGroup `
+    -TemplateFile c:\MyTemplates\storage.json -storageAccountType Standard_GRS
+# deploy from external source
+New-AzureRmResourceGroup -Name ExampleResourceGroup -Location "AustraliaEast"
+New-AzureRmResourceGroupDeployment -Name ExampleDeployment -ResourceGroupName ExampleResourceGroup `
+    -TemplateUri https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-storage-account-create/azuredeploy.json `
+    -storageAccountType Standard_GRS
 
