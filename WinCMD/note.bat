@@ -98,3 +98,5 @@ redirusr ou=myusers,DC=contoso,dc=com
 redircmp ou=mycomputers,DC=contoso,dc=com
 rem sysprep
 %WINDIR%\system32\sysprep\sysprep.exe /generalize /shutdown /oobe
+rem change between DL and SG
+dsmod group GroupDN -secgrp {yes|no}
