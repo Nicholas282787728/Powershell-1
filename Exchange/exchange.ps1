@@ -124,3 +124,5 @@ Set-RemoteDomain -AutoForwardEnabled $true
 Set-RemoteDomain -AllowedOOFType $ExternalLegacy
 #To change all these properties at once, you can use:
 Set-RemoteDomain Default -AutoReplyEnabled $true –AutoForwardEnabled $true –AllowedOOFType ExternalLegacy
+###### Fri Dec 7 12:05:52 AEDT 2018 autoreply for DL
+set-DistributionGroup maintenance  -SendOofMessageToOriginatorEnabled $true
