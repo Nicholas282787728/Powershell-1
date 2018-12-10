@@ -67,3 +67,6 @@ Get-ADGroup -Filter * | Select-Object name -last 13 | ForEach-Object { Add-ADGro
 Get-Alias | Where-Object DisplayName -like *help*
 ###### Mon Dec 10 15:57:26 AEDT 2018 get all DCs
 (Get-ADForest).Domains | ForEach-Object{ Get-ADDomainController -Filter * -Server $_ }
+###### Mon Dec 10 16:01:54 AEDT 2018 winRM enable
+winrm qc
+Enable-PSRemoting –Force
