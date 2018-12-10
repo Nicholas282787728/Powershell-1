@@ -24,3 +24,10 @@ az role assignment create \
     --role "Virtual Machine Administrator Login" \
     --assignee $username \
     --scope $vm
+
+###### Mon Dec 10 23:07:06 AEDT 2018 templet
+az login
+az account list --output table
+az account set --subscription "msdn"
+az group create --name test --location "australiaeast"
+az group deployment validate --resource-group test --template-file .\template.json --parameters .\parameters.json
