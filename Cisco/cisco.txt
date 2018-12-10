@@ -8,3 +8,26 @@ debug crypto isakmp—Displays the ISAKMP negotiations of phase 1.
 ###### Fri Dec 7 15:58:24 AEDT 2018 sg enable port
 set interface active GigabitEthernet1/0/9
 show ports security
+###### Mon Dec 10 11:44:10 AEDT 2018 sg350 port default
+description \\\your_description_here//
+storm-control broadcast enable
+storm-control broadcast level 10
+storm-control include-multicast
+spanning-tree portfast
+spanning-tree bpduguard enable
+traffic-shape queue 3 400000 100000
+traffic-shape queue 4 100000 100000
+power inline powered-device MITEL_5330_IP_PHONE
+switchport trunk allowed vlan add 20
+no macro auto smartport
+###### Mon Dec 10 11:44:21 AEDT 2018 2960 port default
+switchport access vlan 2
+switchport mode access
+switchport voice vlan 100
+switchport port-security maximum 3
+switchport port-security
+switchport port-security aging time 10
+switchport port-security violation restrict
+switchport port-security aging type inactivity
+spanning-tree portfast
+spanning-tree bpduguard enable
