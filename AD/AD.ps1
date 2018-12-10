@@ -65,3 +65,5 @@ Get-ADGroup -Filter * | Select-Object name -last 13 | ForEach-Object { Add-ADGro
 (Get-ADUser aa -Properties memberof).memberof
 ###### Tue Nov 27 15:30:45 AEDT 2018 get-alias
 Get-Alias | Where-Object DisplayName -like *help*
+###### Mon Dec 10 15:57:26 AEDT 2018 get all DCs
+(Get-ADForest).Domains | %{ Get-ADDomainController -Filter * -Server $_ }

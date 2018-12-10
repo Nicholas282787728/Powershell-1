@@ -364,3 +364,21 @@ Get-ADUser -filter  {Name -like "u*" -and enabled -eq 'true'} | %{Set-ADAccountP
 ###### Sun Nov 25 22:10:32 AEDT 2018 generate complex password
 [Reflection.Assembly]::LoadWithPartialName("System.Web")
 [system.web.security.membership]::GeneratePassword(12,4) | Set-Clipboard
+###### Mon Dec 10 12:07:30 AEDT 2018 remove cache folders
+$Items = @('Archived History',
+            'Cache\*',
+            'Cookies',
+            'History',
+            'Login Data',
+            'Top Sites',
+            'Visited Links',
+            'Web Data')
+$Folder = "$($env:LOCALAPPDATA)\Google\Chrome\User Data\Default"
+$Items | ForEach-Object {
+    if((Test-Path -Path "$Folder\$_" )){
+        Remove-Item "$Folder\$_"
+    }
+}
+
+# Stop the Powershell Process (the hosting window)
+stop-process -Id $PID
