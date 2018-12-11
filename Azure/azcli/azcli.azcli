@@ -31,3 +31,8 @@ az account list --output table
 az account set --subscription "msdn"
 az group create --name test --location "australiasoutheast"
 az group deployment validate --resource-group test --template-file .\template.json --parameters .\parameters.json
+az group deployment create --name dev01demo --resource-group test --template-file C:\templet.json --verbose
+###### Wed Dec 12 01:07:06 AEDT 2018 image
+az vm image list-publishers --location australiasoutheast --output table
+az vm image list-offers --location australiasoutheast --publisher MicrosoftVisualStudio --output table
+az vm image list-list-skus --location australiasoutheast --publisher MicrosoftVisualStudio --offers VisualStudio --output table
