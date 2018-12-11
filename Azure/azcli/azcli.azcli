@@ -29,5 +29,5 @@ az role assignment create \
 az login
 az account list --output table
 az account set --subscription "msdn"
-az group create --name test --location "australiaeast"
+az group create --name test --location "australiasoutheast"
 az group deployment validate --resource-group test --template-file .\template.json --parameters .\parameters.json
