@@ -126,3 +126,6 @@ Set-RemoteDomain -AllowedOOFType $ExternalLegacy
 Set-RemoteDomain Default -AutoReplyEnabled $true –AutoForwardEnabled $true –AllowedOOFType ExternalLegacy
 ###### Fri Dec 7 12:05:52 AEDT 2018 autoreply for DL
 set-DistributionGroup maintenance  -SendOofMessageToOriginatorEnabled $true
+###### Tue Dec 11 14:36:51 AEDT 2018 group mail account
+Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-60))  | Group-Object {(($_.timestamp).minute)}
+
