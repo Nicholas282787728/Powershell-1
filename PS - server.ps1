@@ -323,6 +323,14 @@ Get-InitiatorPort
 Get-WmiObject win32_bios -Property * ; Get-WmiObject win32_computersystem -Property *
 ###### Fri Nov 2 17:07:58 AEDT 2018 self_signed certificate
 New-SelfSignedCertificate –DnsName lei_laptop.gratex.au -CertStoreLocation “cert:\LocalMachine\My” -NotAfter (get-date).AddYears(10)
+    # self signed root certificate for azure p2s vpn
+    $cert = New-SelfSignedCertificate -Type Custom -KeySpec Signature -Subject "CN=codehollow" -KeyExportPolicy Exportable -HashAlgorithm sha256 -KeyLength 2048 -CertStoreLocation "Cert:\CurrentUser\My" -KeyUsageProperty Sign -KeyUsage CertSign
+    $certdata = $cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Cert) # exports the certificate and stores the byte array in certdata
+    $certstring = [Convert]::ToBase64String($certdata) # converts the exported certificate into a base64 string
+    $certstring | clip # sends the base64 string to the clipboard
+    # sign client certificate
+    New-SelfSignedCertificate -Type Custom -KeySpec Signature -Subject "CN=codehollowclient" -KeyExportPolicy Exportable -HashAlgorithm sha256 -KeyLength 2048 -CertStoreLocation "Cert:\CurrentUser\My" -Signer $cert -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.2")
+
 #need to copy to root certificate
 ###### Mon Nov 5 15:25:09 AEDT 2018 get physical memory
 Get-WmiObject win32_physicalmemory | Measure-Object -Property capacity -Sum |  ForEach-Object{[Math]::Round(($_.sum / 1GB),2)}
