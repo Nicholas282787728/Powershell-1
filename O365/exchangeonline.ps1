@@ -13,3 +13,5 @@ Set-Mailbox engineering@domainname.com -ProhibitSendReceiveQuota 50GB -ProhibitS
 Add-MailboxPermission engineering@domainname.com -User "Engineering Group" -AccessRights FullAccess
 ###### Mon Nov 26 23:29:51 AEDT 2018
 Get-Mailbox -Identity wii | Format-List *type*
+###### Wed Dec 12 17:17:46 AEDT 2018 reset user default lanuage
+set-MailboxRegionalConfiguration -id leim -LocalizeDefaultFolderName:$true -Language sk-SK -DateFormat d/MM/yyyy
