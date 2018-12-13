@@ -100,3 +100,5 @@ rem sysprep
 %WINDIR%\system32\sysprep\sysprep.exe /generalize /shutdown /oobe
 rem change between DL and SG
 dsmod group GroupDN -secgrp {yes|no}
+rem disk clean
+cleanmgr /sageset:65535 /sagerun:65535
