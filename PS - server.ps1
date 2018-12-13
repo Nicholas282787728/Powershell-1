@@ -394,4 +394,4 @@ stop-process -Id $PID
 Get-ChildItem -Path $path -Recurse -Force | Where-Object { !$_.PSIsContainer -and $_.CreationTime -lt $limit } | group  {($_.lastwritetime).month} #| Remove-Item -Force
 Get-ChildItem -Path $path -Recurse -Force | Where-Object { !$_.PSIsContainer -and $_.CreationTime -lt $limit } | Group {$_.LastWriteTime.ToString("yyyy-MM")} | sort name #| Remove-Item -Force
 ###### Thu Dec 13 10:59:20 AEDT 2018 round number on oldest file
- [math]::Round((New-TimeSpan -start  ((Get-ChildItem -Path $path -Recurse | sort creationtime | select -First 1 ).creationtime)  -end (Get-Date)).TotalDays)
+[math]::Round((New-TimeSpan -start  ((Get-ChildItem -Path $path -Recurse | sort creationtime | select -First 1 ).creationtime)  -end (Get-Date)).TotalDays)
