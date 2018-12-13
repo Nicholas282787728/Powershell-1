@@ -8,3 +8,5 @@ Set-AzureADUser -ObjectId leim@esking.org -ShowInAddressList $false
 Import-Module ADSync
 Start-ADSyncSyncCycle -PolicyType Delta
 Start-ADSyncSyncCycle -PolicyType Initial
+###### Thu Dec 13 16:10:55 AEDT 2018 get group member
+Get-AzureADGroup -SearchString 360  | Get-AzureADGroupMember
