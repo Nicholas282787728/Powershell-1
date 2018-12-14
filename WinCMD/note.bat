@@ -104,3 +104,5 @@ rem disk clean
 cleanmgr /sageset:65535 /sagerun:65535
 rem empty recycle bin
 rd /s c:\$Recycle.Bin
+rem find rd licensing servers
+dsquery * -filter "(&(CN=TermServLicensing)(objectClass=serviceConnectionPoint))"

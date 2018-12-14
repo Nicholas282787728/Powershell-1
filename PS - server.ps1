@@ -403,3 +403,7 @@ ForEach ($argument in $args) {
 	    $shell.NameSpace(0).ParseName($path.FullName).InvokeVerb('delete')
     }
 }
+###### Fri Dec 14 12:32:44 AEDT 2018 find rd licensing servers
+# one of the following:
+Get-ADObject -LDAPFilter "(&(CN=TermServLicensing)(objectClass=serviceConnectionPoint))"
+Get-ADObject -Filter {objectClass -eq 'serviceConnectionPoint' -and Name -eq 'TermServLicensing'}
