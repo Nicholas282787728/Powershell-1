@@ -49,7 +49,6 @@ if ($list) {
     }
     Write-Host -ForegroundColor yellow "Clearing Mozilla caches"
     Write-Host -ForegroundColor yellow "Done..."
-    ""
     "-------------------"
     # Clear Google Chrome
     Write-Host -ForegroundColor Green "SECTION 4: Clearing Google Chrome Caches"
@@ -66,7 +65,6 @@ if ($list) {
         # Remove-Item -path "C:\Users\$($_.Name)\AppData\Local\Google\Chrome\User Data\Default\ChromeDWriteFontCache" -Recurse -Force -EA SilentlyContinue -Verbose
     }
     Write-Host -ForegroundColor yellow "Done..."
-    ""
     "-------------------"
     # Clear Internet Explorer
     Write-Host -ForegroundColor Green "SECTION 5: Clearing Internet Explorer Caches"
@@ -75,13 +73,13 @@ if ($list) {
     Write-Host -ForegroundColor cyan
     $list | ForEach-Object {
         Remove-Item -path "C:\Users\$($_.Name)\AppData\Local\Microsoft\Windows\Temporary Internet Files\*" -Recurse -Force -EA SilentlyContinue -Verbose
+        Remove-Item -Path "C:\Users\$($_.Name)\AppData\Local\Microsoft\Windows\Explorer\thumbacahe_*.db" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         Remove-Item -path "C:\Users\$($_.Name)\AppData\Local\Microsoft\Windows\WER\*" -Recurse -Force -EA SilentlyContinue -Verbose
         Remove-Item -path "C:\Users\$($_.Name)\AppData\Local\Temp\*" -Recurse -Force -EA SilentlyContinue -Verbose
         Remove-Item -path "C:\Windows\Temp\*" -Recurse -Force -EA SilentlyContinue -Verbose
         Remove-Item -path "C:\`$recycle.bin\" -Recurse -Force -EA SilentlyContinue -Verbose
     }
     Write-Host -ForegroundColor yellow "Done..."
-    ""
     Write-Host -ForegroundColor Green "All Tasks Done!"
 }
 else {

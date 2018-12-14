@@ -395,3 +395,11 @@ Get-ChildItem -Path $path -Recurse -Force | Where-Object { !$_.PSIsContainer -an
 Get-ChildItem -Path $path -Recurse -Force | Where-Object { !$_.PSIsContainer -and $_.CreationTime -lt $limit } | Group {$_.LastWriteTime.ToString("yyyy-MM")} | sort name #| Remove-Item -Force
 ###### Thu Dec 13 10:59:20 AEDT 2018 round number on oldest file
 [math]::Round((New-TimeSpan -start  ((Get-ChildItem -Path $path -Recurse | sort creationtime | select -First 1 ).creationtime)  -end (Get-Date)).TotalDays)
+###### Fri Dec 14 11:56:05 AEDT 2018 powershell delete to recycle bin
+ForEach ($argument in $args) {
+    $paths = Get-ChildItem -Path "$argument"
+    $shell = New-Object -ComObject 'Shell.Application'
+    ForEach ($path in $paths){
+	    $shell.NameSpace(0).ParseName($path.FullName).InvokeVerb('delete')
+    }
+}
