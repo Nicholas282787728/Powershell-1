@@ -108,7 +108,7 @@ rem find rd licensing servers
 dsquery * -filter "(&(CN=TermServLicensing)(objectClass=serviceConnectionPoint))"
 rem robocopy
 robocopy %Source% %Destination% /E /ZB /COPY:DATSO /XF Thumbs.db /XD %Exclude_Folders% /R:1 /W:1 /V /FP /LOG+:%Log% /TEE
-robocopy %Source% %Destination% /E /ZB /COPY:DATSO /XF Thumbs.db /XD %Exclude_Folders% /R:1 /W:1 /V /ETA /LOG+:%Log% /TEE
+robocopy %Source% %Destination% /E /ZB /COPY:DATSO /XF Thumbs.db /XD %Exclude_Folders% /R:1 /W:1 /V /FP /ETA /LOG+:%Log% /TEE
 rem exclude file from copy
 robocopy C:\source\folder\path\ D:\destination\folder\path\ /E /Z /ZB /R:5 /W:5 /TBD /NP /V /XF filename-1.extension
 robocopy C:\source\folder\path\ D:\destination\folder\path\ /E /Z /ZB /R:5 /W:5 /TBD /NP /V /XF filena*
