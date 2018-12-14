@@ -106,3 +106,5 @@ rem empty recycle bin
 rd /s c:\$Recycle.Bin
 rem find rd licensing servers
 dsquery * -filter "(&(CN=TermServLicensing)(objectClass=serviceConnectionPoint))"
+rem robocopy
+robocopy %Source% %Destination% /E /ZB /COPY:DATSO /XF Thumbs.db /XD %Exclude_Folders% /R:0 /W:1 /V /FP /LOG+:%Log% /TEE 
