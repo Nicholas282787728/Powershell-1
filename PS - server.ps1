@@ -363,12 +363,12 @@ foreach ($comp in ("ahleap03","ahleap04")) {Get-ADComputer $comp -Properties * -
 ###### Mon Nov 12 11:47:03 AEDT 2018 convert time to UTC for exhcange online
 (get-date("1/10/2018 9:00:00")).ToUniversalTime()
 ###### Sat Nov 17 22:04:40 AEDT 2018 batch reset user password
-Get-ADUser -filter  {Name -like "u*" -and enabled -eq 'true'} | %{Set-ADAccountPassword  -Identity $_ -NewPassword (ConvertTo-SecureString -AsPlainText "Password" -Force)}
+Get-ADUser -filter  {Name -like "u*" -and enabled -eq 'true'} | ForEach-Object {Set-ADAccountPassword  -Identity $_ -NewPassword (ConvertTo-SecureString -AsPlainText "Password" -Force)}
 ###### Thu Nov 15 09:42:11 AEDT 2018  Could not create SSL/TLS secure channel
 #invoke-webrequest
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 ###### Fri Nov 23 21:54:02 AEDT 2018 batch generate complex password
-1..10 | %{$p = [system.web.security.membership]::GeneratePassword(128,30) ;$p}
+1..10 | % {$p = [system.web.security.membership]::GeneratePassword(128,30) ;$p}
 ###### Sun Nov 25 22:10:32 AEDT 2018 generate complex password
 [Reflection.Assembly]::LoadWithPartialName("System.Web")
 [system.web.security.membership]::GeneratePassword(12,4) | Set-Clipboard
