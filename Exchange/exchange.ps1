@@ -130,3 +130,7 @@ set-DistributionGroup maintenance  -SendOofMessageToOriginatorEnabled $true
 Get-MessageTrackingLog -ResultSize Unlimited -Start ((Get-Date).AddMinutes(-60))  | Group-Object {(($_.timestamp).minute)}
 ###### Fri Dec 14 16:45:07 AEDT 2018 create mailbox for existing user
 Enable-Mailbox -Identity Annelisb -Database sgdata
+###### Tue Dec 18 11:04:13 AEDT 2018 check db status
+Get-MailboxDatabase -Status | % { eseutil /mh $_.edbfilepath }
+Get-MailboxDatabase -Status | Mount-Database
+Get-MailboxDatabase -Status  | select name, mounted
