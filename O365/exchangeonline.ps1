@@ -1,6 +1,6 @@
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 $UserCredential = Get-Credential
-$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
+$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $Cred -Authentication Basic -AllowRedirection
 Import-PSSession $Session -DisableNameChecking
 Remove-PSSession $Session
 ###### Mon Nov 12 13:24:45 AEDT 2018 setup autoreply endtime
