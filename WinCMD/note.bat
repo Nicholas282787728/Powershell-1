@@ -114,3 +114,6 @@ robocopy C:\source\folder\path\ D:\destination\folder\path\ /E /Z /ZB /R:5 /W:5 
 robocopy C:\source\folder\path\ D:\destination\folder\path\ /E /Z /ZB /R:5 /W:5 /TBD /NP /V /XF "C:\source\folder\path\to\folder\filename-1.extension" "C:\source\folder\path\to\folder\filename-2.extension
 rem ###### Tue Dec 18 11:27:49 AEDT 2018 DC schema version
 dsquery * cn=schema,cn=configuration,dc=ah,dc=local -scope base -attr objectVersion -s DC01
+rem check bits
+wmic os get osarchitecture
+echo %PROCESSOR_ARCHITECTURE%
